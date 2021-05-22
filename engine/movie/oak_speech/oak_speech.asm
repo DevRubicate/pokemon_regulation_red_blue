@@ -54,8 +54,7 @@ OakSpeech:
 	xor a
 	ldh [hTileAnimations], a
 	ld a, [wd732]
-	bit 1, a ; possibly a debug mode bit
-	jp nz, .skipChoosingNames
+    call ChooseCode
 	ld de, ProfOakPic
 	lb bc, BANK(ProfOakPic), $00
 	call IntroDisplayPicCenteredOrUpperRight

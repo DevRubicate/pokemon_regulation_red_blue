@@ -1,3 +1,15 @@
+ChooseCode:
+    ld hl, wCustomPokemonCode
+    ld a, NAME_CODE_SCREEN
+    ld [wNamingScreenType], a
+    call DisplayNamingScreen
+    ld a, [wcf4b]
+    cp "@"
+    jr z, ChooseCode
+    call ClearScreen
+    call Delay3
+    ret
+
 ChoosePlayerName:
 	call OakSpeechSlidePicRight
 	ld de, DefaultNamesPlayer

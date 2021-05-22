@@ -2897,10 +2897,8 @@ wWhichDungeonWarp::
 ; which dungeon warp within the source map was used
 	ds 1
 
-wUnusedD71F::
-	ds 1
-
-	ds 8
+wCustomPokemonCode::
+	ds 9
 
 wd728::
 ; bit 0: using Strength outside of battle

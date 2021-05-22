@@ -822,6 +822,13 @@ OaksLabText4:
 	ld b, $4
 
 OaksLabScript_1d133:
+
+    ld a, 3
+    ld [wd11e], a
+    call PokedexToIndex
+    ld a, [wd11e]
+
+    ;ld a, [wCustomPokemonCode] ; POKEMON CUSTOM - Load the player's code as input for the pokemon you pick
 	ld [wcf91], a
 	ld [wd11e], a
 	ld a, b
@@ -1231,3 +1238,35 @@ OaksLabText10:
 OaksLabText_1d405:
 	text_far _OaksLabText_1d405
 	text_end
+
+INCLUDE "data/pokemon/dex_order.asm"
+
+PokedexToIndex:
+    ; converts the Pokédex number at wd11e to an index
+    push bc
+    push hl
+    ld a, [wd11e]
+    ld b, a
+    ld c, 0
+    ld hl, PokedexOrder
+
+.loop ; go through the list until we find an entry with a matching dex number
+    inc c
+    ld a, c
+    cp NUM_POKEMON_INDEXES
+    jr z, .notfound
+    ld a, [hli]
+    cp b
+    jr nz, .loop
+
+    ld a, c
+    ld [wd11e], a
+    pop hl
+    pop bc
+    ret
+.notfound
+    ld a, 5
+    ld [wd11e], a
+    pop hl
+    pop bc
+    ret

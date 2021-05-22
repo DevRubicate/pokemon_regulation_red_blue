@@ -81,6 +81,7 @@ DisplayNameRaterScreen::
 	scf
 	ret
 
+
 DisplayNamingScreen:
 	push hl
 	ld hl, wd730
@@ -92,7 +93,13 @@ DisplayNamingScreen:
 	call RunPaletteCommand
 	call LoadHpBarAndStatusTilePatterns
 	call LoadEDTile
-	farcall LoadMonPartySpriteGfx
+    ld a, [wNamingScreenType]
+    cp NAME_MON_SCREEN
+    jr z, .showSprite
+    jr .skipSprite
+.showSprite
+    farcall LoadMonPartySpriteGfx
+.skipSprite
 	hlcoord 0, 4
 	ld b, 9
 	ld c, 18
@@ -116,12 +123,25 @@ DisplayNamingScreen:
 	ld [hli], a
 	ld [wAnimCounter], a
 .selectReturnPoint
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .useCodeInput
 	call PrintAlphabet
 	call GBPalNormal
+    jr .ABStartReturnPoint
+.useCodeInput
+    call PrintCodeInput
+    call GBPalNormal
 .ABStartReturnPoint
 	ld a, [wNamingScreenSubmitName]
 	and a
 	jr nz, .submitNickname
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr nz, .printName
+    call PrintCodeAndUnderscores
+    jr .dPadReturnPoint
+.printName
 	call PrintNicknameAndUnderscores
 .dPadReturnPoint
 	call PlaceMenuCursor
@@ -156,6 +176,9 @@ DisplayNamingScreen:
 	jp hl
 
 .submitNickname
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .submitCode
 	pop de
 	ld hl, wcf4b
 	ld bc, NAME_LENGTH
@@ -173,6 +196,26 @@ DisplayNamingScreen:
 	and a
 	jp z, LoadTextBoxTilePatterns
 	jpfar LoadHudTilePatterns
+
+.submitCode
+    pop de
+    ld hl, wcf4b
+    ld bc, NAME_LENGTH
+    call CopyCode
+    call GBPalWhiteOutWithDelay3
+    call ClearScreen
+    call ClearSprites
+    call RunDefaultPaletteCommand
+    call GBPalNormal
+    xor a
+    ld [wAnimCounter], a
+    ld hl, wd730
+    res 6, [hl]
+    ld a, [wIsInBattle]
+    and a
+    jp z, LoadTextBoxTilePatterns
+    jpfar LoadHudTilePatterns
+
 
 .namingScreenButtonFunctions
 	dw .dPadReturnPoint
@@ -230,13 +273,9 @@ DisplayNamingScreen:
 	ld a, [hl]
 	ld [wNamingScreenLetter], a
 	call CalcStringLength
-	ld a, [wNamingScreenLetter]
-	cp "ﾞ"
-	ld de, Dakutens
-	jr z, .dakutensAndHandakutens
-	cp "ﾟ"
-	ld de, Handakutens
-	jr z, .dakutensAndHandakutens
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .checkCodeLength
 	ld a, [wNamingScreenType]
 	cp NAME_MON_SCREEN
 	jr nc, .checkMonNameLength
@@ -249,20 +288,28 @@ DisplayNamingScreen:
 .checkNameLength
 	jr c, .addLetter
 	ret
+.checkCodeLength
+    ld a, [wNamingScreenNameLength]
+    cp 20 ; max length of codes
+    jr c, .addLetter
+    ret
 
-.dakutensAndHandakutens
-	push hl
-	call DakutensAndHandakutens
-	pop hl
-	ret nc
-	dec hl
 .addLetter
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr nz, .continue
+    ld a, [wNamingScreenLetter] ; forbid whitespace in a code
+    cp " "
+    jr z, .preventLetter
+.continue
 	ld a, [wNamingScreenLetter]
 	ld [hli], a
 	ld [hl], "@"
 	ld a, SFX_PRESS_AB
 	call PlaySound
 	ret
+.preventLetter
+    ret
 .pressedB
 	ld a, [wNamingScreenNameLength]
 	and a
@@ -323,6 +370,25 @@ DisplayNamingScreen:
 	ld [wTopMenuItemX], a
 	jp EraseMenuCursor
 
+CopyCode:
+; Copy bc bytes from hl to de.
+    call CopyCode2
+    call CopyCode2
+    call CopyCode2
+    call CopyCode2
+    call CopyCode2
+    call CopyCode2
+
+    ret
+
+ CopyCode2:
+    ld a, [hli]
+    ld [de], a
+    inc de
+    ret
+
+
+
 LoadEDTile:
 	ld de, ED_Tile
 	ld hl, vFont tile $70
@@ -365,24 +431,57 @@ PrintAlphabet:
 	ldh [hAutoBGTransferEnabled], a
 	jp Delay3
 
+PrintCodeInput:
+    xor a
+    ldh [hAutoBGTransferEnabled], a
+    ld de, CodeInput
+    hlcoord 2, 5
+    lb bc, 5, 9 ; 5 rows, 9 columns
+.outerLoop
+    push bc
+.innerLoop
+    ld a, [de]
+    ld [hli], a
+    inc hl
+    inc de
+    dec c
+    jr nz, .innerLoop
+    ld bc, SCREEN_WIDTH + 2
+    add hl, bc
+    pop bc
+    dec b
+    jr nz, .outerLoop
+    call PlaceString
+    ld a, $1
+    ldh [hAutoBGTransferEnabled], a
+    jp Delay3
+
+
 INCLUDE "data/text/alphabets.asm"
+INCLUDE "data/text/codeinput.asm"
 
 PrintNicknameAndUnderscores:
 	call CalcStringLength
 	ld a, c
 	ld [wNamingScreenNameLength], a
 	hlcoord 10, 2
-	lb bc, 1, 10
+	lb bc, 1, 19
 	call ClearScreenArea
 	hlcoord 10, 2
 	ld de, wcf4b
 	call PlaceString
 	hlcoord 10, 3
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .codeinput1
 	ld a, [wNamingScreenType]
 	cp NAME_MON_SCREEN
 	jr nc, .pokemon1
 	ld b, 7 ; player or rival max name length
 	jr .playerOrRival1
+.codeinput1
+    ld b, 20 ; code max input
+    jr .playerOrRival1
 .pokemon1
 	ld b, 10 ; pokemon max name length
 .playerOrRival1
@@ -391,12 +490,18 @@ PrintNicknameAndUnderscores:
 	ld [hli], a
 	dec b
 	jr nz, .placeUnderscoreLoop
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .codeinput2
 	ld a, [wNamingScreenType]
 	cp NAME_MON_SCREEN
 	ld a, [wNamingScreenNameLength]
 	jr nc, .pokemon2
 	cp 7 ; player or rival max name length
 	jr .playerOrRival2
+.codeinput2
+    cp 20 ; code max input
+    jr .playerOrRival2
 .pokemon2
 	cp 10 ; pokemon max name length
 .playerOrRival2
@@ -421,21 +526,71 @@ PrintNicknameAndUnderscores:
 	ld [hl], $77 ; raised underscore tile id
 	ret
 
-DakutensAndHandakutens:
-	push de
-	call CalcStringLength
-	dec hl
-	ld a, [hl]
-	pop hl
-	ld de, $2
-	call IsInArray
-	ret nc
-	inc hl
-	ld a, [hl]
-	ld [wNamingScreenLetter], a
-	ret
-
-INCLUDE "data/text/dakutens.asm"
+PrintCodeAndUnderscores:
+    call CalcStringLength
+    ld a, c
+    ld [wNamingScreenNameLength], a
+    hlcoord 0, 2
+    lb bc, 1, 19
+    call ClearScreenArea
+    hlcoord 0, 2
+    ld de, wcf4b
+    call PlaceString
+    hlcoord 0, 3
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .codeinput1
+    ld a, [wNamingScreenType]
+    cp NAME_MON_SCREEN
+    jr nc, .pokemon1
+    ld b, 7 ; player or rival max name length
+    jr .playerOrRival1
+.codeinput1
+    ld b, 20 ; code max input
+    jr .playerOrRival1
+.pokemon1
+    ld b, 10 ; pokemon max name length
+.playerOrRival1
+    ld a, $76 ; underscore tile id
+.placeUnderscoreLoop
+    ld [hli], a
+    dec b
+    jr nz, .placeUnderscoreLoop
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .codeinput2
+    ld a, [wNamingScreenType]
+    cp NAME_MON_SCREEN
+    ld a, [wNamingScreenNameLength]
+    jr nc, .pokemon2
+    cp 7 ; player or rival max name length
+    jr .playerOrRival2
+.codeinput2
+    cp 20 ; code max input
+    jr .playerOrRival2
+.pokemon2
+    cp 10 ; pokemon max name length
+.playerOrRival2
+    jr nz, .emptySpacesRemaining
+    ; when all spaces are filled, force the cursor onto the ED tile
+    call EraseMenuCursor
+    ld a, $11 ; "ED" x coord
+    ld [wTopMenuItemX], a
+    ld a, $5 ; "ED" y coord
+    ld [wCurrentMenuItem], a
+    ld a, [wNamingScreenType]
+    cp NAME_MON_SCREEN
+    ld a, 9 ; keep the last underscore raised
+    jr nc, .pokemon3
+    ld a, 6 ; keep the last underscore raised
+.pokemon3
+.emptySpacesRemaining
+    ld c, a
+    ld b, $0
+    hlcoord 0, 3
+    add hl, bc
+    ;ld [hl], $77 ; raised underscore tile id
+    ret
 
 ; calculates the length of the string at wcf4b and stores it in c
 CalcStringLength:
@@ -451,6 +606,9 @@ CalcStringLength:
 
 PrintNamingText:
 	hlcoord 0, 1
+    ld a, [wNamingScreenType]
+    cp NAME_CODE_SCREEN
+    jr z, .codeString
 	ld a, [wNamingScreenType]
 	ld de, YourTextString
 	and a
@@ -471,7 +629,7 @@ PrintNamingText:
 	add hl, bc
 	ld [hl], "の" ; leftover from Japanese version; blank tile $c9 in English
 	hlcoord 1, 3
-	ld de, NicknameTextString
+	ld de, YourTextString
 	jr .placeString
 .notNickname
 	call PlaceString
@@ -480,6 +638,9 @@ PrintNamingText:
 	ld de, NameTextString
 .placeString
 	jp PlaceString
+.codeString
+    ld de, CodeTextString
+    jp PlaceString
 
 YourTextString:
 	db "YOUR @"
@@ -490,5 +651,5 @@ RivalsTextString:
 NameTextString:
 	db "NAME?@"
 
-NicknameTextString:
-	db "NICKNAME?@"
+CodeTextString:
+	db "CUSTOM CODE@"
