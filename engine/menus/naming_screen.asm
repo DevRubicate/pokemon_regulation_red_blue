@@ -372,22 +372,63 @@ DisplayNamingScreen:
 
 CopyCode:
 ; Copy bc bytes from hl to de.
-    call CopyCode2
-    call CopyCode2
-    call CopyCode2
-    call CopyCode2
-    call CopyCode2
-    call CopyCode2
-
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+    call CopyCodeSegment
+.done
     ret
 
- CopyCode2:
+CopyCodeSegment:
     ld a, [hli]
+    cp $50
+    jr z, .zero
+    cp $0
+    jr z, .zero
+.continue
+    cp $f0
+    jr nc, .number
+    sbc $75
+    jr .save
+.number
+    sbc $f6
+.save
+
+
+    ld b, a
+    sla b
+    sla b
+    sla b
+    sla b
+    ld a, [hli]
+    cp $50
+    jr z, .zero2
+    cp $0
+    jr z, .zero2
+.continue2
+    cp $f0
+    jr nc, .number2
+    sbc $75
+    jr .save2
+.number2
+    sbc $f6
+.save2
+    adc b
     ld [de], a
     inc de
     ret
-
-
+.zero
+    ld a, $f6
+    jr .continue
+.zero2
+    ld a, $f6
+    jr .continue2
 
 LoadEDTile:
 	ld de, ED_Tile
@@ -531,7 +572,7 @@ PrintCodeAndUnderscores:
     ld a, c
     ld [wNamingScreenNameLength], a
     hlcoord 0, 2
-    lb bc, 1, 19
+    lb bc, 1, 20
     call ClearScreenArea
     hlcoord 0, 2
     ld de, wcf4b
@@ -589,7 +630,6 @@ PrintCodeAndUnderscores:
     ld b, $0
     hlcoord 0, 3
     add hl, bc
-    ;ld [hl], $77 ; raised underscore tile id
     ret
 
 ; calculates the length of the string at wcf4b and stores it in c

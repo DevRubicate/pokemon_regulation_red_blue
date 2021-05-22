@@ -2898,7 +2898,7 @@ wWhichDungeonWarp::
 	ds 1
 
 wCustomPokemonCode::
-	ds 9
+	ds 20
 
 wd728::
 ; bit 0: using Strength outside of battle

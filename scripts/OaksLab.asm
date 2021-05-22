@@ -794,7 +794,7 @@ OaksLabText41:
 
 OaksLabText2:
 	text_asm
-	ld a, STARTER2
+    ld a, STARTER2
 	ld [wRivalStarterTemp], a
 	ld a, $3
 	ld [wRivalStarterBallSpriteIndex], a
@@ -814,7 +814,7 @@ OaksLabText3:
 
 OaksLabText4:
 	text_asm
-	ld a, STARTER1
+    ld a, STARTER1
 	ld [wRivalStarterTemp], a
 	ld a, $2
 	ld [wRivalStarterBallSpriteIndex], a
@@ -822,13 +822,25 @@ OaksLabText4:
 	ld b, $4
 
 OaksLabScript_1d133:
+    ld [wPlayerStarter], a  ; save the starter you should have had
 
-    ld a, 3
+    ld c, a
+    push bc
+
+    ld a, [wCustomPokemonCode]
+    cp 0
+    jr z, .nocustom
     ld [wd11e], a
     call PokedexToIndex
     ld a, [wd11e]
+    pop bc
+    jr .continue
 
-    ;ld a, [wCustomPokemonCode] ; POKEMON CUSTOM - Load the player's code as input for the pokemon you pick
+.nocustom
+    pop bc
+    ld a, c
+.continue
+
 	ld [wcf91], a
 	ld [wd11e], a
 	ld a, b
@@ -866,6 +878,9 @@ OaksLabScript_1d157:
 	call ReloadMapData
 	ld c, 10
 	call DelayFrames
+    ld a, [wCustomPokemonCode]
+    cp 0
+    jr nz, OaksLabLookAtCustom
 	ld a, [wSpriteIndex]
 	cp $2
 	jr z, OaksLabLookAtCharmander
@@ -894,6 +909,13 @@ OaksLabBulbasaurText:
 	text_far _OaksLabBulbasaurText
 	text_end
 
+OaksLabLookAtCustom:
+    ld hl, OaksLabCustomText
+    jr OaksLabMonChoiceMenu
+OaksLabCustomText:
+    text_far _OaksLabCustomText
+    text_end
+
 OaksLabMonChoiceMenu:
 	call PrintText
 	ld a, $1
@@ -903,7 +925,7 @@ OaksLabMonChoiceMenu:
 	and a
 	jr nz, OaksLabMonChoiceEnd
 	ld a, [wcf91]
-	ld [wPlayerStarter], a
+	;ld [wPlayerStarter], a
 	ld [wd11e], a
 	call GetMonName
 	ld a, [wSpriteIndex]
@@ -1265,7 +1287,7 @@ PokedexToIndex:
     pop bc
     ret
 .notfound
-    ld a, 5
+    ld a, 21
     ld [wd11e], a
     pop hl
     pop bc

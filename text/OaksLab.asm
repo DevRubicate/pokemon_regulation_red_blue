@@ -43,6 +43,11 @@ _OaksLabBulbasaurText::
 	cont "BULBASAUR?"
 	done
 
+_OaksLabCustomText::
+    text "So! You want this"
+    line "#MON?"
+    done
+
 _OaksLabMonEnergeticText::
 	text "This #MON is"
 	line "really energetic!"

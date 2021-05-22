@@ -1,4 +1,8 @@
 ChooseCode:
+
+
+
+
     ld hl, wCustomPokemonCode
     ld a, NAME_CODE_SCREEN
     ld [wNamingScreenType], a
