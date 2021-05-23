@@ -1,3 +1,57 @@
+CustomBoostLevel:
+    ld d, a                         ; save the pokemon's base level in d
+
+    ld a, [wCustomPokemonCode+2]    ; load the third custom pokemon code byte
+    srl a                           ; shift right
+    srl a                           ; shift right
+    srl a                           ; shift right
+    srl a                           ; shift right (upper nibble is now lower nibble)
+    jr z, .noModifier               ; If modifier is 0, skip this process
+    ld e, a                         ; save the difficulty modifier in e
+
+    ; We do this calculation in three parts:
+    ; 1. The fraction of the lowest 2 bits
+    ; 2. Then add base level
+    ; 3. the fraction of the highest 6 bits
+
+    ; We only need to check for overflow during step 3
+
+    ; Step 1
+    ld a, d                         ; pokemon base level
+    and $3                          ; discard all but the bottom 2 bits
+    ld c, a                         ; store in c
+    ld a, 0                         ; set a to 0
+    ld b, e                         ; difficulty modifier
+.loop1
+    add c                           ; add c to a
+    dec b                           ; decrease b by 1
+    jr nz, .loop1                   ; if b != 0 then goto loop1
+    srl a                           ; shift right
+    srl a                           ; shift right (now divided by 4)
+
+    ; Step 2
+    add d                           ; add base pokemon level to modified pokemon level
+
+    ; Step 3
+    ld c, d                         ; pokemon base level
+    srl c                           ; shift right
+    srl c                           ; shift right (now divided by 4)
+    scf
+    ccf                             ; clear carry
+    ld b, e                         ; difficulty modifier
+.loop2
+    adc c
+    jr c, .maxLevel                ; if we have a carry, it means we went past max level
+    dec b                           ; decrease number of modifier steps left
+    jr nz, .loop2                   ; if b != 0 then goto loop2
+    ret
+.noModifier
+    ld a, c                         ; restore pokemon's level
+    ret
+.maxLevel
+    ld a, 255
+    ret
+
 ReadTrainer:
 
 ; don't change any moves in a link battle
@@ -49,11 +103,14 @@ ReadTrainer:
 	ld a, [hli]
 	cp $FF ; is the trainer special?
 	jr z, .SpecialTrainer ; if so, check for special moves
+    call CustomBoostLevel
 	ld [wCurEnemyLVL], a
 .LoopTrainerData
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
-	jr z, .FinishUp
+	jr nz, .continue
+    jp .FinishUp
+.continue
 	ld [wcf91], a ; write species somewhere (XXX why?)
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
@@ -69,6 +126,7 @@ ReadTrainer:
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
 	jr z, .AddLoneMove
+    call CustomBoostLevel
 	ld [wCurEnemyLVL], a
 	ld a, [hli]
 	ld [wcf91], a

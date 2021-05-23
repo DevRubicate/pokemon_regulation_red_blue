@@ -283,6 +283,10 @@ MainInBattleLoop:
 	ld a, [hli]
 	or [hl] ; is battle mon HP 0?
 	jp z, HandlePlayerMonFainted  ; if battle mon HP is 0, jump
+
+    call CheckMonotypeRules
+    jp z, ForcePlayerBlackout
+
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	or [hl] ; is enemy mon HP 0?
@@ -466,6 +470,69 @@ MainInBattleLoop:
 	call DrawHUDsAndHPBars
 	call CheckNumAttacksLeft
 	jp MainInBattleLoop
+
+
+CheckMonotypeRules:
+
+    ld a, [wBattleMonType1]
+    ld b, a
+    ld a, [wBattleMonType2]
+    ld c, a
+
+
+    ld a, [wCustomPokemonCode+1]    ; load out the monotype rule
+    or a
+    jr z, .acceptable               ; if a was 0 then goto acceptable
+
+    dec a                           ; subtract 1 from a (because monotype rule is 1 higher than the real types)
+
+    cp b                            ; compare a to wBattleMonType1
+    jr z, .acceptable               ; if they are equal then goto acceptable
+
+    cp c                            ; compare a to wBattleMonType1
+    jr z, .acceptable               ; if they are equal then goto acceptable
+
+    ld a, 0                         ; This monotype rule was not acceptable
+    or a
+    ret                             ; return with zero flag set
+.acceptable
+    ld a, 1                         ; This monotype rule was acceptable
+    or a
+    ret                             ; return with zero flag cleared
+
+
+ForcePlayerBlackout:
+
+    ld a, 1
+    ld [wInHandlePlayerMonFainted], a
+    call RemoveFaintedPlayerMon
+
+    ld a, 0
+    ld [wBattleMonHP+0], a
+    ld [wBattleMonHP+1], a
+    ld [wPartyMon1HP+0], a
+    ld [wPartyMon1HP+1], a
+    ld [wPartyMon2HP+0], a
+    ld [wPartyMon2HP+1], a
+    ld [wPartyMon3HP+0], a
+    ld [wPartyMon3HP+1], a
+    ld [wPartyMon4HP+0], a
+    ld [wPartyMon4HP+1], a
+    ld [wPartyMon5HP+0], a
+    ld [wPartyMon5HP+1], a
+    ld [wPartyMon6HP+0], a
+    ld [wPartyMon6HP+1], a
+
+    ld b, SET_PAL_BATTLE_BLACK
+    call RunPaletteCommand
+    ld hl, PlayerBlackedOutText3
+    call PrintText
+    ld a, [wd732]
+    res 5, a
+    ld [wd732], a
+    call ClearScreen
+    scf
+    ret
 
 HandlePoisonBurnLeechSeed:
 	ld hl, wBattleMonHP
@@ -966,6 +1033,8 @@ PlayBattleVictoryMusic:
 	call PlayMusic
 	jp Delay3
 
+
+
 HandlePlayerMonFainted:
 	ld a, 1
 	ld [wInHandlePlayerMonFainted], a
@@ -1171,6 +1240,10 @@ Rival1WinText:
 PlayerBlackedOutText2:
 	text_far _PlayerBlackedOutText2
 	text_end
+
+PlayerBlackedOutText3:
+    text_far _PlayerBlackedOutText3
+    text_end
 
 LinkBattleLostText:
 	text_far _LinkBattleLostText

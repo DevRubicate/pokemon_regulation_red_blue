@@ -901,6 +901,11 @@ _PlayerBlackedOutText2::
 	line "out!"
 	prompt
 
+_PlayerBlackedOutText3::
+    text "<PLAYER> broke the"
+    line "rules!"
+    prompt
+
 _LinkBattleLostText::
 	text "<PLAYER> lost to"
 	line "@"
