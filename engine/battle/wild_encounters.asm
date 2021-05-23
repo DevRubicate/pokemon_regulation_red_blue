@@ -1,6 +1,10 @@
 ; try to initiate a wild pokemon encounter
 ; returns success in Z
 TryDoWildEncounter:
+    ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
+    and $8                          ; only check the first bit
+    ret nz                          ; prevent wild encounter if it's blocked
+
 	ld a, [wNPCMovementScriptPointerTableNum]
 	and a
 	ret nz

@@ -1,5 +1,9 @@
 ; try to evolve the mon in [wWhichPokemon]
 TryEvolvingMon:
+    ld a, [wCustomPokemonCode+2]    ; load out the evolution rule
+    and 1                           ; only check the first bit
+    ret nz                          ; prevent evolution if it's blocked
+
 	ld hl, wCanEvolveFlags
 	xor a
 	ld [hl], a
@@ -11,6 +15,10 @@ TryEvolvingMon:
 ; this is only called after battle
 ; it is supposed to do level up evolutions, though there is a bug that allows item evolutions to occur
 EvolutionAfterBattle:
+    ld a, [wCustomPokemonCode+2]    ; load out the evolution rule
+    and 1                           ; only check the first bit
+    ret nz                          ; prevent evolution if it's blocked
+
 	ldh a, [hTileAnimations]
 	push af
 	xor a

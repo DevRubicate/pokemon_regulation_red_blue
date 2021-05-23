@@ -2835,7 +2835,7 @@ wWalkBikeSurfState::
 ; $01 = biking
 ; $02 = surfing
 	ds 1
-
+wCustomPokemonCode::
 	ds 10
 
 wTownVisitedFlag::
@@ -2897,8 +2897,10 @@ wWhichDungeonWarp::
 ; which dungeon warp within the source map was used
 	ds 1
 
-wCustomPokemonCode::
-	ds 10
+wUnusedD71F::
+    ds 1
+
+    ds 8
 
 wd728::
 ; bit 0: using Strength outside of battle

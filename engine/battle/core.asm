@@ -891,6 +891,20 @@ FaintEnemyPokemon:
 	call PrintText
 	call PrintEmptyString
 	call SaveScreenTilesToBuffer1
+
+    ld a, [wIsInBattle]
+    dec a
+    jr z, .wildbattle
+
+    ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
+    and $2                          ; only look at the second bit
+    ret nz
+    jr .continue
+.wildbattle
+    ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
+    and $4                          ; only look at the third bit
+    ret nz
+.continue
 	xor a
 	ld [wBattleResult], a
 	ld b, EXP_ALL
@@ -2368,9 +2382,9 @@ UseBagItem:
 
 .returnAfterCapturingMon
 	call GBPalNormal
-	xor a
+    xor a
 	ld [wCapturedMonSpecies], a
-	ld a, $2
+    ld a, $2
 	ld [wBattleResult], a
 	scf ; set carry
 	ret
