@@ -46,7 +46,7 @@ CustomBoostLevel:
     jr nz, .loop2                   ; if b != 0 then goto loop2
     ret
 .noModifier
-    ld a, c                         ; restore pokemon's level
+    ld a, d                         ; restore pokemon's level
     ret
 .maxLevel
     ld a, 255
