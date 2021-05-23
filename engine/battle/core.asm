@@ -471,26 +471,37 @@ MainInBattleLoop:
 	call CheckNumAttacksLeft
 	jp MainInBattleLoop
 
+ConvertTypeToIndex:
+    cp $06
+    jr c, .notBird
+    dec a
+.notBird
+    cp $08
+    jr c, .notSpecial
+    sub 11
+.notSpecial
+    ret
 
 CheckMonotypeRules:
-
     ld a, [wBattleMonType1]
+    call ConvertTypeToIndex
     ld b, a
+
     ld a, [wBattleMonType2]
+    call ConvertTypeToIndex
     ld c, a
 
-
     ld a, [wCustomPokemonCode+1]    ; load out the monotype rule
-    or a
-    jr z, .acceptable               ; if a was 0 then goto acceptable
+    and $f                          ; only look at the bottom nibble
+    jr z, .acceptable               ; if the monotype rule is 0 then goto acceptable
 
-    dec a                           ; subtract 1 from a (because monotype rule is 1 higher than the real types)
+    dec a                           ; decrease monotype rule to be 0-index based
 
-    cp b                            ; compare a to wBattleMonType1
-    jr z, .acceptable               ; if they are equal then goto acceptable
+    cp b
+    jr z, .acceptable               ; if the type is same as the monotype rule then goto acceptable
 
-    cp c                            ; compare a to wBattleMonType1
-    jr z, .acceptable               ; if they are equal then goto acceptable
+    cp c
+    jr z, .acceptable               ; if the type is same as the monotype rule then goto acceptable
 
     ld a, 0                         ; This monotype rule was not acceptable
     or a
