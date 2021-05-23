@@ -128,3 +128,19 @@ _OtherHitmonText::
 	text "Better not get"
 	line "greedy..."
 	done
+
+_NoHitmonchanGiftText::
+    text "OAK: <PLAYER>!"
+    line "You cannot take"
+    cont "this HITMONCHAN"
+    cont "according to the"
+    cont "rules!"
+    done
+
+_NoHitmonleeGiftText::
+    text "OAK: <PLAYER>!"
+    line "You cannot take"
+    cont "this HITMONLEE"
+    cont "according to the"
+    cont "rules!"
+    done

@@ -43,6 +43,12 @@ _MagikarpSalesmanText2::
 	line "give refunds!"
 	done
 
+_MagikarpSalesmanNoGift::
+    text "MAN: Oak told me"
+    line "not to give you"
+    cont "this MAGIKARP!"
+    done
+
 _MtMoonPokecenterText5::
 	text_start
 	done

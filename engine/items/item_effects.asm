@@ -103,6 +103,24 @@ ItemUsePtrTable:
 
 ItemUseBall:
 
+    ld a, [wCustomPokemonCode+2]    ; load out the catching rule
+    and $10                         ; only look at the 4th bit
+    jp nz, CatchingNotAllowed
+
+    ld a, [wCustomPokemonCode+2]    ; load out the legendary catching rule
+    and $20                         ; only look at the 5th bit
+    jp z, .noLegendaryRestriction
+
+    ld a, [wEnemyMonSpecies2]
+    cp 73 ; Moltres
+    jp z, CatchingLegendaryNotAllowed
+    cp 74 ; Articuno
+    jp z, CatchingLegendaryNotAllowed
+    cp 75 ; Zapdos
+    jp z, CatchingLegendaryNotAllowed
+    cp 131 ; Mewtwo
+    jp z, CatchingLegendaryNotAllowed
+.noLegendaryRestriction
 ; Balls can't be used out of battle.
 	ld a, [wIsInBattle]
 	and a
@@ -2277,6 +2295,14 @@ ItemUseNotTime:
 	ld hl, ItemUseNotTimeText
 	jr ItemUseFailed
 
+CatchingNotAllowed:
+    ld hl, CatchingNotAllowedText
+    jr ItemUseFailed
+
+CatchingLegendaryNotAllowed:
+    ld hl, CatchingLegendaryNotAllowedText
+    jr ItemUseFailed
+
 ItemUseNotYoursToUse:
 	ld hl, ItemUseNotYoursToUseText
 	jr ItemUseFailed
@@ -2309,6 +2335,14 @@ ItemUseFailed:
 	xor a
 	ld [wActionResultOrTookBattleTurn], a ; item use failed
 	jp PrintText
+
+CatchingNotAllowedText:
+    text_far _CatchingNotAllowedText
+    text_end
+
+CatchingLegendaryNotAllowedText:
+    text_far _CatchingLegendaryNotAllowedText
+    text_end
 
 ItemUseNotTimeText:
 	text_far _ItemUseNotTimeText

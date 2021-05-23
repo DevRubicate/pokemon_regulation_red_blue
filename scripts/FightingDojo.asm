@@ -225,6 +225,13 @@ FightingDojoAfterBattleText4:
 FightingDojoText6:
 ; Hitmonlee Poké Ball
 	text_asm
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+    ld hl, NoHitmonleeGiftText
+    call PrintText
+    jp TextScriptEnd
+.continue
 	CheckEitherEventSet EVENT_GOT_HITMONLEE, EVENT_GOT_HITMONCHAN
 	jr z, .GetMon
 	ld hl, OtherHitmonText
@@ -253,6 +260,14 @@ FightingDojoText6:
 .done
 	jp TextScriptEnd
 
+NoHitmonchanGiftText:
+    text_far _NoHitmonchanGiftText
+    text_end
+
+NoHitmonleeGiftText:
+    text_far _NoHitmonleeGiftText
+    text_end
+
 WantHitmonleeText:
 	text_far _WantHitmonleeText
 	text_end
@@ -260,6 +275,13 @@ WantHitmonleeText:
 FightingDojoText7:
 ; Hitmonchan Poké Ball
 	text_asm
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+    ld hl, NoHitmonchanGiftText
+    call PrintText
+    jp TextScriptEnd
+.continue
 	CheckEitherEventSet EVENT_GOT_HITMONLEE, EVENT_GOT_HITMONCHAN
 	jr z, .GetMon
 	ld hl, OtherHitmonText

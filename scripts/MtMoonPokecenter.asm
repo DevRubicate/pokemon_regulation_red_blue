@@ -23,6 +23,11 @@ MtMoonPokecenterText3:
 
 MagikarpSalesmanText:
 	text_asm
+
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jp nz, .noGift
+
 	CheckEvent EVENT_BOUGHT_MAGIKARP, 1
 	jp c, .alreadyBoughtMagikarp
 	ld hl, .Text1
@@ -69,6 +74,10 @@ MagikarpSalesmanText:
 	call PrintText
 .done
 	jp TextScriptEnd
+.noGift
+    ld hl, .RefuseGift
+    call PrintText
+    jp TextScriptEnd
 
 .Text1
 	text_far _MagikarpSalesmanText1
@@ -85,6 +94,10 @@ MagikarpSalesmanText:
 .Text2
 	text_far _MagikarpSalesmanText2
 	text_end
+
+.RefuseGift
+    text_far _MagikarpSalesmanNoGift
+    text_end
 
 MtMoonPokecenterText5:
 	text_far _MtMoonPokecenterText5

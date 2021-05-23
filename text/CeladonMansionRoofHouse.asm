@@ -8,3 +8,11 @@ _CeladonMansion5Text1::
 	line "your friends and"
 	cont "trade #MON!"
 	done
+
+_CeladonMansionNoEevee::
+    text "OAK: <PLAYER>!"
+    line "You cannot take"
+    cont "that EEVEE"
+    cont "according to the"
+    cont "rules!"
+    done

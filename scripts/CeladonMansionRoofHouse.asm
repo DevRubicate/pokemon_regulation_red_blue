@@ -10,7 +10,15 @@ CeladonMansion5Text1:
 	text_end
 
 CeladonMansion5Text2:
-	text_asm
+    text_asm
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+    ld hl, .noEevee
+    call PrintText
+    jp TextScriptEnd
+.continue
+
 	lb bc, EEVEE, 25
 	call GivePokemon
 	jr nc, .party_full
@@ -19,3 +27,9 @@ CeladonMansion5Text2:
 	predef HideObject
 .party_full
 	jp TextScriptEnd
+
+
+.noEevee
+    text_far _CeladonMansionNoEevee
+    text_end
+

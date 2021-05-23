@@ -187,6 +187,21 @@ _MonCannotLearnMachineMoveText::
 	text "."
 	prompt
 
+_CatchingNotAllowedText::
+    text "OAK: <PLAYER>!"
+    line "You may not catch"
+    cont "#MON according"
+    cont "to the rules!"
+    prompt
+
+_CatchingLegendaryNotAllowedText::
+    text "OAK: <PLAYER>!"
+    line "You may not catch"
+    cont "legendary #MON"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _ItemUseNotTimeText::
 	text "OAK: <PLAYER>!"
 	line "This isn't the"
