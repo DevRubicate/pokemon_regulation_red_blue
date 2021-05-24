@@ -35,6 +35,14 @@ _Lab4Text_75dd5::
 	line "like I think!"
 	prompt
 
+_LabFossilRefuse::
+    text "Oak told me not"
+    line "to ressurect any"
+    cont "#MON for you."
+    para "It would break"
+    line "the rules!"
+    done
+
 _Lab4Text_610ae::
 	text "Oh! That is"
 	line "@"

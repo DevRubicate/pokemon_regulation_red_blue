@@ -5,6 +5,23 @@ CeladonPrizeMenu::
 	ld hl, RequireCoinCaseTextPtr
 	jp PrintText
 .havingCoinCase
+
+
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+
+    ld a, [hSpriteIndexOrTextID]
+    cp 5
+    jr z, .continue
+
+    ld hl, NoGiftPokemonText
+    jp PrintText
+
+
+.continue
+
+
 	ld hl, wd730
 	set 6, [hl] ; disable letter-printing delay
 	ld hl, ExchangeCoinsForPrizesTextPtr
@@ -41,6 +58,11 @@ CeladonPrizeMenu::
 	ld hl, wd730
 	res 6, [hl]
 	ret
+
+NoGiftPokemonText:
+    text_far _NoGiftPokemonText
+    text_waitbutton
+    text_end
 
 RequireCoinCaseTextPtr:
 	text_far _RequireCoinCaseText

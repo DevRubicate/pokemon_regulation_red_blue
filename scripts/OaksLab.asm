@@ -827,11 +827,11 @@ OaksLabScript_1d133:
     ld c, a
     push bc
 
-    ld a, [wCustomPokemonCode]
+    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
     cp 0
     jr z, .nocustom
     ld [wd11e], a
-    call PokedexToIndex
+    callfar PokedexToIndex
     ld a, [wd11e]
     pop bc
     jr .continue
@@ -878,7 +878,7 @@ OaksLabScript_1d157:
 	call ReloadMapData
 	ld c, 10
 	call DelayFrames
-    ld a, [wCustomPokemonCode]
+    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
     cp 0
     jr nz, OaksLabLookAtCustom
 	ld a, [wSpriteIndex]
@@ -1260,35 +1260,3 @@ OaksLabText10:
 OaksLabText_1d405:
 	text_far _OaksLabText_1d405
 	text_end
-
-INCLUDE "data/pokemon/dex_order.asm"
-
-PokedexToIndex:
-    ; converts the Pokédex number at wd11e to an index
-    push bc
-    push hl
-    ld a, [wd11e]
-    ld b, a
-    ld c, 0
-    ld hl, PokedexOrder
-
-.loop ; go through the list until we find an entry with a matching dex number
-    inc c
-    ld a, c
-    cp NUM_POKEMON_INDEXES
-    jr z, .notfound
-    ld a, [hli]
-    cp b
-    jr nz, .loop
-
-    ld a, c
-    ld [wd11e], a
-    pop hl
-    pop bc
-    ret
-.notfound
-    ld a, 21
-    ld [wd11e], a
-    pop hl
-    pop bc
-    ret

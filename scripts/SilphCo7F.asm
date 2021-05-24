@@ -294,6 +294,13 @@ SilphCo7TrainerHeader3:
 SilphCo7Text1:
 ; lapras guy
 	text_asm
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+    ld hl, .LaprasGuyRefuseText
+    call PrintText
+    jp TextScriptEnd
+.continue
 	ld a, [wd72e]
 	bit 0, a ; got lapras?
 	jr z, .givelapras
@@ -322,6 +329,10 @@ SilphCo7Text1:
 	call PrintText
 .done
 	jp TextScriptEnd
+
+.LaprasGuyRefuseText
+    text_far _LaprasGuyRefuseText
+    text_end
 
 .MeetLaprasGuyText
 	text_far _MeetLaprasGuyText

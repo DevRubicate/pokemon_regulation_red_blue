@@ -1627,10 +1627,18 @@ _CF4BExclamationText::
 	text "!"
 	prompt
 
-_RequireCoinCaseText::
-	text "A COIN CASE is"
-	line "required!@"
+_NoGiftPokemonText::
+	text "Oak told us not"
+	line "to give you any"
+    cont "#MON as it"
+    cont "would break the"
+    cont "rules!@"
 	text_end
+
+_RequireCoinCaseText::
+    text "A COIN CASE is"
+    line "required!@"
+    text_end
 
 _ExchangeCoinsForPrizesText::
 	text "We exchange your"
@@ -1758,6 +1766,74 @@ _OakSpeechText3::
 	cont "with #MON"
 	cont "awaits! Let's go!"
 	done
+
+_OakSpeechRuleStart::
+    text "I will enforce"
+    line "these rules:"
+    prompt
+
+_OakSpeechRuleDifficulty::
+    text "Trainer #MON"
+    line "are @"
+    text_ram wcd6d
+    text " percent"
+    cont "higher level."
+    prompt
+
+_OakSpeechRuleMonotype::
+    text "You may only use"
+    line "#MON of the"
+    cont "type @"
+    text_ram wcd6d
+    text " in"
+    cont "battle."
+    prompt
+
+_OakSpeechRuleNoEvolve::
+    text "#MON will"
+    line "not evolve."
+    prompt
+
+_OakSpeechRuleNoTrainerExp::
+    text "Trainer battles"
+    line "gives no EXP."
+    prompt
+
+_OakSpeechRuleNoWildExp::
+    text "Wild #MON"
+    line "gives no EXP."
+    prompt
+
+_OakSpeechRuleNoWild::
+    text "No wild #MON"
+    line "encounters."
+    prompt
+
+_OakSpeechRuleNoCatchWild::
+    text "Wild #MON"
+    line "cannot be caught."
+    prompt
+
+_OakSpeechRuleNoCatchLegendary::
+    text "Legendary #MON"
+    line "cannot be caught."
+    prompt
+
+_OakSpeechRuleNoGiftMon::
+    text "You cannot obtain"
+    line "gift #MON."
+    prompt
+
+_OakSpeechRuleNoTrade::
+    text "#MON cannot"
+    line "be traded."
+    prompt
+
+_RefuseToTrade::
+    text "Oak told me not"
+    line "to trade #MON"
+    cont "with you!"
+    done
 
 _DoYouWantToNicknameText::
 	text "Do you want to"

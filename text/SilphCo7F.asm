@@ -1,3 +1,9 @@
+_LaprasGuyRefuseText::
+    text "Oak told me about"
+    line "you! I'm not gonna"
+    cont "give you LAPRAS."
+    done
+
 _MeetLaprasGuyText::
 	text "Oh! Hi! You're"
 	line "not a ROCKET! You"

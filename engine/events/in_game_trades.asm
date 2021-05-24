@@ -1,4 +1,10 @@
 DoInGameTradeDialogue:
+    ld a, [wCustomPokemonCode+2]    ; load out the trade pokemon rule
+    and $80                         ; only look at the 7th bit
+    jr z, .continue
+    ld hl, RefuseToTrade
+    jp PrintText
+.continue
 ; trigger the trade offer/action specified by wWhichTrade
 	call SaveScreenTilesToBuffer2
 	ld hl, TradeMons
@@ -328,3 +334,7 @@ Thanks3Text:
 AfterTrade3Text:
 	text_far _AfterTrade3Text
 	text_end
+
+RefuseToTrade:
+    text_far _RefuseToTrade
+    text_end

@@ -63,7 +63,16 @@ OakSpeech:
 	call PrintText
 	call GBFadeOutToWhite
 	call ClearScreen
+    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
+    cp 0
+    jr z, .nocustom
+    ld [wd11e], a
+    callfar PokedexToIndex
+    ld a, [wd11e]
+    jr .displaycustom
+.nocustom
 	ld a, NIDORINO
+.displaycustom
 	ld [wd0b5], a
 	ld [wcf91], a
 	call GetMonHeader
@@ -91,6 +100,126 @@ OakSpeech:
 	call PrintText
 	call ChooseRivalName
 .skipChoosingNames
+    ld a, [wCustomPokemonCode]
+    ld hl, wCustomPokemonCode+1
+    or [hl]
+    ld hl, wCustomPokemonCode+2
+    or [hl]
+    ld hl, wCustomPokemonCode+3
+    or [hl]
+    ld hl, wCustomPokemonCode+4
+    or [hl]
+    ld hl, wCustomPokemonCode+5
+    or [hl]
+    ld hl, wCustomPokemonCode+6
+    or [hl]
+    ld hl, wCustomPokemonCode+7
+    or [hl]
+    ld hl, wCustomPokemonCode+8
+    or [hl]
+    ld hl, wCustomPokemonCode+9
+    or [hl]
+    jp z, .noCustomRules            ; skip rules dialog if every rule is 0
+
+    call GBFadeOutToWhite
+    call ClearScreen
+    ld de, ProfOakPic
+    lb bc, BANK(ProfOakPic), $00
+    call IntroDisplayPicCenteredOrUpperRight
+    call FadeInIntroPic
+    ld hl, OakSpeechRuleStart
+    call PrintText
+
+    ld a, [wCustomPokemonCode+1]    ; load the difficulty rule
+    srl a                           ; shift right
+    srl a                           ; shift right
+    srl a                           ; shift right
+    srl a                           ; shift right (upper nibble is now lower nibble)
+    jr z, .noDifficulty             ; skip text if there is no difficulty
+    dec a                           ; decrease by 1 for the table lookup
+    ld hl, DifficultyLabels
+    ld bc, 4
+    call AddNTimes
+    ld de, wcd6d
+    call CopyData
+    ld hl, OakSpeechRuleDifficulty
+    call PrintText
+.noDifficulty
+
+    ld a, [wCustomPokemonCode+1]    ; load the monotype rule
+    and $f                          ; remove the upper 4 bits
+    jr z, .noMonotype               ; skip text if there is no monotype rule
+    dec a                           ; decrease by 1 for the table lookup
+    ld hl, MonotypeLabels
+    ld bc, 9
+    call AddNTimes
+    ld de, wcd6d
+    call CopyData
+    ld hl, OakSpeechRuleMonotype
+    call PrintText
+.noMonotype
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $1                          ; look at bit 1
+    jr z, .noEvolve                 ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoEvolve
+    call PrintText
+.noEvolve
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $2                          ; look at bit 2
+    jr z, .noTrainerExp             ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoTrainerExp
+    call PrintText
+.noTrainerExp
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $4                          ; look at bit 3
+    jr z, .noWildExp                ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoWildExp
+    call PrintText
+.noWildExp
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $8                          ; look at bit 4
+    jr z, .noWildMon                ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoWild
+    call PrintText
+.noWildMon
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $10                         ; look at bit 5
+    jr z, .noCatchWild              ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoCatchWild
+    call PrintText
+.noCatchWild
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $20                         ; look at bit 6
+    jr z, .noCatchLegendary         ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoCatchLegendary
+    call PrintText
+.noCatchLegendary
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $40                         ; look at bit 7
+    jr z, .noGiftMon                ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoGiftMon
+    call PrintText
+.noGiftMon
+
+    ld a, [wCustomPokemonCode+2]    ; load the rule
+    and $80                         ; look at bit 8
+    jr z, .noTrade                  ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoTrade
+    call PrintText
+.noTrade
+
+
+
+
+
+.noCustomRules
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld de, RedPicFront
@@ -168,6 +297,46 @@ IntroduceRivalText:
 OakSpeechText3:
 	text_far _OakSpeechText3
 	text_end
+OakSpeechRuleStart:
+    text_far _OakSpeechRuleStart
+    text_end
+OakSpeechRuleDifficulty:
+    text_far _OakSpeechRuleDifficulty
+    text_end
+OakSpeechRuleMonotype:
+    text_far _OakSpeechRuleMonotype
+    text_end
+OakSpeechRuleNoEvolve:
+    text_far _OakSpeechRuleNoEvolve
+    text_end
+OakSpeechRuleNoTrainerExp:
+    text_far _OakSpeechRuleNoTrainerExp
+    text_end
+OakSpeechRuleNoWildExp:
+    text_far _OakSpeechRuleNoWildExp
+    text_end
+OakSpeechRuleNoWild:
+    text_far _OakSpeechRuleNoWild
+    text_end
+OakSpeechRuleNoCatchWild:
+    text_far _OakSpeechRuleNoCatchWild
+    text_end
+OakSpeechRuleNoCatchLegendary:
+    text_far _OakSpeechRuleNoCatchLegendary
+    text_end
+OakSpeechRuleNoGiftMon:
+    text_far _OakSpeechRuleNoGiftMon
+    text_end
+OakSpeechRuleNoTrade:
+    text_far _OakSpeechRuleNoTrade
+    text_end
+
+
+
+
+
+
+
 
 FadeInIntroPic:
 	ld hl, IntroFadePalettes
@@ -230,3 +399,37 @@ IntroDisplayPicCenteredOrUpperRight:
 	xor a
 	ldh [hStartTileID], a
 	predef_jump CopyUncompressedPicToTilemap
+
+DifficultyLabels:
+    db "25@@"
+    db "50@@"
+    db "75@@"
+    db "100@"
+    db "125@"
+    db "150@"
+    db "175@"
+    db "200@"
+    db "225@"
+    db "250@"
+    db "275@"
+    db "300@"
+    db "325@"
+    db "350@"
+    db "375@"
+
+MonotypeLabels:
+    db "NORMAL@@@"
+    db "FIGHTING@"
+    db "FLYING@@@"
+    db "POISON@@@"
+    db "GROUND@@@"
+    db "ROCK@@@@@"
+    db "BUG@@@@@@"
+    db "GHOST@@@@"
+    db "FIRE@@@@@"
+    db "WATER@@@@"
+    db "GRASS@@@@"
+    db "ELECTRIC@"
+    db "PSYCHIC@@"
+    db "ICE@@@@@@"
+    db "DRAGON@@@"

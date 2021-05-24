@@ -48,6 +48,13 @@ FossilsList:
 
 Lab4Text1:
 	text_asm
+    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    and $40                         ; only look at the 6th bit
+    jr z, .continue
+    ld hl, LabFossilRefuse
+    call PrintText
+    jp TextScriptEnd
+.continue
 	CheckEvent EVENT_GAVE_FOSSIL_TO_LAB
 	jr nz, .asm_75d96
 	ld hl, Lab4Text_75dc6
@@ -97,6 +104,10 @@ Lab4Text_75dd0:
 Lab4Text_75dd5:
 	text_far _Lab4Text_75dd5
 	text_end
+
+LabFossilRefuse:
+    text_far _LabFossilRefuse
+    text_end
 
 Lab4Text2:
 	text_asm
