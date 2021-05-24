@@ -406,6 +406,21 @@ StartMenu_Item::
 	jp z, ItemMenuLoop
 	jp CloseStartMenu
 .useItem_partyMenu
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $20                         ; Look at only the 5th bit
+    jr z, .normalUse                ; If rule isn't set, use HM normally
+    ld a, [wcf91]
+    cp HM_CUT
+    jr z, .useItem_closeMenu
+    cp HM_FLY
+    jr z, .useItem_closeMenu
+    cp HM_SURF
+    jr z, .useItem_closeMenu
+    cp HM_STRENGTH
+    jr z, .useItem_closeMenu
+    cp HM_FLASH
+    jr z, .useItem_closeMenu
+.normalUse
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	call UseItem

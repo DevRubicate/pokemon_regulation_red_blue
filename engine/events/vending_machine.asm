@@ -1,4 +1,22 @@
 VendingMachineMenu::
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $10                         ; Look at only the 4th bit
+    jr z, .normalUse                ; Allow vending machine if rule is not set
+
+    ld a, [wd728]
+    bit 6, a
+    jr nz, .continue
+    or $40
+    ld [wd728], a               ; give the guard water
+    ld hl, VendingMachineOakWater
+    jp PrintText
+
+.continue
+    ld hl, VendingMachineRefuse
+    jp PrintText
+
+
+.normalUse
 	ld hl, VendingMachineText1
 	call PrintText
 	ld a, MONEY_BOX
@@ -111,6 +129,14 @@ VendingMachineText6:
 VendingMachineText7:
 	text_far _VendingMachineText7
 	text_end
+
+VendingMachineRefuse:
+    text_far _VendingMachineRefuseText
+    text_end
+
+VendingMachineOakWater:
+    text_far _VendingMachineOakWaterText
+    text_end
 
 LoadVendingMachineItem:
 	ld hl, VendingPrices

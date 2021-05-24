@@ -819,8 +819,29 @@ ItemUseVitamin:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
+    jp ItemUseAllowed
 
 ItemUseMedicine:
+    ld a, [wPseudoItemID]
+    and a ; using Softboiled?
+    jr nz, ItemUseAllowed
+
+
+    ld a, [wIsInBattle]
+    and a
+    jp z, .skipCombatItemRuleCheck ; Skip combat item rule if we aren't in combat
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $1                          ; Look at only the 0th bit
+    jr z, ItemUseAllowed            ; Allow item if rule is not yet
+    jp RestorativeItemNotAllowedInCombat
+.skipCombatItemRuleCheck
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 1th bit
+    jr z, ItemUseAllowed            ; Allow item if rule is not yet
+    jp RestorativeItemNotAllowedOutsideCombat
+
+
+ItemUseAllowed:
 	ld a, [wPartyCount]
 	and a
 	jp z, .emptyParty
@@ -871,7 +892,7 @@ ItemUseMedicine:
 ; if using softboiled
 	ld a, [wWhichPokemon]
 	cp d ; is the pokemon trying to use softboiled on itself?
-	jr z, ItemUseMedicine ; if so, force another choice
+	jp z, ItemUseMedicine ; if so, force another choice
 .checkItemType
 	ld a, [wcf91]
 	cp REVIVE
@@ -1557,6 +1578,13 @@ ItemUseXAccuracy:
 	ld a, [wIsInBattle]
 	and a
 	jp z, ItemUseNotTime
+
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 2th bit
+    jr z, .XItemUseAllowed          ; Allow item if rule is not set
+    jp BattleItemNotAllowedInCombat
+.XItemUseAllowed
+
 	ld hl, wPlayerBattleStatus2
 	set USING_X_ACCURACY, [hl] ; X Accuracy bit
 	jp PrintItemUseTextAndRemoveItem
@@ -1617,6 +1645,13 @@ ItemUsePokedoll:
 	ld a, [wIsInBattle]
 	dec a
 	jp nz, ItemUseNotTime
+
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 2th bit
+    jr z, .PokedollUseAllowed       ; Allow item if rule is not set
+    jp BattleItemNotAllowedInCombat
+.PokedollUseAllowed
+
 	ld a, $01
 	ld [wEscapedFromBattle], a
 	jp PrintItemUseTextAndRemoveItem
@@ -1625,6 +1660,13 @@ ItemUseGuardSpec:
 	ld a, [wIsInBattle]
 	and a
 	jp z, ItemUseNotTime
+
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 2th bit
+    jr z, .XItemUseAllowed          ; Allow item if rule is not set
+    jp BattleItemNotAllowedInCombat
+.XItemUseAllowed
+
 	ld hl, wPlayerBattleStatus2
 	set PROTECTED_BY_MIST, [hl] ; Mist bit
 	jp PrintItemUseTextAndRemoveItem
@@ -1641,6 +1683,13 @@ ItemUseDireHit:
 	ld a, [wIsInBattle]
 	and a
 	jp z, ItemUseNotTime
+
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 2th bit
+    jr z, .XItemUseAllowed          ; Allow item if rule is not set
+    jp BattleItemNotAllowedInCombat
+.XItemUseAllowed
+
 	ld hl, wPlayerBattleStatus2
 	set GETTING_PUMPED, [hl] ; Focus Energy bit
 	jp PrintItemUseTextAndRemoveItem
@@ -1654,6 +1703,12 @@ ItemUseXStat:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .inBattle
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 2th bit
+    jr z, .XItemUseAllowed          ; Allow item if rule is not set
+    jp BattleItemNotAllowedInCombat
+
+.XItemUseAllowed
 	ld hl, wPlayerMoveNum
 	ld a, [hli]
 	push af ; save [wPlayerMoveNum]
@@ -1714,6 +1769,9 @@ ItemUsePokeflute:
 	ld hl, PlayedFluteNoEffectText
 	jp PrintText
 .inBattle
+    ld a, [wCustomPokemonCode+3]                    ; load the item rule
+    and $1                                          ; Look at only the 0th bit
+    jp nz, RestorativeItemNotAllowedInCombat        ; Forbid item if rule is set
 	xor a
 	ld [wWereAnyMonsAsleep], a
 	ld b, ~SLP & $ff
@@ -1960,8 +2018,25 @@ ItemUsePPUp:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
-
+    jr AllowRestoreItem
 ItemUsePPRestore:
+
+
+    ld a, [wIsInBattle]
+    and a
+    jp z, .skipCombatItemRuleCheck ; Skip combat item rule if we aren't in combat
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $1                          ; Look at only the 0th bit
+    jr z, AllowRestoreItem            ; Allow item if rule is not yet
+    jp RestorativeItemNotAllowedInCombat
+.skipCombatItemRuleCheck
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $2                          ; Look at only the 1th bit
+    jr z, AllowRestoreItem            ; Allow item if rule is not yet
+    jp RestorativeItemNotAllowedOutsideCombat
+
+
+AllowRestoreItem:
 	ld a, [wWhichPokemon]
 	push af
 	ld a, [wcf91]
@@ -2161,10 +2236,32 @@ PPRestoredText:
 UnusableItem:
 	jp ItemUseNotTime
 
+
+UseCustomHM:
+    ld a, [wcf91]
+    cp HM_CUT
+    jp z, UsedCutCustom
+    cp HM_FLY
+    jp z, ItemUseSurfboard
+    cp HM_SURF
+    jp z, ItemUseSurfboard
+    cp HM_STRENGTH
+    jp z, ItemUseSurfboard
+    cp HM_FLASH
+    jp z, ItemUseSurfboard
+    ret
+
 ItemUseTMHM:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
+    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    and $20                         ; Look at only the 5th bit
+    jr z, .normalUse                ; If rule isn't set, use HM normally
+    ld a, [wcf91]
+    sub TM01 ; underflows below 0 for HM items (before TM items)
+    jr c, UseCustomHM
+.normalUse
 	ld a, [wcf91]
 	sub TM01 ; underflows below 0 for HM items (before TM items)
 	push af
@@ -2295,6 +2392,18 @@ ItemUseNotTime:
 	ld hl, ItemUseNotTimeText
 	jr ItemUseFailed
 
+RestorativeItemNotAllowedInCombat:
+    ld hl, RestorativeItemNotAllowedInCombatText
+    jr ItemUseFailed
+
+RestorativeItemNotAllowedOutsideCombat:
+    ld hl, RestorativeItemNotAllowedOutsideCombatText
+    jr ItemUseFailed
+
+BattleItemNotAllowedInCombat:
+    ld hl, BattleItemNotAllowedInCombatText
+    jr ItemUseFailed
+
 CatchingNotAllowed:
     ld hl, CatchingNotAllowedText
     jr ItemUseFailed
@@ -2347,6 +2456,18 @@ CatchingLegendaryNotAllowedText:
 ItemUseNotTimeText:
 	text_far _ItemUseNotTimeText
 	text_end
+
+RestorativeItemNotAllowedInCombatText:
+    text_far _RestorativeItemNotAllowedInCombatText
+    text_end
+
+RestorativeItemNotAllowedOutsideCombatText:
+    text_far _RestorativeItemNotAllowedOutsideCombatText
+    text_end
+
+BattleItemNotAllowedInCombatText:
+    text_far _BattleItemNotAllowedInCombatText
+    text_end
 
 ItemUseNotYoursToUseText:
 	text_far _ItemUseNotYoursToUseText
@@ -2965,3 +3086,248 @@ CheckMapForMon:
 	jr nz, .loop
 	dec hl
 	ret
+
+
+UsedCutCustom:
+    xor a
+    ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
+    ld a, [wCurMapTileset]
+    and a ; OVERWORLD
+    jr z, .overworld
+    cp GYM
+    jr nz, .nothingToCut
+    ld a, [wTileInFrontOfPlayer]
+    cp $50 ; gym cut tree
+    jr nz, .nothingToCut
+    jr .canCut
+.overworld
+    dec a
+    ld a, [wTileInFrontOfPlayer]
+    cp $3d ; cut tree
+    jr z, .canCut
+    cp $52 ; grass
+    jr z, .canCut
+.nothingToCut
+    ld hl, .NothingToCutText
+    jp PrintText
+
+.NothingToCutText
+    text_far _NothingToCutText
+    text_end
+
+.canCut
+    ld [wCutTile], a
+    ld hl, UsedCutTextCustom
+    call PrintText
+    call LoadScreenTilesFromBuffer2
+    ld hl, wd730
+    res 6, [hl]
+    ld a, $ff
+    ld [wUpdateSpritesEnabled], a
+    call InitCutAnimOAMCustom
+    ld de, CutTreeBlockSwapsCustom
+    call ReplaceTreeTileBlockCustom
+    call RedrawMapView
+    farcall AnimCut
+    ld a, $1
+    ld [wUpdateSpritesEnabled], a
+    ld a, SFX_CUT
+    call PlaySound
+    call UpdateSprites
+    jp RedrawMapView
+
+
+UsedCutTextCustom:
+    text_far _UsedCutCustomText
+    text_end
+
+InitCutAnimOAMCustom:
+    xor a
+    ld [wWhichAnimationOffsets], a
+    ld a, %11100100
+    ldh [rOBP1], a
+    ld a, [wCutTile]
+    cp $52
+    jr z, .grass
+; tree
+    ld de, Overworld_GFX tile $2d ; cuttable tree sprite top row
+    ld hl, vChars1 tile $7c
+    lb bc, BANK(Overworld_GFX), 2
+    call CopyVideoData
+    ld de, Overworld_GFX tile $3d ; cuttable tree sprite bottom row
+    ld hl, vChars1 tile $7e
+    lb bc, BANK(Overworld_GFX), 2
+    call CopyVideoData
+    jr WriteCutOrBoulderDustAnimationOAMBlockCustom
+.grass
+    ld hl, vChars1 tile $7c
+    call LoadCutGrassAnimationTilePatternCustom
+    ld hl, vChars1 tile $7d
+    call LoadCutGrassAnimationTilePatternCustom
+    ld hl, vChars1 tile $7e
+    call LoadCutGrassAnimationTilePatternCustom
+    ld hl, vChars1 tile $7f
+    call LoadCutGrassAnimationTilePatternCustom
+    call WriteCutOrBoulderDustAnimationOAMBlockCustom
+    ld hl, wOAMBuffer + $93
+    ld de, 4
+    ld a, $30
+    ld c, e
+.loop
+    ld [hl], a
+    add hl, de
+    xor $60
+    dec c
+    jr nz, .loop
+    ret
+
+LoadCutGrassAnimationTilePatternCustom:
+    ld de, AnimationTileset2 tile 6 ; tile depicting a leaf
+    lb bc, BANK(AnimationTileset2), 1
+    jp CopyVideoData
+
+WriteCutOrBoulderDustAnimationOAMBlockCustom:
+    call GetCutOrBoulderDustAnimationOffsetsCustom
+    ld a, $9
+    ld de, CutOrBoulderDustAnimationTilesAndAttributesCustom
+    jp WriteOAMBlock
+
+CutOrBoulderDustAnimationTilesAndAttributesCustom:
+    dbsprite  2, -1,  0,  4, $fd, OAM_OBP1
+    dbsprite  2, -1,  0,  6, $ff, OAM_OBP1
+
+GetCutOrBoulderDustAnimationOffsetsCustom:
+    ld hl, wSpritePlayerStateData1YPixels
+    ld a, [hli] ; player's sprite screen Y position
+    ld b, a
+    inc hl
+    ld a, [hli] ; player's sprite screen X position
+    ld c, a ; bc holds ypos/xpos of player's sprite
+    inc hl
+    inc hl
+    ld a, [hl] ; a holds direction of player (00: down, 04: up, 08: left, 0C: right)
+    srl a
+    ld e, a
+    ld d, $0 ; de holds direction (00: down, 02: up, 04: left, 06: right)
+    ld a, [wWhichAnimationOffsets]
+    and a
+    ld hl, CutAnimationOffsetsCustom
+    jr z, .next
+    ld hl, BoulderDustAnimationOffsetsCustom
+.next
+    add hl, de
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    ld a, b
+    add d
+    ld b, a
+    ld a, c
+    add e
+    ld c, a
+    ret
+
+CutAnimationOffsetsCustom:
+; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
+    db  8, 36 ; player is facing down
+    db  8,  4 ; player is facing up
+    db -8, 20 ; player is facing left
+    db 24, 20 ; player is facing right
+
+BoulderDustAnimationOffsetsCustom:
+; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
+; These offsets represent 2 blocks away from the player
+    db  8,  52 ; player is facing down
+    db  8, -12 ; player is facing up
+    db -24, 20 ; player is facing left
+    db 40,  20 ; player is facing right
+
+ReplaceTreeTileBlockCustom:
+; Determine the address of the tile block that contains the tile in front of the
+; player (i.e. where the tree is) and replace it with the corresponding tile
+; block that doesn't have the tree.
+    push de
+    ld a, [wCurMapWidth]
+    add 6
+    ld c, a
+    ld b, 0
+    ld d, 0
+    ld hl, wCurrentTileBlockMapViewPointer
+    ld a, [hli]
+    ld h, [hl]
+    ld l, a
+    add hl, bc
+    ld a, [wSpritePlayerStateData1FacingDirection]
+    and a
+    jr z, .down
+    cp SPRITE_FACING_UP
+    jr z, .up
+    cp SPRITE_FACING_LEFT
+    jr z, .left
+; right
+    ld a, [wXBlockCoord]
+    and a
+    jr z, .centerTileBlock
+    jr .rightOfCenter
+.down
+    ld a, [wYBlockCoord]
+    and a
+    jr z, .centerTileBlock
+    jr .belowCenter
+.up
+    ld a, [wYBlockCoord]
+    and a
+    jr z, .aboveCenter
+    jr .centerTileBlock
+.left
+    ld a, [wXBlockCoord]
+    and a
+    jr z, .leftOfCenter
+    jr .centerTileBlock
+.belowCenter
+    add hl, bc
+.centerTileBlock
+    add hl, bc
+.aboveCenter
+    ld e, $2
+    add hl, de
+    jr .next
+.leftOfCenter
+    ld e, $1
+    add hl, bc
+    add hl, de
+    jr .next
+.rightOfCenter
+    ld e, $3
+    add hl, bc
+    add hl, de
+.next
+    pop de
+    ld a, [hl]
+    ld c, a
+.loop ; find the matching tile block in the array
+    ld a, [de]
+    inc de
+    inc de
+    cp $ff
+    ret z
+    cp c
+    jr nz, .loop
+    dec de
+    ld a, [de] ; replacement tile block from matching array entry
+    ld [hl], a
+    ret
+
+CutTreeBlockSwapsCustom:
+    ; first byte = tileset block containing the cut tree
+    ; second byte = corresponding tileset block after the cut animation happens
+    db $32, $6D
+    db $33, $6C
+    db $34, $6F
+    db $35, $4C
+    db $60, $6E
+    db $0B, $0A
+    db $3C, $35
+    db $3F, $35
+    db $3D, $36
+    db -1 ; end

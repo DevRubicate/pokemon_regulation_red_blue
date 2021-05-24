@@ -208,6 +208,32 @@ _ItemUseNotTimeText::
 	cont "time to use that! "
 	prompt
 
+_RestorativeItemNotAllowedInCombatText::
+    text "OAK: <PLAYER>!"
+    line "You may not use"
+    cont "restorative items"
+    cont "while in combat"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
+_RestorativeItemNotAllowedOutsideCombatText::
+    text "OAK: <PLAYER>!"
+    line "You may not use"
+    cont "restorative items"
+    cont "outside combat"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
+_BattleItemNotAllowedInCombatText::
+    text "OAK: <PLAYER>!"
+    line "You may not use"
+    cont "battle items"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _ItemUseNotYoursToUseText::
 	text "This isn't yours"
 	line "to use!"

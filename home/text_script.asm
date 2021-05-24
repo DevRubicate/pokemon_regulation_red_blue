@@ -138,6 +138,14 @@ CloseTextDisplay::
 	jp UpdateSprites
 
 DisplayPokemartDialogue::
+    ld a, [wCustomPokemonCode+3]    ; load the rule
+    and $10                         ; look at bit 4
+    jr z, .continue                 ; continue using the mart
+
+    ld hl, PokemartRefuseText
+    call PrintText
+    jp AfterDisplayingTextID
+.continue
 	push hl
 	ld hl, PokemartGreetingText
 	call PrintText
@@ -152,6 +160,10 @@ DisplayPokemartDialogue::
 PokemartGreetingText::
 	text_far _PokemartGreetingText
 	text_end
+
+PokemartRefuseText::
+    text_far _PokemartRefuseText
+    text_end
 
 LoadItemList::
 	ld a, 1

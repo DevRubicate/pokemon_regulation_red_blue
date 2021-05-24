@@ -3,6 +3,13 @@ _PokemartGreetingText::
 	next "May I help you?"
 	done
 
+_PokemartRefuseText::
+    text "Oak told me not"
+    next "sell you items"
+    cont "because it would"
+    cont "break the rules."
+    done
+
 _PokemonFaintedText::
 	text_ram wcd6d
 	text_start

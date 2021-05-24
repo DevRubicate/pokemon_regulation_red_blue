@@ -150,3 +150,20 @@ _VendingMachineText6::
 _VendingMachineText7::
 	text "Not thirsty!"
 	done
+
+_VendingMachineRefuseText::
+    text "OAK: <PLAYER>!"
+    line "Vending machines"
+    cont "are against the"
+    cont "rules!"
+    done
+
+_VendingMachineOakWaterText::
+    text "OAK: <PLAYER>!"
+    line "Because the"
+    cont "vending machine"
+    cont "is against the"
+    cont "rules, I've given"
+    cont "FRESH WATER"
+    cont "to the guards!"
+    done

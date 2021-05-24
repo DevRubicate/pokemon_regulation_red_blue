@@ -198,3 +198,8 @@ _UsedCutText::
 	text " hacked"
 	line "away with CUT!"
 	prompt
+
+_UsedCutCustomText::
+    text "<PLAYER> hacked"
+    line "away with CUT!"
+    prompt

@@ -2258,7 +2258,7 @@ DisplayBattleMenu::
 .throwSafariBallWasSelected
 	ld a, SAFARI_BALL
 	ld [wcf91], a
-	jr UseBagItem
+	jp UseBagItem
 
 .upperLeftMenuItemWasNotSelected ; a menu item other than the upper left item was selected
 	cp $2
