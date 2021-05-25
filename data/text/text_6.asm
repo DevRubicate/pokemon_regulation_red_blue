@@ -202,6 +202,14 @@ _CatchingLegendaryNotAllowedText::
     cont "rules!"
     prompt
 
+_CatchingFishNotAllowedText::
+    text "OAK: <PLAYER>!"
+    line "You may not fish"
+    cont "wild #MON"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _ItemUseNotTimeText::
 	text "OAK: <PLAYER>!"
 	line "This isn't the"

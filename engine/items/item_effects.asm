@@ -102,13 +102,12 @@ ItemUsePtrTable:
 	dw ItemUsePPRestore  ; MAX_ELIXER
 
 ItemUseBall:
-
     ld a, [wCustomPokemonCode+2]    ; load out the catching rule
-    and $10                         ; only look at the 4th bit
+    and $10                         ; only look at bit 4
     jp nz, CatchingNotAllowed
 
     ld a, [wCustomPokemonCode+2]    ; load out the legendary catching rule
-    and $20                         ; only look at the 5th bit
+    and $20                         ; only look at bit 5
     jp z, .noLegendaryRestriction
 
     ld a, [wEnemyMonSpecies2]
@@ -1580,7 +1579,7 @@ ItemUseXAccuracy:
 	jp z, ItemUseNotTime
 
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 2th bit
+    and $2                          ; Look at only the 1th bit
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1647,7 +1646,7 @@ ItemUsePokedoll:
 	jp nz, ItemUseNotTime
 
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 2th bit
+    and $2                          ; Look at only the 1th bit
     jr z, .PokedollUseAllowed       ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .PokedollUseAllowed
@@ -1662,7 +1661,7 @@ ItemUseGuardSpec:
 	jp z, ItemUseNotTime
 
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 2th bit
+    and $2                          ; Look at only the 1th bit
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1685,7 +1684,7 @@ ItemUseDireHit:
 	jp z, ItemUseNotTime
 
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 2th bit
+    and $1                          ; Look at only the 2th bit
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1704,7 +1703,7 @@ ItemUseXStat:
 	ret
 .inBattle
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 2th bit
+    and $1                          ; Look at only the 2th bit
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 
@@ -1932,8 +1931,13 @@ ItemUseSuperRod:
 	call ReadSuperRodData
 	ld a, e
 RodResponse:
+    ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
+    and $8                          ; only look at bit 3
+    jr z, .continue                 ; prevent wild encounter if it's blocked
+    ld hl, CatchingFishNotAllowedText
+    jp PrintText
+.continue
 	ld [wRodResponse], a
-
 	dec a ; is there a bite?
 	jr nz, .next
 	; if yes, store level and species data
@@ -2514,6 +2518,10 @@ GotOffBicycleText:
 	text_low
 	text_far _GotOffBicycleText2
 	text_end
+
+CatchingFishNotAllowedText:
+    text_far _CatchingFishNotAllowedText
+    text_end
 
 ; restores bonus PP (from PP Ups) when healing at a pokemon center
 ; also, when a PP Up is used, it increases the current PP by one PP Up bonus

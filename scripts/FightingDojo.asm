@@ -226,7 +226,7 @@ FightingDojoText6:
 ; Hitmonlee Poké Ball
 	text_asm
     ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
-    and $40                         ; only look at the 6th bit
+    and $40                         ; only look at bit 6
     jr z, .continue
     ld hl, NoHitmonleeGiftText
     call PrintText
@@ -276,7 +276,7 @@ FightingDojoText7:
 ; Hitmonchan Poké Ball
 	text_asm
     ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
-    and $40                         ; only look at the 6th bit
+    and $40                         ; only look at bit 6
     jr z, .continue
     ld hl, NoHitmonchanGiftText
     call PrintText

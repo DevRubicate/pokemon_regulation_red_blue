@@ -160,56 +160,56 @@ OakSpeech:
 .noMonotype
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $1                          ; look at bit 1
+    and $1                          ; look at bit 0
     jr z, .noEvolve                 ; skip text if there is no rule
     ld hl, OakSpeechRuleNoEvolve
     call PrintText
 .noEvolve
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $2                          ; look at bit 2
+    and $2                          ; look at bit 1
     jr z, .noTrainerExp             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrainerExp
     call PrintText
 .noTrainerExp
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $4                          ; look at bit 3
+    and $4                          ; look at bit 2
     jr z, .noWildExp                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWildExp
     call PrintText
 .noWildExp
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $8                          ; look at bit 4
+    and $8                          ; look at bit 3
     jr z, .noWildMon                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWild
     call PrintText
 .noWildMon
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $10                         ; look at bit 5
+    and $10                         ; look at bit 4
     jr z, .noCatchWild              ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchWild
     call PrintText
 .noCatchWild
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $20                         ; look at bit 6
+    and $20                         ; look at bit 5
     jr z, .noCatchLegendary         ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchLegendary
     call PrintText
 .noCatchLegendary
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $40                         ; look at bit 7
+    and $40                         ; look at bit 6
     jr z, .noGiftMon                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoGiftMon
     call PrintText
 .noGiftMon
 
     ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $80                         ; look at bit 8
+    and $80                         ; look at bit 7
     jr z, .noTrade                  ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrade
     call PrintText

@@ -897,12 +897,12 @@ FaintEnemyPokemon:
     jr z, .wildbattle
 
     ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
-    and $2                          ; only look at the second bit
+    and $2                          ; only look at bit 1
     ret nz
     jr .continue
 .wildbattle
     ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
-    and $4                          ; only look at the third bit
+    and $4                          ; only look at bit 2
     ret nz
 .continue
 	xor a
