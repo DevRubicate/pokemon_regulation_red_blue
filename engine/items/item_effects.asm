@@ -2246,13 +2246,13 @@ UseCustomHM:
     cp HM_CUT
     jp z, UsedCutCustom
     cp HM_FLY
-    jp z, ItemUseSurfboard
+    jp z, UsedFlyCustom  ; check if it works
     cp HM_SURF
-    jp z, ItemUseSurfboard
+    jp z, UsedSurfCustom    ; check if it works
     cp HM_STRENGTH
-    jp z, ItemUseSurfboard
+    jp z, UsedStrengthCustom  ; check if it works
     cp HM_FLASH
-    jp z, ItemUseSurfboard
+    jp z, UsedFlashCustom ; check if it works
     ret
 
 ItemUseTMHM:
@@ -3097,6 +3097,10 @@ CheckMapForMon:
 
 
 UsedCutCustom:
+    ld a, wObtainedBadges
+    bit BIT_CASCADEBADGE, a
+    jp z, BadgeRequiredCustom
+
     xor a
     ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
     ld a, [wCurMapTileset]
@@ -3125,16 +3129,16 @@ UsedCutCustom:
 
 .canCut
     ld [wCutTile], a
-    ld hl, UsedCutTextCustom
+    ld hl, .usedCutTextCustom
     call PrintText
     call LoadScreenTilesFromBuffer2
     ld hl, wd730
     res 6, [hl]
     ld a, $ff
     ld [wUpdateSpritesEnabled], a
-    call InitCutAnimOAMCustom
-    ld de, CutTreeBlockSwapsCustom
-    call ReplaceTreeTileBlockCustom
+    call .initCutAnimOAMCustom
+    ld de, .cutTreeBlockSwapsCustom
+    call .replaceTreeTileBlockCustom
     call RedrawMapView
     farcall AnimCut
     ld a, $1
@@ -3145,11 +3149,11 @@ UsedCutCustom:
     jp RedrawMapView
 
 
-UsedCutTextCustom:
+.usedCutTextCustom
     text_far _UsedCutCustomText
     text_end
 
-InitCutAnimOAMCustom:
+.initCutAnimOAMCustom
     xor a
     ld [wWhichAnimationOffsets], a
     ld a, %11100100
@@ -3166,17 +3170,17 @@ InitCutAnimOAMCustom:
     ld hl, vChars1 tile $7e
     lb bc, BANK(Overworld_GFX), 2
     call CopyVideoData
-    jr WriteCutOrBoulderDustAnimationOAMBlockCustom
+    jr .writeCutOrBoulderDustAnimationOAMBlockCustom
 .grass
     ld hl, vChars1 tile $7c
-    call LoadCutGrassAnimationTilePatternCustom
+    call .loadCutGrassAnimationTilePatternCustom
     ld hl, vChars1 tile $7d
-    call LoadCutGrassAnimationTilePatternCustom
+    call .loadCutGrassAnimationTilePatternCustom
     ld hl, vChars1 tile $7e
-    call LoadCutGrassAnimationTilePatternCustom
+    call .loadCutGrassAnimationTilePatternCustom
     ld hl, vChars1 tile $7f
-    call LoadCutGrassAnimationTilePatternCustom
-    call WriteCutOrBoulderDustAnimationOAMBlockCustom
+    call .loadCutGrassAnimationTilePatternCustom
+    call .writeCutOrBoulderDustAnimationOAMBlockCustom
     ld hl, wOAMBuffer + $93
     ld de, 4
     ld a, $30
@@ -3189,22 +3193,22 @@ InitCutAnimOAMCustom:
     jr nz, .loop
     ret
 
-LoadCutGrassAnimationTilePatternCustom:
+.loadCutGrassAnimationTilePatternCustom
     ld de, AnimationTileset2 tile 6 ; tile depicting a leaf
     lb bc, BANK(AnimationTileset2), 1
     jp CopyVideoData
 
-WriteCutOrBoulderDustAnimationOAMBlockCustom:
-    call GetCutOrBoulderDustAnimationOffsetsCustom
+.writeCutOrBoulderDustAnimationOAMBlockCustom
+    call .getCutOrBoulderDustAnimationOffsetsCustom
     ld a, $9
-    ld de, CutOrBoulderDustAnimationTilesAndAttributesCustom
+    ld de, .cutOrBoulderDustAnimationTilesAndAttributesCustom
     jp WriteOAMBlock
 
-CutOrBoulderDustAnimationTilesAndAttributesCustom:
+.cutOrBoulderDustAnimationTilesAndAttributesCustom
     dbsprite  2, -1,  0,  4, $fd, OAM_OBP1
     dbsprite  2, -1,  0,  6, $ff, OAM_OBP1
 
-GetCutOrBoulderDustAnimationOffsetsCustom:
+.getCutOrBoulderDustAnimationOffsetsCustom
     ld hl, wSpritePlayerStateData1YPixels
     ld a, [hli] ; player's sprite screen Y position
     ld b, a
@@ -3219,9 +3223,9 @@ GetCutOrBoulderDustAnimationOffsetsCustom:
     ld d, $0 ; de holds direction (00: down, 02: up, 04: left, 06: right)
     ld a, [wWhichAnimationOffsets]
     and a
-    ld hl, CutAnimationOffsetsCustom
+    ld hl, .cutAnimationOffsetsCustom
     jr z, .next
-    ld hl, BoulderDustAnimationOffsetsCustom
+    ld hl, .boulderDustAnimationOffsetsCustom
 .next
     add hl, de
     ld e, [hl]
@@ -3235,14 +3239,14 @@ GetCutOrBoulderDustAnimationOffsetsCustom:
     ld c, a
     ret
 
-CutAnimationOffsetsCustom:
+.cutAnimationOffsetsCustom
 ; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
     db  8, 36 ; player is facing down
     db  8,  4 ; player is facing up
     db -8, 20 ; player is facing left
     db 24, 20 ; player is facing right
 
-BoulderDustAnimationOffsetsCustom:
+.boulderDustAnimationOffsetsCustom
 ; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
 ; These offsets represent 2 blocks away from the player
     db  8,  52 ; player is facing down
@@ -3250,7 +3254,7 @@ BoulderDustAnimationOffsetsCustom:
     db -24, 20 ; player is facing left
     db 40,  20 ; player is facing right
 
-ReplaceTreeTileBlockCustom:
+.replaceTreeTileBlockCustom
 ; Determine the address of the tile block that contains the tile in front of the
 ; player (i.e. where the tree is) and replace it with the corresponding tile
 ; block that doesn't have the tree.
@@ -3299,34 +3303,34 @@ ReplaceTreeTileBlockCustom:
 .aboveCenter
     ld e, $2
     add hl, de
-    jr .next
+    jr .next2
 .leftOfCenter
     ld e, $1
     add hl, bc
     add hl, de
-    jr .next
+    jr .next2
 .rightOfCenter
     ld e, $3
     add hl, bc
     add hl, de
-.next
+.next2
     pop de
     ld a, [hl]
     ld c, a
-.loop ; find the matching tile block in the array
+.loop2 ; find the matching tile block in the array
     ld a, [de]
     inc de
     inc de
     cp $ff
     ret z
     cp c
-    jr nz, .loop
+    jr nz, .loop2
     dec de
     ld a, [de] ; replacement tile block from matching array entry
     ld [hl], a
     ret
 
-CutTreeBlockSwapsCustom:
+.cutTreeBlockSwapsCustom
     ; first byte = tileset block containing the cut tree
     ; second byte = corresponding tileset block after the cut animation happens
     db $32, $6D
@@ -3339,3 +3343,50 @@ CutTreeBlockSwapsCustom:
     db $3F, $35
     db $3D, $36
     db -1 ; end
+
+UsedFlyCustom:
+    ld a, wObtainedBadges
+    bit BIT_THUNDERBADGE, a
+    jp z, BadgeRequiredCustom
+    call ChooseFlyDestination
+    ret
+
+UsedSurfCustom:
+    ld a, wObtainedBadges
+    bit BIT_SOULBADGE, a
+    jp z, BadgeRequiredCustom
+    call ItemUseSurfboard
+    ret
+
+UsedStrengthCustom:
+    ld a, wObtainedBadges
+    bit BIT_RAINBOWBADGE, a
+    jp z, BadgeRequiredCustom
+    ld hl, wd728
+    set 0, [hl]
+    ld hl, UsedStrengthText
+    call PrintText
+    ld hl, CanMoveBouldersText
+    jp PrintText
+    ret
+
+UsedFlashCustom:
+    ld a, wObtainedBadges
+    bit BIT_BOULDERBADGE, a
+    jp z, BadgeRequiredCustom
+    xor a
+    ld [wMapPalOffset], a
+    ld hl, .flashLightsAreaText
+    call PrintText
+    call GBPalWhiteOutWithDelay3
+    ret
+.flashLightsAreaText
+    text_far _FlashLightsAreaText
+    text_end
+
+BadgeRequiredCustom:
+    ld hl, .newBadgeRequiredText
+    jp PrintText
+.newBadgeRequiredText
+    text_far _NewBadgeRequiredText
+    text_end

@@ -2835,6 +2835,32 @@ wWalkBikeSurfState::
 ; $01 = biking
 ; $02 = surfing
 	ds 1
+
+
+; byte 0: Starter Pokemon
+; byte 1: Starter Pokemon
+; byte 2: Difficulty
+; byte 3: Monotype challenge (TODO: monotype challenge bits for multi-runs)
+; byte 4:
+;           0: Pokemon can't evolve
+;           1: No exp from trainer battles
+;           2: No exp from wild pokemon
+;           3: No random wild encounters
+;           4: Can't catch wild pokemon
+;           5: Can't catch legendary pokemon
+;           6: Can't get gift pokemon
+;           7: Can't trade pokemon
+; byte 5:
+;           0: No restorative items in battle
+;           1: No restorative items outside battle
+;           2: No combat items
+;           3: No marts or vending machine
+;           4: HMs are used directly (WIP)
+;           5: TMs can't be taught (TODO)
+;           6:
+;           7:
+
+
 wCustomPokemonCode::
 	ds 10
 
