@@ -266,7 +266,29 @@ OverwriteMovesCustom:
     jr z, .skipMove1                ; if the move value is 0 then skip
     cp $FF                          ; $FF means we want this move deleted
     jr nz, .writeMove1              ; if it wasn't $FF then write the move value
-    ld a, 0                         ; if it was $FF then use the value 0 (no move)
+
+    inc de                          ; Point to move 2
+    ld a, [de]                      ; Read move 2
+    dec de                          ; Point to move 1
+    ld [de], a                      ; Write move 1
+    inc de
+    inc de                          ; Point to move 3
+    ld a, [de]                      ; Read move 3
+    dec de                          ; Point to move 2
+    ld [de], a                      ; Write move 2
+    inc de
+    inc de                          ; Point to move 4
+    ld a, [de]                      ; Read move 4
+    dec de                          ; Point to move 3
+    ld [de], a                      ; Write move 3
+    inc de                          ; Point to move 4
+    ld a, 0
+    ld [de], a                      ; Write move 4 (empty)
+    dec de
+    dec de
+    dec de                          ; Point to move 1
+    jr .skipMove1
+
 .writeMove1
     ld [de], a                      ; write this move into the pokemon
 .skipMove1
@@ -277,7 +299,23 @@ OverwriteMovesCustom:
     jr z, .skipMove2
     cp $FF
     jr nz, .writeMove2
+
+    inc de                          ; Point to move 3
+    ld a, [de]                      ; Read move 3
+    dec de                          ; Point to move 2
+    ld [de], a                      ; Write move 2
+    inc de
+    inc de                          ; Point to move 4
+    ld a, [de]                      ; Read move 4
+    dec de                          ; Point to move 3
+    ld [de], a                      ; Write move 3
+    inc de                          ; Point to move 4
     ld a, 0
+    ld [de], a                      ; Write move 4 (empty)
+    dec de
+    dec de                          ; Point to move 2
+    jr .skipMove2
+
 .writeMove2
     ld [de], a
 .skipMove2
@@ -288,7 +326,17 @@ OverwriteMovesCustom:
     jr z, .skipMove3
     cp $FF
     jr nz, .writeMove3
+
+    inc de                          ; Point to move 4
+    ld a, [de]                      ; Read move 4
+    dec de                          ; Point to move 3
+    ld [de], a                      ; Write move 3
+    inc de                          ; Point to move 4
     ld a, 0
+    ld [de], a                      ; Write move 4 (empty)
+    dec de                          ; Point to move 3
+    jr .skipMove3
+
 .writeMove3
     ld [de], a
 .skipMove3
