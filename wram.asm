@@ -2840,11 +2840,10 @@ wWalkBikeSurfState::
 	ds 1
 
 
-; byte 0h - Starter Pokemon
-; byte 0l - Starter Pokemon
+; byte 0 - Starter Pokemon
 ; byte 1h - Difficulty
 ; byte 1l - Monotype challenge
-; byte 2:
+; byte 2
 ;           0: Pokemon can't evolve
 ;           1: No exp from trainer battles
 ;           2: No exp from wild pokemon
@@ -2853,7 +2852,7 @@ wWalkBikeSurfState::
 ;           5: Can't catch legendary pokemon
 ;           6: Can't get gift pokemon
 ;           7: Can't trade pokemon
-; byte 3:
+; byte 3
 ;           0: No restorative items in combat
 ;           1: No restorative items outside battle
 ;           2: No battle items
@@ -2862,10 +2861,10 @@ wWalkBikeSurfState::
 ;           5: TMs can't be taught
 ;           6:
 ;           7:
-
-
-
-
+; byte 4 - Starter pokemon move 1
+; byte 5 - Starter pokemon move 2
+; byte 6 - Starter pokemon move 3
+; byte 7 - Starter pokemon move 4
 wCustomPokemonCode::
 	ds 10
 

@@ -259,25 +259,47 @@ _AddPartyMon::
 	ret
 
 OverwriteMovesCustom:
-    ld a, 2
-    ld [wMonHMoves], a
-    ld [wMonHMoves+1], a
-    ld [wMonHMoves+2], a
-    ld [wMonHMoves+3], a
 
-    ld hl, wMonHMoves
-    ld a, [hli]
+    inc de                          ; pointer to the first move
+    ld a, [wCustomPokemonCode+4]    ; load the first custom move
+    jr z, .skipMove1                ; if the move value is 0 then skip
+    cp $FF                          ; $FF means we want this move deleted
+    jr nz, .writeMove1              ; if it wasn't $FF then write the move value
+    ld a, 0                         ; if it was $FF then use the value 0 (no move)
+.writeMove1
+    ld [de], a                      ; write this move into the pokemon
+.skipMove1
+
     inc de
+    ld a, [wCustomPokemonCode+5]
+    jr z, .skipMove2
+    cp $FF
+    jr nz, .writeMove2
+    ld a, 0
+.writeMove2
     ld [de], a
-    ld a, [hli]
+.skipMove2
+
     inc de
+    ld a, [wCustomPokemonCode+6]
+    jr z, .skipMove3
+    cp $FF
+    jr nz, .writeMove3
+    ld a, 0
+.writeMove3
     ld [de], a
-    ld a, [hli]
+.skipMove3
+
     inc de
+    ld a, [wCustomPokemonCode+7]
+    jr z, .skipMove4
+    cp $FF
+    jr nz, .writeMove4
+    ld a, 0
+.writeMove4
     ld [de], a
-    ld a, [hli]
-    inc de
-    ld [de], a
+.skipMove4
+
     ret
 
 
