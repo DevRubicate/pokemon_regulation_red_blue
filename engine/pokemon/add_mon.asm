@@ -262,6 +262,7 @@ OverwriteMovesCustom:
 
     inc de                          ; pointer to the first move
     ld a, [wCustomPokemonCode+4]    ; load the first custom move
+    or a
     jr z, .skipMove1                ; if the move value is 0 then skip
     cp $FF                          ; $FF means we want this move deleted
     jr nz, .writeMove1              ; if it wasn't $FF then write the move value
@@ -272,6 +273,7 @@ OverwriteMovesCustom:
 
     inc de
     ld a, [wCustomPokemonCode+5]
+    or a
     jr z, .skipMove2
     cp $FF
     jr nz, .writeMove2
@@ -282,6 +284,7 @@ OverwriteMovesCustom:
 
     inc de
     ld a, [wCustomPokemonCode+6]
+    or a
     jr z, .skipMove3
     cp $FF
     jr nz, .writeMove3
@@ -292,6 +295,7 @@ OverwriteMovesCustom:
 
     inc de
     ld a, [wCustomPokemonCode+7]
+    or a
     jr z, .skipMove4
     cp $FF
     jr nz, .writeMove4
