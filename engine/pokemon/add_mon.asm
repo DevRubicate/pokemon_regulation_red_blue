@@ -286,7 +286,8 @@ OverwriteMovesCustom:
     ld [de], a                      ; Write move 4 (empty)
     dec de
     dec de
-    dec de                          ; Point to move 1
+    dec de
+    dec de                          ; Point to move 0 (so next is move 1)
     jr .skipMove1
 
 .writeMove1
@@ -313,7 +314,8 @@ OverwriteMovesCustom:
     ld a, 0
     ld [de], a                      ; Write move 4 (empty)
     dec de
-    dec de                          ; Point to move 2
+    dec de
+    dec de                          ; Point to move 1 (so next is move 2)
     jr .skipMove2
 
 .writeMove2
@@ -334,7 +336,8 @@ OverwriteMovesCustom:
     inc de                          ; Point to move 4
     ld a, 0
     ld [de], a                      ; Write move 4 (empty)
-    dec de                          ; Point to move 3
+    dec de
+    dec de                          ; Point to move 2 (so next is move 3)
     jr .skipMove3
 
 .writeMove3
