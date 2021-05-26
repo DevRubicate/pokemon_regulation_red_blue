@@ -406,7 +406,7 @@ StartMenu_Item::
 	jp z, ItemMenuLoop
 	jp CloseStartMenu
 .useItem_partyMenu
-    ld a, [wCustomPokemonCode+3]    ; load the HM item rule
+    ld a, [wCustomPokemonCode+3]    ; load the direct HM item rule
     bit 4, a
     jr z, .normalUse                ; If rule isn't set, use HM normally
     ld a, [wcf91]

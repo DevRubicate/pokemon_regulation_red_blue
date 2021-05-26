@@ -32,3 +32,9 @@ _DayCareNotEnoughMoneyText::
 	text "Hey, you don't"
 	line "have enough ¥!"
 	done
+
+_DayCareRefuse::
+    text "Oak told me not"
+    line "to let you use"
+    cont "the daycare!"
+    done

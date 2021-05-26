@@ -7,6 +7,9 @@ Daycare_TextPointers:
 DayCareMText1:
 	text_asm
 	call SaveScreenTilesToBuffer2
+    ld a, [wCustomPokemonCode+3]    ; load the daycare rule
+    bit 7, a
+    jp nz, .daycareNotAllowed       ; Jump to daycareNotAllowed
 	ld a, [wDayCareInUse]
 	and a
 	jp nz, .daycareInUse
@@ -57,6 +60,10 @@ DayCareMText1:
 	call PlayCry
 	ld hl, DayCareComeSeeMeInAWhileText
 	jp .done
+
+.daycareNotAllowed
+    ld hl, DayCareRefuse
+    jp .done
 
 .daycareInUse
 	xor a
@@ -178,9 +185,13 @@ DayCareMText1:
 	call AddNTimes
 	ld d, h
 	ld e, l
+    ld a, [wCustomPokemonCode+3]    ; load the no moves from leveling rule
+    bit 6, a
+    jr nz, .skipLearningMoves
 	ld a, 1
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
+.skipLearningMoves
 	pop bc
 	pop af
 
@@ -267,3 +278,7 @@ DayCareHeresYourMonText:
 DayCareNotEnoughMoneyText:
 	text_far _DayCareNotEnoughMoneyText
 	text_end
+
+DayCareRefuse:
+    text_far _DayCareRefuse
+    text_end

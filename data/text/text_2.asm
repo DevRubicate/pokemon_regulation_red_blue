@@ -1772,6 +1772,46 @@ _OakSpeechRuleStart::
     line "these rules:"
     prompt
 
+_OakSpeechRuleCustomStarter::
+    text "Starter #MON"
+    line "is @"
+    text_ram wcd6d
+    text "."
+    prompt
+
+_OakSpeechRuleCustomMove1::
+    text "Starter #MON"
+    line "first move is"
+    cont "@"
+    text_ram wcd6d
+    text "."
+    prompt
+
+_OakSpeechRuleCustomMove2::
+    text "Starter #MON"
+    line "second move is"
+    cont "@"
+    text_ram wcd6d
+    text "."
+    prompt
+
+_OakSpeechRuleCustomMove3::
+    text "Starter #MON"
+    line "third move is"
+    cont "@"
+    text_ram wcd6d
+    text "."
+    prompt
+
+_OakSpeechRuleCustomMove4::
+    text "Starter #MON"
+    line "fourth move is"
+    cont "@"
+    text_ram wcd6d
+    text "."
+    prompt
+
+
 _OakSpeechRuleDifficulty::
     text "Trainer #MON"
     line "are @"
@@ -1857,9 +1897,21 @@ _OakSpeechRuleNoDirectHM::
     line "directly."
     prompt
 
-_OakSpeechRuleNoTM::
-    text "TMs cannot be"
-    line "used."
+_OakSpeechRuleNoTMandHM::
+    text "TMs and HMs cannot"
+    line "be used to teach"
+    cont "#MON new moves."
+    prompt
+
+_OakSpeechRuleLevelMoves::
+    text "Your #MON do"
+    line "not learn moves"
+    cont "from leveling."
+    prompt
+
+_OakSpeechRuleNoDaycare::
+    text "You cannot use"
+    line "the daycare."
     prompt
 
 _RefuseToTrade::
@@ -1904,3 +1956,40 @@ _TextIDErrorText::
 _ContCharText::
 	text "<_CONT>@"
 	text_end
+
+_MoveDeleted::
+    db "deleted@"
+
+_DifficultyLabels::
+    db "25@@"
+    db "50@@"
+    db "75@@"
+    db "100@"
+    db "125@"
+    db "150@"
+    db "175@"
+    db "200@"
+    db "225@"
+    db "250@"
+    db "275@"
+    db "300@"
+    db "325@"
+    db "350@"
+    db "375@"
+
+_MonotypeLabels::
+    db "NORMAL@@@"
+    db "FIGHTING@"
+    db "FLYING@@@"
+    db "POISON@@@"
+    db "GROUND@@@"
+    db "ROCK@@@@@"
+    db "BUG@@@@@@"
+    db "GHOST@@@@"
+    db "FIRE@@@@@"
+    db "WATER@@@@"
+    db "GRASS@@@@"
+    db "ELECTRIC@"
+    db "PSYCHIC@@"
+    db "ICE@@@@@@"
+    db "DRAGON@@@"

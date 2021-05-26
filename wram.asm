@@ -348,6 +348,8 @@ wMenuWatchMovingOutOfBounds::
 wTradeCenterPointerTableIndex::
 	ds 1
 
+wAddedMonStarter::
+; If non-zero, the added pokemon is your starter
 	ds 1
 
 wTextDest::
@@ -2859,12 +2861,22 @@ wWalkBikeSurfState::
 ;           3: No marts or vending machine
 ;           4: HMs are used directly
 ;           5: TMs can't be taught
+;           6: No moves from leveling up
+;           7: No daycare
+; byte 4
+;           0:
+;           1:
+;           2:
+;           3:
+;           4:
+;           5:
 ;           6:
 ;           7:
-; byte 4 - Starter pokemon move 1
-; byte 5 - Starter pokemon move 2
-; byte 6 - Starter pokemon move 3
-; byte 7 - Starter pokemon move 4
+;
+; byte 5 - Starter pokemon move 1
+; byte 6 - Starter pokemon move 2
+; byte 7 - Starter pokemon move 3
+; byte 8 - Starter pokemon move 4
 wCustomPokemonCode::
 	ds 10
 

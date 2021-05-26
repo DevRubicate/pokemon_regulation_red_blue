@@ -190,8 +190,9 @@ _MonCannotLearnMachineMoveText::
 _MachineMoveForbiddenText::
     text "OAK: <PLAYER>!"
     line "You may not use"
-    cont "TMs according"
-    cont "to the rules!"
+    cont "TMs and HMs"
+    cont "according to"
+    cont "the rules!"
     prompt
 
 _CatchingNotAllowedText::

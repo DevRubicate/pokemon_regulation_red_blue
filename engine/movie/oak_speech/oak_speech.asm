@@ -100,165 +100,7 @@ OakSpeech:
 	call PrintText
 	call ChooseRivalName
 .skipChoosingNames
-    ld a, [wCustomPokemonCode]
-    ld hl, wCustomPokemonCode+1
-    or [hl]
-    ld hl, wCustomPokemonCode+2
-    or [hl]
-    ld hl, wCustomPokemonCode+3
-    or [hl]
-    ld hl, wCustomPokemonCode+4
-    or [hl]
-    ld hl, wCustomPokemonCode+5
-    or [hl]
-    ld hl, wCustomPokemonCode+6
-    or [hl]
-    ld hl, wCustomPokemonCode+7
-    or [hl]
-    ld hl, wCustomPokemonCode+8
-    or [hl]
-    ld hl, wCustomPokemonCode+9
-    or [hl]
-    jp z, .noCustomRules            ; skip rules dialog if every rule is 0
-
-    call GBFadeOutToWhite
-    call ClearScreen
-    ld de, ProfOakPic
-    lb bc, BANK(ProfOakPic), $00
-    call IntroDisplayPicCenteredOrUpperRight
-    call FadeInIntroPic
-    ld hl, OakSpeechRuleStart
-    call PrintText
-
-    ld a, [wCustomPokemonCode+1]    ; load the difficulty rule
-    srl a                           ; shift right
-    srl a                           ; shift right
-    srl a                           ; shift right
-    srl a                           ; shift right (upper nibble is now lower nibble)
-    jr z, .noDifficulty             ; skip text if there is no difficulty
-    dec a                           ; decrease by 1 for the table lookup
-    ld hl, DifficultyLabels
-    ld bc, 4
-    call AddNTimes
-    ld de, wcd6d
-    call CopyData
-    ld hl, OakSpeechRuleDifficulty
-    call PrintText
-.noDifficulty
-
-    ld a, [wCustomPokemonCode+1]    ; load the monotype rule
-    and $f                          ; remove the upper 4 bits
-    jr z, .noMonotype               ; skip text if there is no monotype rule
-    dec a                           ; decrease by 1 for the table lookup
-    ld hl, MonotypeLabels
-    ld bc, 9
-    call AddNTimes
-    ld de, wcd6d
-    call CopyData
-    ld hl, OakSpeechRuleMonotype
-    call PrintText
-.noMonotype
-
-    ld a, [wCustomPokemonCode+2]    ; load the no evolve rule
-    bit 0, a
-    jr z, .noEvolve                 ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoEvolve
-    call PrintText
-.noEvolve
-
-    ld a, [wCustomPokemonCode+2]    ; load the no trainer exp rule
-    bit 1, a
-    jr z, .noTrainerExp             ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoTrainerExp
-    call PrintText
-.noTrainerExp
-
-    ld a, [wCustomPokemonCode+2]    ; load the no wild exp rule
-    bit 2, a
-    jr z, .noWildExp                ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoWildExp
-    call PrintText
-.noWildExp
-
-    ld a, [wCustomPokemonCode+2]    ; load the no wild encounters rule
-    bit 3, a
-    jr z, .noWildMon                ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoWild
-    call PrintText
-.noWildMon
-
-    ld a, [wCustomPokemonCode+2]    ; load the no catch wild rule
-    bit 4, a
-    jr z, .noCatchWild              ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoCatchWild
-    call PrintText
-.noCatchWild
-
-    ld a, [wCustomPokemonCode+2]    ; load the no catch legendary rule
-    bit 5, a
-    jr z, .noCatchLegendary         ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoCatchLegendary
-    call PrintText
-.noCatchLegendary
-
-    ld a, [wCustomPokemonCode+2]    ; load the no gift pokemon rule
-    bit 6, a
-    jr z, .noGiftMon                ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoGiftMon
-    call PrintText
-.noGiftMon
-
-    ld a, [wCustomPokemonCode+2]    ; load the no trade pokemon rule
-    bit 7, a
-    jr z, .noTrade                  ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoTrade
-    call PrintText
-.noTrade
-
-    ld a, [wCustomPokemonCode+3]    ; load the no restorative item combat rule
-    bit 0, a
-    jr z, .noRestorativeItemCombat      ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoRestorativeItemCombat
-    call PrintText
-.noRestorativeItemCombat
-
-    ld a, [wCustomPokemonCode+3]    ; load the no restorative item noncombat rule
-    bit 0, a
-    jr z, .noRestorativeItemNonCombat   ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoRestorativeItemNonCombat
-    call PrintText
-.noRestorativeItemNonCombat
-
-    ld a, [wCustomPokemonCode+3]    ; load the no battle item combat rule
-    bit 0, a
-    jr z, .noBattleItem             ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoBattleItem
-    call PrintText
-.noBattleItem
-
-    ld a, [wCustomPokemonCode+3]    ; load the no shopping rule
-    bit 0, a
-    jr z, .noShopping               ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoShopping
-    call PrintText
-.noShopping
-
-    ld a, [wCustomPokemonCode+3]    ; load the direct HM rule
-    bit 0, a
-    jr z, .noDirectHM               ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoDirectHM
-    call PrintText
-.noDirectHM
-
-    ld a, [wCustomPokemonCode+3]    ; load the no TM rule
-    bit 0, a
-    jr z, .noTM                     ; skip text if there is no rule
-    ld hl, OakSpeechRuleNoTM
-    call PrintText
-.noTM
-
-
-.noCustomRules
+    call OakExplainRules
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld de, RedPicFront
@@ -339,6 +181,21 @@ OakSpeechText3:
 OakSpeechRuleStart:
     text_far _OakSpeechRuleStart
     text_end
+OakSpeechRuleCustomStarter:
+    text_far _OakSpeechRuleCustomStarter
+    text_end
+OakSpeechRuleCustomMove1:
+    text_far _OakSpeechRuleCustomMove1
+    text_end
+OakSpeechRuleCustomMove2:
+    text_far _OakSpeechRuleCustomMove2
+    text_end
+OakSpeechRuleCustomMove3:
+    text_far _OakSpeechRuleCustomMove3
+    text_end
+OakSpeechRuleCustomMove4:
+    text_far _OakSpeechRuleCustomMove4
+    text_end
 OakSpeechRuleDifficulty:
     text_far _OakSpeechRuleDifficulty
     text_end
@@ -384,12 +241,90 @@ OakSpeechRuleNoShopping:
 OakSpeechRuleNoDirectHM:
     text_far _OakSpeechRuleNoDirectHM
     text_end
-OakSpeechRuleNoTM:
-    text_far _OakSpeechRuleNoTM
+OakSpeechRuleNoTMandHM:
+    text_far _OakSpeechRuleNoTMandHM
+    text_end
+OakSpeechRuleNoLevelMoves:
+    text_far _OakSpeechRuleLevelMoves
+    text_end
+OakSpeechRuleNoDaycare:
+    text_far _OakSpeechRuleNoDaycare
     text_end
 
+ChooseCode:
+    ld hl, wCustomPokemonCode
+    ld a, NAME_CODE_SCREEN
+    ld [wNamingScreenType], a
+    call DisplayNamingScreen
+    call ClearScreen
+    call Delay3
+    ret
 
+ChoosePlayerName:
+    call OakSpeechSlidePicRight
+    ld de, DefaultNamesPlayer
+    call DisplayIntroNameTextBox
+    ld a, [wCurrentMenuItem]
+    and a
+    jr z, .customName
+    ld hl, DefaultNamesPlayerList
+    call GetDefaultName
+    ld de, wPlayerName
+    call OakSpeechSlidePicLeft
+    jr .done
+.customName
+    ld hl, wPlayerName
+    xor a ; NAME_PLAYER_SCREEN
+    ld [wNamingScreenType], a
+    call DisplayNamingScreen
+    ld a, [wcf4b]
+    cp "@"
+    jr z, .customName
+    call ClearScreen
+    call Delay3
+    ld de, RedPicFront
+    ld b, BANK(RedPicFront)
+    call IntroDisplayPicCenteredOrUpperRight
+.done
+    ld hl, YourNameIsText
+    jp PrintText
 
+YourNameIsText:
+    text_far _YourNameIsText
+    text_end
+
+ChooseRivalName:
+    call OakSpeechSlidePicRight
+    ld de, DefaultNamesRival
+    call DisplayIntroNameTextBox
+    ld a, [wCurrentMenuItem]
+    and a
+    jr z, .customName
+    ld hl, DefaultNamesRivalList
+    call GetDefaultName
+    ld de, wRivalName
+    call OakSpeechSlidePicLeft
+    jr .done
+.customName
+    ld hl, wRivalName
+    ld a, NAME_RIVAL_SCREEN
+    ld [wNamingScreenType], a
+    call DisplayNamingScreen
+    ld a, [wcf4b]
+    cp "@"
+    jr z, .customName
+    call ClearScreen
+    call Delay3
+    ld de, Rival1Pic
+    ld b, $13
+    call IntroDisplayPicCenteredOrUpperRight
+.done
+    ld hl, HisNameIsText
+    jp PrintText
+
+HisNameIsText:
+    text_far _HisNameIsText
+    text_end
 
 
 FadeInIntroPic:
@@ -454,36 +389,159 @@ IntroDisplayPicCenteredOrUpperRight:
 	ldh [hStartTileID], a
 	predef_jump CopyUncompressedPicToTilemap
 
-DifficultyLabels:
-    db "25@@"
-    db "50@@"
-    db "75@@"
-    db "100@"
-    db "125@"
-    db "150@"
-    db "175@"
-    db "200@"
-    db "225@"
-    db "250@"
-    db "275@"
-    db "300@"
-    db "325@"
-    db "350@"
-    db "375@"
 
-MonotypeLabels:
-    db "NORMAL@@@"
-    db "FIGHTING@"
-    db "FLYING@@@"
-    db "POISON@@@"
-    db "GROUND@@@"
-    db "ROCK@@@@@"
-    db "BUG@@@@@@"
-    db "GHOST@@@@"
-    db "FIRE@@@@@"
-    db "WATER@@@@"
-    db "GRASS@@@@"
-    db "ELECTRIC@"
-    db "PSYCHIC@@"
-    db "ICE@@@@@@"
-    db "DRAGON@@@"
+
+
+OakSpeechSlidePicLeft:
+    push de
+    hlcoord 0, 0
+    lb bc, 12, 11
+    call ClearScreenArea ; clear the name list text box
+    ld c, 10
+    call DelayFrames
+    pop de
+    ld hl, wcd6d
+    ld bc, NAME_LENGTH
+    call CopyData
+    call Delay3
+    hlcoord 12, 4
+    lb de, 6, 6 * SCREEN_WIDTH + 5
+    ld a, $ff
+    jr OakSpeechSlidePicCommon
+
+OakSpeechSlidePicRight:
+    hlcoord 5, 4
+    lb de, 6, 6 * SCREEN_WIDTH + 5
+    xor a
+
+OakSpeechSlidePicCommon:
+    push hl
+    push de
+    push bc
+    ldh [hSlideDirection], a
+    ld a, d
+    ldh [hSlideAmount], a
+    ld a, e
+    ldh [hSlidingRegionSize], a
+    ld c, a
+    ldh a, [hSlideDirection]
+    and a
+    jr nz, .next
+; If sliding right, point hl to the end of the pic's tiles.
+    ld d, 0
+    add hl, de
+.next
+    ld d, h
+    ld e, l
+.loop
+    xor a
+    ldh [hAutoBGTransferEnabled], a
+    ldh a, [hSlideDirection]
+    and a
+    jr nz, .slideLeft
+; sliding right
+    ld a, [hli]
+    ld [hld], a
+    dec hl
+    jr .next2
+.slideLeft
+    ld a, [hld]
+    ld [hli], a
+    inc hl
+.next2
+    dec c
+    jr nz, .loop
+    ldh a, [hSlideDirection]
+    and a
+    jr z, .next3
+; If sliding left, we need to zero the last tile in the pic (there is no need
+; to take a corresponding action when sliding right because hl initially points
+; to a 0 tile in that case).
+    xor a
+    dec hl
+    ld [hl], a
+.next3
+    ld a, 1
+    ldh [hAutoBGTransferEnabled], a
+    call Delay3
+    ldh a, [hSlidingRegionSize]
+    ld c, a
+    ld h, d
+    ld l, e
+    ldh a, [hSlideDirection]
+    and a
+    jr nz, .slideLeft2
+    inc hl
+    jr .next4
+.slideLeft2
+    dec hl
+.next4
+    ld d, h
+    ld e, l
+    ldh a, [hSlideAmount]
+    dec a
+    ldh [hSlideAmount], a
+    jr nz, .loop
+    pop bc
+    pop de
+    pop hl
+    ret
+
+DisplayIntroNameTextBox:
+    push de
+    hlcoord 0, 0
+    ld b, $a
+    ld c, $9
+    call TextBoxBorder
+    hlcoord 3, 0
+    ld de, .namestring
+    call PlaceString
+    pop de
+    hlcoord 2, 2
+    call PlaceString
+    call UpdateSprites
+    xor a
+    ld [wCurrentMenuItem], a
+    ld [wLastMenuItem], a
+    inc a
+    ld [wTopMenuItemX], a
+    ld [wMenuWatchedKeys], a ; A_BUTTON
+    inc a
+    ld [wTopMenuItemY], a
+    inc a
+    ld [wMaxMenuItem], a
+    jp HandleMenuInput
+
+.namestring
+    db "NAME@"
+
+INCLUDE "data/player_names.asm"
+
+GetDefaultName:
+; a = name index
+; hl = name list
+    ld b, a
+    ld c, 0
+.loop
+    ld d, h
+    ld e, l
+.innerLoop
+    ld a, [hli]
+    cp "@"
+    jr nz, .innerLoop
+    ld a, b
+    cp c
+    jr z, .foundName
+    inc c
+    jr .loop
+.foundName
+    ld h, d
+    ld l, e
+    ld de, wcd6d
+    ld bc, NAME_BUFFER_LENGTH
+    jp CopyData
+
+INCLUDE "data/player_names_list.asm"
+
+LinkMenuEmptyText:
+    text_end

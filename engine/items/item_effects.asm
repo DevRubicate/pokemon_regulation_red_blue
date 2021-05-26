@@ -2257,7 +2257,7 @@ ItemUseTMHM:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
-    ld a, [wCustomPokemonCode+3]    ; load the HM item rule
+    ld a, [wCustomPokemonCode+3]    ; load the direct HM item rule
     bit 4, a
     jr z, .normalUse                ; If rule isn't set, use HM normally
 
@@ -2302,18 +2302,12 @@ ItemUseTMHM:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .useMachine
-    ld a, [wCustomPokemonCode+3]    ; load the TM item rule
+    ld a, [wCustomPokemonCode+3]    ; load the TM and HM item rule
     bit 5, a
     jr z, .continue                ; If rule isn't set, use TM normally
-
-
     ld hl, MachineMoveForbiddenText
     jp PrintText
-
-
-
 .continue
-
 	ld a, [wWhichPokemon]
 	push af
 	ld a, [wcf91]

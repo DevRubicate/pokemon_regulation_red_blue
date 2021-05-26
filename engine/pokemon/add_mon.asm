@@ -198,11 +198,18 @@ _AddPartyMon::
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
 
+
+    ld a, [wAddedMonStarter]
+    or a
+    jr z, .notStarter
+
     ld a, [wTemp1]
     ld d, a
     ld a, [wTemp2]
     ld e, a
     call OverwriteMovesCustom
+
+.notStarter
 
 	pop de
 	ld a, [wPlayerID]  ; set trainer ID to player ID
@@ -255,13 +262,15 @@ _AddPartyMon::
 	ld b, $0
 	call CalcStats         ; calculate fresh set of stats
 .done
+    ld a, 0
+    ld [wAddedMonStarter], a
 	scf
 	ret
 
 OverwriteMovesCustom:
 
     inc de                          ; pointer to the first move
-    ld a, [wCustomPokemonCode+4]    ; load the first custom move
+    ld a, [wCustomPokemonCode+5]    ; load the first custom move
     or a
     jr z, .skipMove1                ; if the move value is 0 then skip
     cp $FF                          ; $FF means we want this move deleted
@@ -295,7 +304,7 @@ OverwriteMovesCustom:
 .skipMove1
 
     inc de
-    ld a, [wCustomPokemonCode+5]
+    ld a, [wCustomPokemonCode+6]
     or a
     jr z, .skipMove2
     cp $FF
@@ -323,7 +332,7 @@ OverwriteMovesCustom:
 .skipMove2
 
     inc de
-    ld a, [wCustomPokemonCode+6]
+    ld a, [wCustomPokemonCode+7]
     or a
     jr z, .skipMove3
     cp $FF
@@ -345,7 +354,7 @@ OverwriteMovesCustom:
 .skipMove3
 
     inc de
-    ld a, [wCustomPokemonCode+7]
+    ld a, [wCustomPokemonCode+8]
     or a
     jr z, .skipMove4
     cp $FF

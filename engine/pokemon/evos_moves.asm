@@ -343,6 +343,11 @@ LearnMoveFromLevelUp:
 	ld a, [hli]
 	and a ; have we reached the end of the evolution data?
 	jr nz, .skipEvolutionDataLoop ; if not, jump back up
+
+    ld a, [wCustomPokemonCode+3]    ; load the no moves from leveling rule
+    bit 6, a
+    jr nz, .done
+
 .learnSetLoop ; loop over the learn set until we reach a move that is learnt at the current level or the end of the list
 	ld a, [hli]
 	and a ; have we reached the end of the learn set?

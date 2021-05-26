@@ -925,7 +925,6 @@ OaksLabMonChoiceMenu:
 	and a
 	jr nz, OaksLabMonChoiceEnd
 	ld a, [wcf91]
-	;ld [wPlayerStarter], a
 	ld [wd11e], a
 	call GetMonName
 	ld a, [wSpriteIndex]
@@ -949,6 +948,8 @@ OaksLabMonChoiceMenu:
 	call PrintText
 	ld hl, OaksLabReceivedMonText
 	call PrintText
+    ld a, 1
+    ld [wAddedMonStarter], a
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	ld a, 5
