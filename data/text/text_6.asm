@@ -187,6 +187,13 @@ _MonCannotLearnMachineMoveText::
 	text "."
 	prompt
 
+_MachineMoveForbiddenText::
+    text "OAK: <PLAYER>!"
+    line "You may not use"
+    cont "TMs according"
+    cont "to the rules!"
+    prompt
+
 _CatchingNotAllowedText::
     text "OAK: <PLAYER>!"
     line "You may not catch"

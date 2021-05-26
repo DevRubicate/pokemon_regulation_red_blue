@@ -287,6 +287,8 @@ MainInBattleLoop:
     call CheckMonotypeRules
     jp z, ForcePlayerBlackout
 
+
+
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	or [hl] ; is enemy mon HP 0?
@@ -507,6 +509,11 @@ CheckMonotypeRules:
     or a
     ret                             ; return with zero flag set
 .acceptable
+
+    ld a, b
+    or c
+    ld [wMonotypeUsed], a           ; record what types are used
+
     ld a, 1                         ; This monotype rule was acceptable
     or a
     ret                             ; return with zero flag cleared
@@ -897,12 +904,12 @@ FaintEnemyPokemon:
     jr z, .wildbattle
 
     ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
-    and $2                          ; only look at bit 1
+    bit 1, a
     ret nz
     jr .continue
 .wildbattle
-    ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
-    and $4                          ; only look at bit 2
+    ld a, [wCustomPokemonCode+2]    ; load out the wild experience rule
+    bit 2, a
     ret nz
 .continue
 	xor a

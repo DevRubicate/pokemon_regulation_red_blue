@@ -374,7 +374,10 @@ wSerialExchangeNybbleReceiveData::
 ; the final received nybble is stored here by Serial_ExchangeNybble
 	ds 1
 
-	ds 3
+wHMDirectly::
+    ds 1
+
+	ds 2
 
 wSerialExchangeNybbleSendData::
 ; this nybble is sent when using Serial_SyncAndExchangeNybble or Serial_ExchangeNybble
@@ -2837,11 +2840,11 @@ wWalkBikeSurfState::
 	ds 1
 
 
-; byte 0: Starter Pokemon
-; byte 1: Starter Pokemon
-; byte 2: Difficulty
-; byte 3: Monotype challenge (TODO: monotype challenge bits for multi-runs)
-; byte 4:
+; byte 0h - Starter Pokemon
+; byte 0l - Starter Pokemon
+; byte 1h - Difficulty
+; byte 1l - Monotype challenge
+; byte 2:
 ;           0: Pokemon can't evolve
 ;           1: No exp from trainer battles
 ;           2: No exp from wild pokemon
@@ -2850,15 +2853,17 @@ wWalkBikeSurfState::
 ;           5: Can't catch legendary pokemon
 ;           6: Can't get gift pokemon
 ;           7: Can't trade pokemon
-; byte 5:
-;           0: No restorative items in battle
+; byte 3:
+;           0: No restorative items in combat
 ;           1: No restorative items outside battle
-;           2: No combat items
+;           2: No battle items
 ;           3: No marts or vending machine
-;           4: HMs are used directly (WIP)
-;           5: TMs can't be taught (TODO)
+;           4: HMs are used directly
+;           5: TMs can't be taught
 ;           6:
 ;           7:
+
+
 
 
 wCustomPokemonCode::
@@ -2878,8 +2883,10 @@ wFossilItem::
 wFossilMon::
 ; mon that will result from the item
 	ds 1
+wMonotypeUsed::
+    ds 1
 
-	ds 2
+	ds 1
 
 wEnemyMonOrTrainerClass::
 ; trainer classes start at OPP_ID_OFFSET
@@ -2985,6 +2992,7 @@ wd730::
 ; bit 7: set if joypad states are being simulated in the overworld or an NPC's movement is being scripted
 	ds 1
 
+wTemp2::
 	ds 1
 
 wd732::
@@ -3021,6 +3029,7 @@ wBeatLorelei::
 ; the game uses this to tell when Elite 4 events need to be reset
 	ds 1
 
+wTemp1::
 	ds 1
 
 wd736::

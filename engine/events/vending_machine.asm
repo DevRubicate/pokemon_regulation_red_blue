@@ -1,6 +1,6 @@
 VendingMachineMenu::
     ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $10                         ; Look at only the 4th bit
+    bit 3, a
     jr z, .normalUse                ; Allow vending machine if rule is not set
 
     ld a, [wd728]

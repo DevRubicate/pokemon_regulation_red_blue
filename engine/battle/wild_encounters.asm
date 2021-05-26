@@ -2,7 +2,7 @@
 ; returns success in Z
 TryDoWildEncounter:
     ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
-    and $8                          ; only look at bit 3
+    bit 3, a
     ret nz                          ; prevent wild encounter if it's blocked
 
 	ld a, [wNPCMovementScriptPointerTableNum]

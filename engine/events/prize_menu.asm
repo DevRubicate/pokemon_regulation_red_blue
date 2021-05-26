@@ -6,9 +6,8 @@ CeladonPrizeMenu::
 	jp PrintText
 .havingCoinCase
 
-
     ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
-    and $40                         ; only look at bit 6
+    bit 6, a
     jr z, .continue
 
     ld a, [hSpriteIndexOrTextID]

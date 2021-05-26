@@ -1829,6 +1829,39 @@ _OakSpeechRuleNoTrade::
     line "be traded."
     prompt
 
+_OakSpeechRuleNoRestorativeItemCombat::
+    text "Restorative items"
+    line "cannot be used"
+    cont "while in combat."
+    prompt
+
+_OakSpeechRuleNoRestorativeItemNonCombat::
+    text "Restorative items"
+    line "cannot be used"
+    cont "outside combat."
+    prompt
+
+_OakSpeechRuleNoBattleItem::
+    text "Battle items"
+    line "cannot be used."
+    prompt
+
+_OakSpeechRuleNoShopping::
+    text "Marts and vending"
+    line "machines cannot"
+    cont "be used."
+    prompt
+
+_OakSpeechRuleNoDirectHM::
+    text "HMs can be used"
+    line "directly."
+    prompt
+
+_OakSpeechRuleNoTM::
+    text "TMs cannot be"
+    line "used."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"

@@ -380,7 +380,7 @@ StartMenu_Item::
 .notBicycle2
 	ld a, [wCurrentMenuItem]
 	and a
-	jr nz, .tossItem
+	jp nz, .tossItem
 ; use item
 	ld [wPseudoItemID], a ; a must be 0 due to above conditional jump
 	ld a, [wcf91]
@@ -406,21 +406,38 @@ StartMenu_Item::
 	jp z, ItemMenuLoop
 	jp CloseStartMenu
 .useItem_partyMenu
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $20                         ; Look at only the 5th bit
+    ld a, [wCustomPokemonCode+3]    ; load the HM item rule
+    bit 4, a
     jr z, .normalUse                ; If rule isn't set, use HM normally
     ld a, [wcf91]
     cp HM_CUT
-    jr z, .useItem_closeMenu
+    jr z, .askHMUsage
     cp HM_FLY
-    jr z, .useItem_closeMenu
+    jr z, .askHMUsage
     cp HM_SURF
-    jr z, .useItem_closeMenu
+    jr z, .askHMUsage
     cp HM_STRENGTH
-    jr z, .useItem_closeMenu
+    jr z, .askHMUsage
     cp HM_FLASH
-    jr z, .useItem_closeMenu
+    jr z, .askHMUsage
+    jr .normalUse
+.askHMUsage
+    ld hl, DoYouWantHMDirectlyText
+    call PrintText
+    hlcoord 14, 7
+    lb bc, 8, 15
+    ld a, TWO_OPTION_MENU
+    ld [wTextBoxID], a
+    call DisplayTextBoxID ; yes/no menu
+    ld a, [wCurrentMenuItem]
+    and a
+    jr nz, .normalUse
+    ld a, 1
+    ld [wHMDirectly], a
+    jr .useItem_closeMenu
 .normalUse
+    ld a, 0
+    ld [wHMDirectly], a
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	call UseItem
@@ -452,6 +469,10 @@ StartMenu_Item::
 	call TossItem
 .tossZeroItems
 	jp ItemMenuLoop
+
+DoYouWantHMDirectlyText:
+    text_far _DoYouWantHMDirectlyText
+    text_end
 
 CannotUseItemsHereText:
 	text_far _CannotUseItemsHereText

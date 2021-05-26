@@ -103,11 +103,11 @@ ItemUsePtrTable:
 
 ItemUseBall:
     ld a, [wCustomPokemonCode+2]    ; load out the catching rule
-    and $10                         ; only look at bit 4
+    bit 4, a
     jp nz, CatchingNotAllowed
 
     ld a, [wCustomPokemonCode+2]    ; load out the legendary catching rule
-    and $20                         ; only look at bit 5
+    bit 5, a
     jp z, .noLegendaryRestriction
 
     ld a, [wEnemyMonSpecies2]
@@ -828,15 +828,15 @@ ItemUseMedicine:
 
     ld a, [wIsInBattle]
     and a
-    jp z, .skipCombatItemRuleCheck ; Skip combat item rule if we aren't in combat
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $1                          ; Look at only the 0th bit
-    jr z, ItemUseAllowed            ; Allow item if rule is not yet
+    jp z, .skip                     ; Skip restorative-combat item rule if we aren't in combat
+    ld a, [wCustomPokemonCode+3]    ; load the restorative-combat item rule
+    bit 0, a
+    jr z, ItemUseAllowed            ; Allow item if rule is not set
     jp RestorativeItemNotAllowedInCombat
-.skipCombatItemRuleCheck
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 1th bit
-    jr z, ItemUseAllowed            ; Allow item if rule is not yet
+.skip
+    ld a, [wCustomPokemonCode+3]    ; load the restorative-noncombat item rule
+    bit 1, a
+    jr z, ItemUseAllowed            ; Allow item if rule is not set
     jp RestorativeItemNotAllowedOutsideCombat
 
 
@@ -1578,8 +1578,8 @@ ItemUseXAccuracy:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 1th bit
+    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1645,8 +1645,8 @@ ItemUsePokedoll:
 	dec a
 	jp nz, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 1th bit
+    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    bit 2, a
     jr z, .PokedollUseAllowed       ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .PokedollUseAllowed
@@ -1660,8 +1660,8 @@ ItemUseGuardSpec:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 1th bit
+    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1683,8 +1683,8 @@ ItemUseDireHit:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $1                          ; Look at only the 2th bit
+    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 .XItemUseAllowed
@@ -1702,8 +1702,8 @@ ItemUseXStat:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .inBattle
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $1                          ; Look at only the 2th bit
+    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
 
@@ -1768,8 +1768,8 @@ ItemUsePokeflute:
 	ld hl, PlayedFluteNoEffectText
 	jp PrintText
 .inBattle
-    ld a, [wCustomPokemonCode+3]                    ; load the item rule
-    and $1                                          ; Look at only the 0th bit
+    ld a, [wCustomPokemonCode+3]                    ; load the restorative-combat item rule
+    bit 0, a
     jp nz, RestorativeItemNotAllowedInCombat        ; Forbid item if rule is set
 	xor a
 	ld [wWereAnyMonsAsleep], a
@@ -1932,7 +1932,7 @@ ItemUseSuperRod:
 	ld a, e
 RodResponse:
     ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
-    and $8                          ; only look at bit 3
+    bit 3, a
     jr z, .continue                 ; prevent wild encounter if it's blocked
     ld hl, CatchingFishNotAllowedText
     jp PrintText
@@ -2023,22 +2023,20 @@ ItemUsePPUp:
 	and a
 	jp nz, ItemUseNotTime
     jr AllowRestoreItem
+
 ItemUsePPRestore:
-
-
     ld a, [wIsInBattle]
     and a
-    jp z, .skipCombatItemRuleCheck ; Skip combat item rule if we aren't in combat
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $1                          ; Look at only the 0th bit
-    jr z, AllowRestoreItem            ; Allow item if rule is not yet
+    jp z, .skip                     ; Skip restorative-combat item rule if we aren't in combat
+    ld a, [wCustomPokemonCode+3]    ; load the restorative-combat item rule
+    bit 0, a
+    jr z, AllowRestoreItem          ; Allow item if rule is not yet
     jp RestorativeItemNotAllowedInCombat
-.skipCombatItemRuleCheck
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $2                          ; Look at only the 1th bit
-    jr z, AllowRestoreItem            ; Allow item if rule is not yet
+.skip
+    ld a, [wCustomPokemonCode+3]    ; load the restorative-noncombat item rule
+    bit 1, a
+    jr z, AllowRestoreItem          ; Allow item if rule is not yet
     jp RestorativeItemNotAllowedOutsideCombat
-
 
 AllowRestoreItem:
 	ld a, [wWhichPokemon]
@@ -2246,22 +2244,27 @@ UseCustomHM:
     cp HM_CUT
     jp z, UsedCutCustom
     cp HM_FLY
-    jp z, UsedFlyCustom  ; check if it works
+    jp z, UsedFlyCustom
     cp HM_SURF
-    jp z, UsedSurfCustom    ; check if it works
+    jp z, UsedSurfCustom
     cp HM_STRENGTH
-    jp z, UsedStrengthCustom  ; check if it works
+    jp z, UsedStrengthCustom
     cp HM_FLASH
-    jp z, UsedFlashCustom ; check if it works
+    jp z, UsedFlashCustom
     ret
 
 ItemUseTMHM:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
-    and $20                         ; Look at only the 5th bit
+    ld a, [wCustomPokemonCode+3]    ; load the HM item rule
+    bit 4, a
     jr z, .normalUse                ; If rule isn't set, use HM normally
+
+    ld a, [wHMDirectly]
+    or a
+    jr z, .normalUse                ; If the player isn't using HM directly
+
     ld a, [wcf91]
     sub TM01 ; underflows below 0 for HM items (before TM items)
     jr c, UseCustomHM
@@ -2299,6 +2302,18 @@ ItemUseTMHM:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .useMachine
+    ld a, [wCustomPokemonCode+3]    ; load the TM item rule
+    bit 5, a
+    jr z, .continue                ; If rule isn't set, use TM normally
+
+
+    ld hl, MachineMoveForbiddenText
+    jp PrintText
+
+
+
+.continue
+
 	ld a, [wWhichPokemon]
 	push af
 	ld a, [wcf91]
@@ -2374,6 +2389,10 @@ TeachMachineMoveText:
 MonCannotLearnMachineMoveText:
 	text_far _MonCannotLearnMachineMoveText
 	text_end
+
+MachineMoveForbiddenText:
+    text_far _MachineMoveForbiddenText
+    text_end
 
 PrintItemUseTextAndRemoveItem:
 	ld hl, ItemUseText00
@@ -3097,7 +3116,7 @@ CheckMapForMon:
 
 
 UsedCutCustom:
-    ld a, wObtainedBadges
+    ld a, [wObtainedBadges]
     bit BIT_CASCADEBADGE, a
     jp z, BadgeRequiredCustom
 
@@ -3146,7 +3165,10 @@ UsedCutCustom:
     ld a, SFX_CUT
     call PlaySound
     call UpdateSprites
-    jp RedrawMapView
+    call RedrawMapView
+    ld a, 1
+    ld [wActionResultOrTookBattleTurn], a
+    ret
 
 
 .usedCutTextCustom
@@ -3345,33 +3367,32 @@ UsedCutCustom:
     db -1 ; end
 
 UsedFlyCustom:
-    ld a, wObtainedBadges
+    ld a, [wObtainedBadges]
     bit BIT_THUNDERBADGE, a
     jp z, BadgeRequiredCustom
     call ChooseFlyDestination
     ret
 
 UsedSurfCustom:
-    ld a, wObtainedBadges
+    ld a, [wObtainedBadges]
     bit BIT_SOULBADGE, a
     jp z, BadgeRequiredCustom
     call ItemUseSurfboard
     ret
 
 UsedStrengthCustom:
-    ld a, wObtainedBadges
+    ld a, [wObtainedBadges]
     bit BIT_RAINBOWBADGE, a
     jp z, BadgeRequiredCustom
     ld hl, wd728
     set 0, [hl]
-    ld hl, UsedStrengthText
+    ld hl, UsedStrengthCustomText
     call PrintText
-    ld hl, CanMoveBouldersText
+    ld hl, CanMoveBouldersCustomText
     jp PrintText
     ret
-
 UsedFlashCustom:
-    ld a, wObtainedBadges
+    ld a, [wObtainedBadges]
     bit BIT_BOULDERBADGE, a
     jp z, BadgeRequiredCustom
     xor a
@@ -3389,4 +3410,13 @@ BadgeRequiredCustom:
     jp PrintText
 .newBadgeRequiredText
     text_far _NewBadgeRequiredText
+    text_end
+
+
+UsedStrengthCustomText:
+    text_far _UsedStrengthCustomText
+    text_end
+
+CanMoveBouldersCustomText:
+    text_far _CanMoveBouldersCustomText
     text_end

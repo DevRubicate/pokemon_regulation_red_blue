@@ -1,6 +1,6 @@
 DoInGameTradeDialogue:
     ld a, [wCustomPokemonCode+2]    ; load out the trade pokemon rule
-    and $80                         ; only look at bit 7
+    bit 7, a
     jr z, .continue
     ld hl, RefuseToTrade
     jp PrintText

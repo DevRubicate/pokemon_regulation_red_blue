@@ -171,6 +171,12 @@ _AddPartyMon::
 	ld a, [hli]       ; catch rate (held item in gen 2)
 	ld [de], a
 	ld hl, wMonHMoves
+
+    ld a, d
+    ld [wTemp1], a
+    ld a, e
+    ld [wTemp2], a
+
 	ld a, [hli]
 	inc de
 	push de
@@ -191,6 +197,13 @@ _AddPartyMon::
 	xor a
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
+
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    call OverwriteMovesCustom
+
 	pop de
 	ld a, [wPlayerID]  ; set trainer ID to player ID
 	inc de
@@ -244,6 +257,30 @@ _AddPartyMon::
 .done
 	scf
 	ret
+
+OverwriteMovesCustom:
+    ld a, 2
+    ld [wMonHMoves], a
+    ld [wMonHMoves+1], a
+    ld [wMonHMoves+2], a
+    ld [wMonHMoves+3], a
+
+    ld hl, wMonHMoves
+    ld a, [hli]
+    inc de
+    ld [de], a
+    ld a, [hli]
+    inc de
+    ld [de], a
+    ld a, [hli]
+    inc de
+    ld [de], a
+    ld a, [hli]
+    inc de
+    ld [de], a
+    ret
+
+
 
 LoadMovePPs:
 	call GetPredefRegisters

@@ -159,64 +159,103 @@ OakSpeech:
     call PrintText
 .noMonotype
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $1                          ; look at bit 0
+    ld a, [wCustomPokemonCode+2]    ; load the no evolve rule
+    bit 0, a
     jr z, .noEvolve                 ; skip text if there is no rule
     ld hl, OakSpeechRuleNoEvolve
     call PrintText
 .noEvolve
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $2                          ; look at bit 1
+    ld a, [wCustomPokemonCode+2]    ; load the no trainer exp rule
+    bit 1, a
     jr z, .noTrainerExp             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrainerExp
     call PrintText
 .noTrainerExp
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $4                          ; look at bit 2
+    ld a, [wCustomPokemonCode+2]    ; load the no wild exp rule
+    bit 2, a
     jr z, .noWildExp                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWildExp
     call PrintText
 .noWildExp
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $8                          ; look at bit 3
+    ld a, [wCustomPokemonCode+2]    ; load the no wild encounters rule
+    bit 3, a
     jr z, .noWildMon                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWild
     call PrintText
 .noWildMon
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $10                         ; look at bit 4
+    ld a, [wCustomPokemonCode+2]    ; load the no catch wild rule
+    bit 4, a
     jr z, .noCatchWild              ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchWild
     call PrintText
 .noCatchWild
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $20                         ; look at bit 5
+    ld a, [wCustomPokemonCode+2]    ; load the no catch legendary rule
+    bit 5, a
     jr z, .noCatchLegendary         ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchLegendary
     call PrintText
 .noCatchLegendary
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $40                         ; look at bit 6
+    ld a, [wCustomPokemonCode+2]    ; load the no gift pokemon rule
+    bit 6, a
     jr z, .noGiftMon                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoGiftMon
     call PrintText
 .noGiftMon
 
-    ld a, [wCustomPokemonCode+2]    ; load the rule
-    and $80                         ; look at bit 7
+    ld a, [wCustomPokemonCode+2]    ; load the no trade pokemon rule
+    bit 7, a
     jr z, .noTrade                  ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrade
     call PrintText
 .noTrade
 
+    ld a, [wCustomPokemonCode+3]    ; load the no restorative item combat rule
+    bit 0, a
+    jr z, .noRestorativeItemCombat      ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoRestorativeItemCombat
+    call PrintText
+.noRestorativeItemCombat
 
+    ld a, [wCustomPokemonCode+3]    ; load the no restorative item noncombat rule
+    bit 0, a
+    jr z, .noRestorativeItemNonCombat   ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoRestorativeItemNonCombat
+    call PrintText
+.noRestorativeItemNonCombat
 
+    ld a, [wCustomPokemonCode+3]    ; load the no battle item combat rule
+    bit 0, a
+    jr z, .noBattleItem             ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoBattleItem
+    call PrintText
+.noBattleItem
+
+    ld a, [wCustomPokemonCode+3]    ; load the no shopping rule
+    bit 0, a
+    jr z, .noShopping               ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoShopping
+    call PrintText
+.noShopping
+
+    ld a, [wCustomPokemonCode+3]    ; load the direct HM rule
+    bit 0, a
+    jr z, .noDirectHM               ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoDirectHM
+    call PrintText
+.noDirectHM
+
+    ld a, [wCustomPokemonCode+3]    ; load the no TM rule
+    bit 0, a
+    jr z, .noTM                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoTM
+    call PrintText
+.noTM
 
 
 .noCustomRules
@@ -330,9 +369,24 @@ OakSpeechRuleNoGiftMon:
 OakSpeechRuleNoTrade:
     text_far _OakSpeechRuleNoTrade
     text_end
-
-
-
+OakSpeechRuleNoRestorativeItemCombat:
+    text_far _OakSpeechRuleNoRestorativeItemCombat
+    text_end
+OakSpeechRuleNoRestorativeItemNonCombat:
+    text_far _OakSpeechRuleNoRestorativeItemNonCombat
+    text_end
+OakSpeechRuleNoBattleItem:
+    text_far _OakSpeechRuleNoBattleItem
+    text_end
+OakSpeechRuleNoShopping:
+    text_far _OakSpeechRuleNoShopping
+    text_end
+OakSpeechRuleNoDirectHM:
+    text_far _OakSpeechRuleNoDirectHM
+    text_end
+OakSpeechRuleNoTM:
+    text_far _OakSpeechRuleNoTM
+    text_end
 
 
 

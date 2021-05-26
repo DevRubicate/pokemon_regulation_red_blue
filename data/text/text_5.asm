@@ -12,13 +12,23 @@ _UsedStrengthText::
 	text_ram wcd6d
 	text " used"
 	line "STRENGTH.@"
-	text_end
+    text_end
 
 _CanMoveBouldersText::
 	text_ram wcd6d
 	text " can"
 	line "move boulders."
 	prompt
+
+_UsedStrengthCustomText::
+    text "<PLAYER> used"
+    line "STRENGTH."
+    prompt
+
+_CanMoveBouldersCustomText::
+    text "<PLAYER> can"
+    line "move boulders."
+    prompt
 
 _CurrentTooFastText::
 	text "The current is"
@@ -61,6 +71,11 @@ _NewBadgeRequiredText::
 	text "No! A new BADGE"
 	line "is required."
 	prompt
+
+_DoYouWantHMDirectlyText::
+    text "Do you want to use"
+    line "the HM directly?"
+    done
 
 _CannotUseItemsHereText::
 	text "You can't use items"
