@@ -250,11 +250,14 @@ OakSpeechRuleNoLevelMoves:
 OakSpeechRuleNoDaycare:
     text_far _OakSpeechRuleNoDaycare
     text_end
-OakSpeechCatchTrainerPokemon:
-    text_far _OakSpeechCatchTrainerPokemon
+OakSpeechRuleCatchTrainerPokemon:
+    text_far _OakSpeechRuleCatchTrainerPokemon
     text_end
-OakSpeechSoloStarter:
-    text_far _OakSpeechSoloStarter
+OakSpeechRuleSoloStarter:
+    text_far _OakSpeechRuleSoloStarter
+    text_end
+OakSpeechRulePokemonPerish:
+    text_far _OakSpeechRulePokemonPerish
     text_end
 
 ChooseCode:

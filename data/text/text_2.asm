@@ -891,6 +891,12 @@ _PlayerMonFaintedText::
 	line "fainted!"
 	prompt
 
+_PlayerMonPerishedText::
+    text_ram wBattleMonNick
+    text_start
+    line "perished!"
+    prompt
+
 _UseNextMonText::
 	text "Use next #MON?"
 	done
@@ -1921,15 +1927,21 @@ _OakSpeechRuleNoDaycare::
     line "the daycare."
     prompt
 
-_OakSpeechCatchTrainerPokemon::
+_OakSpeechRuleCatchTrainerPokemon::
     text "Trainer #MON"
     line "can be caught."
     prompt
 
-_OakSpeechSoloStarter::
+_OakSpeechRuleSoloStarter::
     text "You can only use"
     line "starter #MON"
     cont "in battle."
+    prompt
+
+_OakSpeechRulePokemonPerish::
+    text "Your #MON will"
+    line "perish when they"
+    cont "faint."
     prompt
 
 _RefuseToTrade::

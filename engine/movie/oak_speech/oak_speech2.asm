@@ -252,16 +252,23 @@ OakExplainRules:
     ld a, [wCustomPokemonCode+4]    ; load the catch trainer pokemon rule
     bit 0, a
     jr z, .noCatchTrainerPokemon    ; skip text if there is no rule
-    ld hl, OakSpeechCatchTrainerPokemon
+    ld hl, OakSpeechRuleCatchTrainerPokemon
     call PrintText
 .noCatchTrainerPokemon
 
     ld a, [wCustomPokemonCode+4]    ; load the solor starter pokemon rule
-    bit 0, a
-    jr z, .noSoloStarter    ; skip text if there is no rule
-    ld hl, OakSpeechSoloStarter
+    bit 1, a
+    jr z, .noSoloStarter            ; skip text if there is no rule
+    ld hl, OakSpeechRuleSoloStarter
     call PrintText
 .noSoloStarter
+
+    ld a, [wCustomPokemonCode+4]    ; load the solor starter pokemon rule
+    bit 2, a
+    jr z, .noPokemonPerish            ; skip text if there is no rule
+    ld hl, OakSpeechRulePokemonPerish
+    call PrintText
+.noPokemonPerish
 
 .noCustomRules
     ret

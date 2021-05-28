@@ -1186,13 +1186,20 @@ RemoveFaintedPlayerMon:
 	ld [wBattleResult], a
 
 
-
-
+    ld a, [wCustomPokemonCode+4]     ; load out the killing pokemon rule
+    bit 2, a
+    jp nz, .skipKillingPokemon
     ld a, [wPlayerMonNumber]
     ld [wWhichPokemon], a
     ld a, 0
     ld [wRemoveMonFromBox], a
-    call RemovePokemon
+    call RemovePokemon              ; remove pokemon forever
+    ld a, [wBattleMonSpecies]
+    call PlayCry
+    ld hl, PlayerMonPerishedText
+    jp PrintText
+
+.skipKillingPokemon
 
 
 ; When the player mon and enemy mon faint at the same time and the fact that the
@@ -1211,6 +1218,10 @@ RemoveFaintedPlayerMon:
 PlayerMonFaintedText:
 	text_far _PlayerMonFaintedText
 	text_end
+
+PlayerMonPerishedText:
+    text_far _PlayerMonPerishedText
+    text_end
 
 ; asks if you want to use next mon
 ; stores whether you ran in C flag
@@ -1622,6 +1633,7 @@ TrainerSentOutText:
 ; sets d = 0 if all fainted, d != 0 if some mons are still alive
 AnyPartyAlive::
 	ld a, [wPartyCount]
+    jr .z, .noMons                          ; if you have zero pokemon
 	ld e, a
 	xor a
 	ld hl, wPartyMon1HP
@@ -1633,6 +1645,7 @@ AnyPartyAlive::
 	add hl, bc
 	dec e
 	jr nz, .partyMonsLoop
+.noMons
 	ld d, a
 	ret
 
