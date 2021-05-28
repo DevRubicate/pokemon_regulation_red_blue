@@ -1188,8 +1188,9 @@ RemoveFaintedPlayerMon:
 
 
 
-    ld a, 0
+    ld a, [wPlayerMonNumber]
     ld [wWhichPokemon], a
+    ld a, 0
     ld [wRemoveMonFromBox], a
     call RemovePokemon
 
