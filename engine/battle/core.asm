@@ -1164,10 +1164,7 @@ RemoveFaintedPlayerMon:
 	call WaitForSoundToFinish
 .skipWaitForSound
 
-    ld a, 0
-    ld [wWhichPokemon], a
-    ld [wRemoveMonFromBox], a
-    call RemovePokemon
+
 
 
 
@@ -1187,6 +1184,15 @@ RemoveFaintedPlayerMon:
 	call SlideDownFaintedMonPic
 	ld a, $1
 	ld [wBattleResult], a
+
+
+
+
+    ld a, 0
+    ld [wWhichPokemon], a
+    ld [wRemoveMonFromBox], a
+    call RemovePokemon
+
 
 ; When the player mon and enemy mon faint at the same time and the fact that the
 ; enemy mon has fainted is detected first (e.g. when the player mon knocks out
