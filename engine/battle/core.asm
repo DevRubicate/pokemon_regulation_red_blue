@@ -1633,7 +1633,7 @@ TrainerSentOutText:
 ; sets d = 0 if all fainted, d != 0 if some mons are still alive
 AnyPartyAlive::
 	ld a, [wPartyCount]
-    jr .z, .noMons                          ; if you have zero pokemon
+    jr z, .noMons                          ; if you have zero pokemon
 	ld e, a
 	xor a
 	ld hl, wPartyMon1HP
