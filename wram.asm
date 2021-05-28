@@ -2864,10 +2864,10 @@ wWalkBikeSurfState::
 ;           6: No moves from leveling up
 ;           7: No daycare
 ; byte 4
-;           0:
-;           1:
-;           2:
-;           3:
+;           0: Catch trainer pokemon
+;           1: TODO: pokemon deleted when fainted
+;           2: TODO: savefile deleted when knocked out
+;           3: TODO: knocked out if not using starter
 ;           4:
 ;           5:
 ;           6:
@@ -2896,7 +2896,7 @@ wFossilMon::
 	ds 1
 wMonotypeUsed::
     ds 1
-
+wEnemyMonPartyPosBackup::
 	ds 1
 
 wEnemyMonOrTrainerClass::

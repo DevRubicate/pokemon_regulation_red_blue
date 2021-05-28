@@ -283,12 +283,8 @@ MainInBattleLoop:
 	ld a, [hli]
 	or [hl] ; is battle mon HP 0?
 	jp z, HandlePlayerMonFainted  ; if battle mon HP is 0, jump
-
     call CheckMonotypeRules
     jp z, ForcePlayerBlackout
-
-
-
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	or [hl] ; is enemy mon HP 0?
@@ -313,6 +309,13 @@ MainInBattleLoop:
 	ld a, [wEscapedFromBattle]
 	and a
 	ret nz ; return if pokedoll was used to escape from battle
+
+    ; Check if pokemon has been knocked out by catching them
+    ld hl, wEnemyMonHP
+    ld a, [hli]
+    or [hl] ; is enemy mon HP 0?
+    jp z, HandleEnemyMonFainted ; if enemy mon HP is 0, jump
+
 	ld a, [wBattleMonStatus]
 	and (1 << FRZ) | SLP ; is mon frozen or asleep?
 	jr nz, .selectEnemyMove ; if so, jump
@@ -340,7 +343,7 @@ MainInBattleLoop:
 	call LoadScreenTilesFromBuffer1
 	call DrawHUDsAndHPBars
 	pop af
-	jr nz, MainInBattleLoop ; if the player didn't select a move, jump
+	jp nz, MainInBattleLoop ; if the player didn't select a move, jump
 .selectEnemyMove
 	call SelectEnemyMove
 	ld a, [wLinkState]
@@ -894,7 +897,21 @@ FaintEnemyPokemon:
 	ld a, d
 	and a
 	ret z
+
+
+    ld a, [wIsInBattle]
+    dec a
+    jr z, .continueprint1
+
+    ; so it's a trainer battle
+    ld a, [wCapturedMonSpecies]     ; was this pokemon caught?
+    or a
+    jr z, .continueprint1
+    ld hl, EnemyMonStolenText
+    jr .continueprint2
+.continueprint1
 	ld hl, EnemyMonFaintedText
+.continueprint2
 	call PrintText
 	call PrintEmptyString
 	call SaveScreenTilesToBuffer1
@@ -912,6 +929,12 @@ FaintEnemyPokemon:
     bit 2, a
     ret nz
 .continue
+    ld a, [wCapturedMonSpecies]     ; was this pokemon caught?
+    or a
+    ld a, 0
+    ld [wCapturedMonSpecies], a     ; either way, zero out the flag
+    ret nz                          ; exit with no exp if pokemon was caught
+
 	xor a
 	ld [wBattleResult], a
 	ld b, EXP_ALL
@@ -959,6 +982,10 @@ FaintEnemyPokemon:
 EnemyMonFaintedText:
 	text_far _EnemyMonFaintedText
 	text_end
+
+EnemyMonStolenText:
+    text_far _EnemyMonStolenText
+    text_end
 
 EndLowHealthAlarm:
 ; This function is called when the player has the won the battle. It turns off
@@ -2372,7 +2399,14 @@ UseBagItem:
 .checkIfMonCaptured
 	ld a, [wCapturedMonSpecies]
 	and a ; was the enemy mon captured with a ball?
-	jr nz, .returnAfterCapturingMon
+	jr z, .continue    ; nope
+
+    ld a, [wIsInBattle]
+    dec a
+    jp nz, .returnAfterCapturingTrainerMon        ; if this is a trainer battle, use special logic
+
+    jr .returnAfterCapturingMon
+.continue
 
 	ld a, [wBattleType]
 	cp BATTLE_TYPE_SAFARI
@@ -2382,10 +2416,27 @@ UseBagItem:
 	call DrawHUDsAndHPBars
 	call Delay3
 .returnAfterUsingItem_NoCapture
-
 	call GBPalNormal
 	and a ; reset carry
 	ret
+
+.returnAfterCapturingTrainerMon
+    ld a, [wEnemyMonPartyPosBackup]
+    ld [wEnemyMonPartyPos], a
+    ld hl, wEnemyMon1HP
+    ld bc, wEnemyMon2 - wEnemyMon1
+    ld a, [wEnemyMonPartyPos]
+    call AddNTimes
+    ld a, 0
+    ld [hli], a
+    ld [hl], a
+    ld [wEnemyMonHP+0], a
+    ld [wEnemyMonHP+1], a
+    ld a, 0
+    ld [wActionResultOrTookBattleTurn], a
+    and a ; reset carry
+    ret
+
 
 .returnAfterCapturingMon
 	call GBPalNormal

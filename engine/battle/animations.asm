@@ -667,9 +667,18 @@ DoBallTossSpecialEffects:
 	ld a, SFX_BALL_TOSS
 	call PlaySound
 .skipPlayingSound
+
+
+    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    bit 0, a
+    jp nz, .skipTrainerBlock
+
 	ld a, [wIsInBattle]
 	cp 02 ; is it a trainer battle?
 	jr z, .isTrainerBattle
+.skipTrainerBlock
+
+
 	ld a, [wd11e]
 	cp $10 ; is the enemy pokemon the Ghost Marowak?
 	ret nz
@@ -2539,9 +2548,13 @@ BattleAnimCopyTileMapToVRAM:
 	jp Delay3
 
 TossBallAnimation:
+    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    bit 0, a
+    jp nz, .skipTrainerBlock
 	ld a, [wIsInBattle]
 	cp 2
 	jr z, .BlockBall ; if in trainer battle, play different animation
+.skipTrainerBlock
 	ld a, [wPokeBallAnimData]
 	ld b, a
 

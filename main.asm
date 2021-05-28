@@ -72,8 +72,7 @@ INCLUDE "engine/events/hidden_objects/bookshelves.asm"
 INCLUDE "engine/events/hidden_objects/indigo_plateau_statues.asm"
 INCLUDE "engine/events/hidden_objects/book_or_sculpture.asm"
 INCLUDE "engine/events/hidden_objects/elevator.asm"
-INCLUDE "engine/events/hidden_objects/town_map.asm"
-INCLUDE "engine/events/hidden_objects/pokemon_stuff.asm"
+
 
 
 SECTION "Font Graphics", ROMX
@@ -138,7 +137,8 @@ INCLUDE "engine/events/hidden_objects/cinnabar_gym_quiz.asm"
 INCLUDE "engine/events/hidden_objects/magazines.asm"
 INCLUDE "engine/events/hidden_objects/bills_house_pc.asm"
 INCLUDE "engine/events/hidden_objects/oaks_lab_email.asm"
-
+INCLUDE "engine/events/hidden_objects/town_map.asm"
+INCLUDE "engine/events/hidden_objects/pokemon_stuff.asm"
 
 SECTION "Bill's PC", ROMX
 

@@ -864,6 +864,13 @@ _EnemyMonFaintedText::
 	line "fainted!"
 	prompt
 
+_EnemyMonStolenText::
+    text "Enemy @"
+    text_ram wEnemyMonNick
+    text_start
+    line "was stolen!"
+    prompt
+
 _MoneyForWinningText::
 	text "<PLAYER> got ¥@"
 	text_bcd wAmountMoneyWon, 3 | LEADING_ZEROES | LEFT_ALIGN

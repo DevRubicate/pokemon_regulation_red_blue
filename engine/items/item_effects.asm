@@ -104,7 +104,7 @@ ItemUsePtrTable:
 ItemUseBall:
     ld a, [wCustomPokemonCode+2]    ; load out the catching rule
     bit 4, a
-    jp nz, CatchingNotAllowed
+    jp nz, CatchingWildNotAllowed
 
     ld a, [wCustomPokemonCode+2]    ; load out the legendary catching rule
     bit 5, a
@@ -125,9 +125,19 @@ ItemUseBall:
 	and a
 	jp z, ItemUseNotTime
 
+    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    bit 0, a
+    jp nz, .skipTrainerBlock
+
 ; Balls can't catch trainers' Pokémon.
+    ld a, [wIsInBattle]
 	dec a
 	jp nz, ThrowBallAtTrainerMon
+.skipTrainerBlock
+
+    ld a, [wEnemyMonPartyPos]
+    ld [wEnemyMonPartyPosBackup], a
+
 
 ; If this is for the old man battle, skip checking if the party & box are full.
 	ld a, [wBattleType]
@@ -471,6 +481,8 @@ ItemUseBall:
 	ld hl, ItemUseBallText04
 	jp z, .printMessage
 
+
+
 ; Save current HP.
 	ld hl, wEnemyMonHP
 	ld a, [hli]
@@ -482,7 +494,6 @@ ItemUseBall:
 	inc hl
 	ld a, [hl]
 	push af
-
 	push hl
 
 ; If the Pokémon is transformed, the Pokémon is assumed to be a Ditto.
@@ -499,6 +510,9 @@ ItemUseBall:
 ; If the Pokémon is not transformed, set the transformed bit and copy the
 ; DVs to wTransformedEnemyMonOriginalDVs so that LoadEnemyMonData won't generate
 ; new DVs.
+
+
+
 	set TRANSFORMED, [hl]
 	ld hl, wTransformedEnemyMonOriginalDVs
 	ld a, [wEnemyMonDVs]
@@ -524,6 +538,7 @@ ItemUseBall:
 	ld [hld], a
 	pop af
 	ld [hl], a
+
 	ld a, [wEnemyMonSpecies]
 	ld [wCapturedMonSpecies], a
 	ld [wcf91], a
@@ -554,6 +569,15 @@ ItemUseBall:
 
 	and a ; was the Pokémon already in the Pokédex?
 	jr nz, .skipShowingPokedexData ; if so, don't show the Pokédex data
+
+
+    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    bit 0, a
+    jp nz, .skipShowingPokedexData
+
+    ld a, [wIsInBattle]
+    dec a
+    jp nz, .skipShowingPokedexData
 
 	ld hl, ItemUseBallText06
 	call PrintText
@@ -589,6 +613,7 @@ ItemUseBall:
 .printMessage
 	call PrintText
 	call ClearSprites
+
 
 .done
 	ld a, [wBattleType]
@@ -2421,8 +2446,8 @@ BattleItemNotAllowedInCombat:
     ld hl, BattleItemNotAllowedInCombatText
     jr ItemUseFailed
 
-CatchingNotAllowed:
-    ld hl, CatchingNotAllowedText
+CatchingWildNotAllowed:
+    ld hl, CatchingWildNotAllowedText
     jr ItemUseFailed
 
 CatchingLegendaryNotAllowed:
@@ -2462,8 +2487,8 @@ ItemUseFailed:
 	ld [wActionResultOrTookBattleTurn], a ; item use failed
 	jp PrintText
 
-CatchingNotAllowedText:
-    text_far _CatchingNotAllowedText
+CatchingWildNotAllowedText:
+    text_far _CatchingWildNotAllowedText
     text_end
 
 CatchingLegendaryNotAllowedText:
