@@ -168,10 +168,32 @@ _AddPartyMon::
 	ld a, [hli]       ; type 2
 	ld [de], a
 	inc de
+
+
+    ld a, [wMonDataLocation]
+    and $f
+    jr nz, .copyCatchRate       ; This pokemon doesn't belong to the player, copy the vanilla catch rate
+
+    ; For pokemon belonging to the player, we use catch rate for something else
+
+    inc hl                      ; advance the pokemon stats pointer
+    ld a, [wAddedMonStarter]    ; check if this is the starter pokemon
+    or a
+    jr z, .notStarter1
+
+
+    ld a, $80
+    ld [de], a                  ; Set highest bit of pokemon catchrate
+    jr .continue
+.notStarter1
+    ld a, 0
+    ld [de], a                  ; Save player pokemon catchrate to 0
+    jr .continue
+.copyCatchRate
 	ld a, [hli]       ; catch rate (held item in gen 2)
 	ld [de], a
-	ld hl, wMonHMoves
-
+.continue
+    ld hl, wMonHMoves
     ld a, d
     ld [wTemp1], a
     ld a, e
@@ -201,7 +223,7 @@ _AddPartyMon::
 
     ld a, [wAddedMonStarter]
     or a
-    jr z, .notStarter
+    jr z, .notStarter2
 
     ld a, [wTemp1]
     ld d, a
@@ -209,7 +231,7 @@ _AddPartyMon::
     ld e, a
     call OverwriteMovesCustom
 
-.notStarter
+.notStarter2
 
 	pop de
 	ld a, [wPlayerID]  ; set trainer ID to player ID

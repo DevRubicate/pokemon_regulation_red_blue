@@ -249,7 +249,12 @@ OakExplainRules:
     call PrintText
 .noDaycare
 
-
+    ld a, [wCustomPokemonCode+4]    ; load the daycare rule
+    bit 0, a
+    jr z, .noCatchTrainerPokemon    ; skip text if there is no rule
+    ld hl, OakSpeechCatchTrainerPokemon
+    call PrintText
+.noCatchTrainerPokemon
 
 
 .noCustomRules

@@ -1921,6 +1921,11 @@ _OakSpeechRuleNoDaycare::
     line "the daycare."
     prompt
 
+_OakSpeechCatchTrainerPokemon::
+    text "Trainer #MON"
+    line "can be caught."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"
