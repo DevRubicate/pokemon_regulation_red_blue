@@ -1188,7 +1188,7 @@ RemoveFaintedPlayerMon:
 
     ld a, [wCustomPokemonCode+4]     ; load out the perishing pokemon rule
     bit 2, a
-    jp nz, .skipKillingPokemon
+    jp z, .skipKillingPokemon
     ld a, [wPlayerMonNumber]
     ld [wWhichPokemon], a
     ld a, 0
@@ -1633,6 +1633,7 @@ TrainerSentOutText:
 ; sets d = 0 if all fainted, d != 0 if some mons are still alive
 AnyPartyAlive::
 	ld a, [wPartyCount]
+    or a
     jr z, .noMons                          ; if you have zero pokemon
 	ld e, a
 	xor a
