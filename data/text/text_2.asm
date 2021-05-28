@@ -1926,6 +1926,12 @@ _OakSpeechCatchTrainerPokemon::
     line "can be caught."
     prompt
 
+_OakSpeechSoloStarter::
+    text "You can only use"
+    line "starter #MON"
+    cont "in battle."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"

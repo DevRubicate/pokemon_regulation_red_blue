@@ -253,7 +253,9 @@ OakSpeechRuleNoDaycare:
 OakSpeechCatchTrainerPokemon:
     text_far _OakSpeechCatchTrainerPokemon
     text_end
-
+OakSpeechSoloStarter:
+    text_far _OakSpeechSoloStarter
+    text_end
 
 ChooseCode:
     ld hl, wCustomPokemonCode

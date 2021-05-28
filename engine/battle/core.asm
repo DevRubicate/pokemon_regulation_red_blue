@@ -1163,6 +1163,16 @@ RemoveFaintedPlayerMon:
 	ld [wLowHealthAlarm], a ;disable low health alarm
 	call WaitForSoundToFinish
 .skipWaitForSound
+
+    ld a, 0
+    ld [wWhichPokemon], a
+    ld [wRemoveMonFromBox], a
+    call RemovePokemon
+
+
+
+
+
 ; a is 0, so this zeroes the enemy's accumulated damage.
 	ld hl, wEnemyBideAccumulatedDamage
 	ld [hli], a

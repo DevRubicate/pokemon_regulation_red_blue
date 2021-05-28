@@ -2865,7 +2865,7 @@ wWalkBikeSurfState::
 ;           7: No daycare
 ; byte 4
 ;           0: Catch trainer pokemon
-;           1: TODO: knocked out if not using starter
+;           1: Knocked out if not using starter
 ;           2: TODO: savefile deleted when knocked out
 ;           3: TODO: pokemon deleted when fainted
 ;           4:
