@@ -283,8 +283,11 @@ MainInBattleLoop:
 	ld a, [hli]
 	or [hl] ; is battle mon HP 0?
 	jp z, HandlePlayerMonFainted  ; if battle mon HP is 0, jump
-    call CheckMonotypeRules
+    call CheckMonotypeRule
     jp z, ForcePlayerBlackout
+    call CheckSoloStarterRule
+    jp z, ForcePlayerBlackout
+
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	or [hl] ; is enemy mon HP 0?
@@ -487,7 +490,7 @@ ConvertTypeToIndex:
 .notSpecial
     ret
 
-CheckMonotypeRules:
+CheckMonotypeRule:
     ld a, [wBattleMonType1]
     call ConvertTypeToIndex
     ld b, a
@@ -520,6 +523,23 @@ CheckMonotypeRules:
     ld a, 1                         ; This monotype rule was acceptable
     or a
     ret                             ; return with zero flag cleared
+
+
+CheckSoloStarterRule:
+    ld a, [wCustomPokemonCode+4]    ; load out the monotype rule
+    bit 1, a
+    jr z, .acceptable               ; if the solo starter rule is 0 then goto acceptable
+    ld a, [wBattleMonCatchRate]
+    bit 7, a
+    jr nz, .acceptable              ; if this is the solo starter then goto acceptable
+    ld a, 0                         ; This solo starter rule was violated
+    or a
+    ret                             ; return with zero flag set
+.acceptable
+    ld a, 1                         ; This rule was not broken or didn't apply
+    or a
+    ret                             ; return with zero flag cleared
+
 
 
 ForcePlayerBlackout:
