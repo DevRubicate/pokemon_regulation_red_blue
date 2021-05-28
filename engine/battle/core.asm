@@ -1186,7 +1186,7 @@ RemoveFaintedPlayerMon:
 	ld [wBattleResult], a
 
 
-    ld a, [wCustomPokemonCode+4]     ; load out the killing pokemon rule
+    ld a, [wCustomPokemonCode+4]     ; load out the perishing pokemon rule
     bit 2, a
     jp nz, .skipKillingPokemon
     ld a, [wPlayerMonNumber]
