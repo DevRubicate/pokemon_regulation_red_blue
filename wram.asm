@@ -2866,8 +2866,8 @@ wWalkBikeSurfState::
 ; byte 4
 ;           0: Catch trainer pokemon
 ;           1: Knocked out if not using starter
-;           2: TODO: savefile deleted when knocked out
-;           3: TODO: pokemon deleted when fainted
+;           2: Pokemon deleted when fainted
+;           3: savefile deleted on blackout
 ;           4:
 ;           5:
 ;           6:

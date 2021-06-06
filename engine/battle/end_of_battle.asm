@@ -44,6 +44,12 @@ EndOfBattle:
 	ld [wForceEvolution], a
 	predef EvolutionAfterBattle
 .resetVariables
+
+    ld a, [wPartyCount]
+    or a
+    jp z, Init
+
+
 	xor a
 	ld [wLowHealthAlarm], a ;disable low health alarm
 	ld [wChannelSoundIDs + Ch5], a

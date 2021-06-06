@@ -1194,10 +1194,18 @@ RemoveFaintedPlayerMon:
     ld a, 0
     ld [wRemoveMonFromBox], a
     call RemovePokemon              ; remove pokemon forever
+
+    ld a, 0                                 ; reset cursor position
+    ld [wLastMenuItem], a
+    ld [wCurrentMenuItem], a
+    ld [wPartyAndBillsPCSavedMenuItem], a
+    ld [wBattleAndStartSavedMenuItem], a
+
     ld a, [wBattleMonSpecies]
     call PlayCry
     ld hl, PlayerMonPerishedText
     jp PrintText
+
 
 .skipKillingPokemon
 

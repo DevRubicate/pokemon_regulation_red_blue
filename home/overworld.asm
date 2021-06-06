@@ -754,9 +754,15 @@ MapEntryAfterBattle::
 	jp LoadGBPal
 
 HandleBlackOut::
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr z, .continue                 ; skip deleting savefile
+    farcall ClearSAV
+    jp Init
+
 ; For when all the player's pokemon faint.
 ; Does not print the "blacked out" message.
-
+.continue
 	call GBFadeOutToBlack
 	ld a, $08
 	call StopMusic
@@ -768,7 +774,7 @@ HandleBlackOut::
 	call ResetStatusAndHalveMoneyOnBlackout
 	call SpecialWarpIn
 	call PlayDefaultMusicFadeOutCurrent
-	jp SpecialEnterMap
+    jp SpecialEnterMap
 
 StopMusic::
 	ld [wAudioFadeOutControl], a
@@ -866,6 +872,7 @@ IsBikeRidingAllowed::
 .allowed
 	scf
 	ret
+
 
 INCLUDE "data/tilesets/bike_riding_tilesets.asm"
 

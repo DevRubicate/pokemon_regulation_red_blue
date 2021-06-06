@@ -682,7 +682,7 @@ HallOfFame_Copy:
 	ld [MBC1SRamEnable], a
 	ret
 
-ClearSAV:
+ClearSAV::
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
 	ld a, $1
