@@ -129,7 +129,23 @@ SAVGoodChecksum:
 	ld a, $0
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
+
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr z, .continue                 ; skip checking cheating flag
+
+    ld a, [wSavefileLegit]
+    cp $FF
+    jr nz, CheatingSaveFile
+.continue
+    scf
+    ccf
 	ret
+
+CheatingSaveFile:
+    call ClearSAV
+    scf
+    ret
 
 LoadSAVIgnoreBadCheckSum:
 ; unused function that loads save data and ignores bad checksums
@@ -167,6 +183,11 @@ SaveSAV:
 	ld a, SFX_SAVE
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
+
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jp nz, Init                     ; exit on saving
+
 	ld c, 30
 	jp DelayFrames
 
@@ -274,9 +295,27 @@ SaveSAVtoSRAM2:
 SaveSAVtoSRAM::
 	ld a, $2
 	ld [wSaveFileStatus], a
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr z, .continue                 ; skip recording cheating flag
+    ld a, $FF
+    ld [wSavefileLegit], a
+.continue
 	call SaveSAVtoSRAM0
 	call SaveSAVtoSRAM1
 	jp SaveSAVtoSRAM2
+
+SaveSAVtoSRAMAntiCheat::
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    ret nz                          ; exit if it's not on
+    ld a, $2
+    ld [wSaveFileStatus], a
+    ld a, 0
+    ld [wSavefileLegit], a
+    call SaveSAVtoSRAM0
+    call SaveSAVtoSRAM1
+    jp SaveSAVtoSRAM2
 
 SAVCheckSum:
 ;Check Sum (result[1 byte] is complemented)
@@ -340,12 +379,16 @@ BoxSRAMPointerTable:
 	dw sBox6 ; sBox12
 
 ChangeBox::
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr nz, .continue                ; skip asking for saving the box
 	ld hl, WhenYouChangeBoxText
 	call PrintText
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
 	ret nz ; return if No was chosen
+.continue
 	ld hl, wCurrentBoxNum
 	bit 7, [hl] ; is it the first time player is changing the box?
 	call z, EmptyAllSRAMBoxes ; if so, empty all boxes in SRAM
@@ -377,7 +420,11 @@ ChangeBox::
 	ld a, [hl]
 	ld [de], a
 	call RestoreMapTextPointer
+    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr nz, .skipSave                ; skip asking for saving the box
 	call SaveSAVtoSRAM
+.skipSave
 	ld hl, wChangeBoxSavedMapTextPointer
 	call SetMapTextPointer
 	ld a, SFX_SAVE

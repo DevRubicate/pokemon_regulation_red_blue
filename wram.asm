@@ -2908,7 +2908,7 @@ wPlayerJumpingYScreenCoordsIndex::
 
 wRivalStarter::
 	ds 1
-
+wSavefileLegit::
 	ds 1
 
 wPlayerStarter::
