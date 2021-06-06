@@ -263,12 +263,19 @@ OakExplainRules:
     call PrintText
 .noSoloStarter
 
-    ld a, [wCustomPokemonCode+4]    ; load the solor starter pokemon rule
+    ld a, [wCustomPokemonCode+4]    ; load the pokemon perish rule
     bit 2, a
     jr z, .noPokemonPerish            ; skip text if there is no rule
     ld hl, OakSpeechRulePokemonPerish
     call PrintText
 .noPokemonPerish
+
+    ld a, [wCustomPokemonCode+4]    ; load the savefile permadeath rule
+    bit 3, a
+    jr z, .noSavefilePermadeagth    ; skip text if there is no rule
+    ld hl, OakSpeechRuleSavefilePermadeath
+    call PrintText
+.noSavefilePermadeagth
 
 .noCustomRules
     ret

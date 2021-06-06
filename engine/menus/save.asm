@@ -308,7 +308,7 @@ SaveSAVtoSRAM::
 SaveSAVtoSRAMAntiCheat::
     ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
     bit 3, a
-    ret nz                          ; exit if it's not on
+    ret z                           ; exit if it's not on
     ld a, $2
     ld [wSaveFileStatus], a
     ld a, 0

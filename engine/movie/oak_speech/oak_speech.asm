@@ -259,6 +259,10 @@ OakSpeechRuleSoloStarter:
 OakSpeechRulePokemonPerish:
     text_far _OakSpeechRulePokemonPerish
     text_end
+OakSpeechRuleSavefilePermadeath:
+    text_far _OakSpeechRuleSavefilePermadeath
+    text_end
+
 
 ChooseCode:
     ld hl, wCustomPokemonCode

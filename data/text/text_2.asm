@@ -1944,6 +1944,15 @@ _OakSpeechRulePokemonPerish::
     cont "faint."
     prompt
 
+_OakSpeechRuleSavefilePermadeath::
+    text "Your adventure"
+    line "will permamently"
+    cont "end if you lose."
+    cont "WARNING: Do not"
+    cont "quit without"
+    cont "saving your game."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"
