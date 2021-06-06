@@ -1185,6 +1185,9 @@ RemoveFaintedPlayerMon:
 	ld a, $1
 	ld [wBattleResult], a
 
+    ld a, [wCurOpponent]            ; skip perishing rule if it's the first rival battle
+    cp OPP_RIVAL1
+    jr z, .skipKillingPokemon
 
     ld a, [wCustomPokemonCode+4]     ; load out the perishing pokemon rule
     bit 2, a
