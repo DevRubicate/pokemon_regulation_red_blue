@@ -477,7 +477,7 @@ PrintCodeInput:
     ldh [hAutoBGTransferEnabled], a
     ld de, CodeInput
     hlcoord 2, 5
-    lb bc, 5, 9 ; 5 rows, 9 columns
+    lb bc, 2, 9 ; 5 rows, 9 columns
 .outerLoop
     push bc
 .innerLoop
@@ -493,6 +493,11 @@ PrintCodeInput:
     dec b
     jr nz, .outerLoop
     call PlaceString
+
+    hlcoord 18, 13
+    ld de, CodeInputEnd
+    call PlaceString
+
     ld a, $1
     ldh [hAutoBGTransferEnabled], a
     jp Delay3
@@ -665,9 +670,6 @@ PrintNamingText:
 	call GetMonName
 	hlcoord 4, 1
 	call PlaceString
-	ld hl, $1
-	add hl, bc
-	ld [hl], "の" ; leftover from Japanese version; blank tile $c9 in English
 	hlcoord 1, 3
 	ld de, YourTextString
 	jr .placeString
@@ -679,8 +681,13 @@ PrintNamingText:
 .placeString
 	jp PlaceString
 .codeString
+    hlcoord 5, 1
     ld de, CodeTextString
+    call PlaceString
+    hlcoord 8, 16
+    ld de, AuthorString
     jp PlaceString
+
 
 YourTextString:
 	db "YOUR @"
@@ -692,4 +699,7 @@ NameTextString:
 	db "NAME?@"
 
 CodeTextString:
-	db "CUSTOM CODE@"
+	db "Regulation@"
+
+AuthorString:
+    db "By Rubicate@"
