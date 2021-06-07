@@ -3175,7 +3175,7 @@ UsedCutCustom:
     ld a, $ff
     ld [wUpdateSpritesEnabled], a
     call .initCutAnimOAMCustom
-    ld de, .cutTreeBlockSwapsCustom
+    ld de, CutTreeBlockSwaps
     call .replaceTreeTileBlockCustom
     call RedrawMapView
     farcall AnimCut
@@ -3242,12 +3242,8 @@ UsedCutCustom:
 .writeCutOrBoulderDustAnimationOAMBlockCustom
     call .getCutOrBoulderDustAnimationOffsetsCustom
     ld a, $9
-    ld de, .cutOrBoulderDustAnimationTilesAndAttributesCustom
+    ld de, CutOrBoulderDustAnimationTilesAndAttributes
     jp WriteOAMBlock
-
-.cutOrBoulderDustAnimationTilesAndAttributesCustom
-    dbsprite  2, -1,  0,  4, $fd, OAM_OBP1
-    dbsprite  2, -1,  0,  6, $ff, OAM_OBP1
 
 .getCutOrBoulderDustAnimationOffsetsCustom
     ld hl, wSpritePlayerStateData1YPixels
@@ -3264,9 +3260,9 @@ UsedCutCustom:
     ld d, $0 ; de holds direction (00: down, 02: up, 04: left, 06: right)
     ld a, [wWhichAnimationOffsets]
     and a
-    ld hl, .cutAnimationOffsetsCustom
+    ld hl, CutAnimationOffsets
     jr z, .next
-    ld hl, .boulderDustAnimationOffsetsCustom
+    ld hl, BoulderDustAnimationOffsets
 .next
     add hl, de
     ld e, [hl]
@@ -3279,21 +3275,6 @@ UsedCutCustom:
     add e
     ld c, a
     ret
-
-.cutAnimationOffsetsCustom
-; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
-    db  8, 36 ; player is facing down
-    db  8,  4 ; player is facing up
-    db -8, 20 ; player is facing left
-    db 24, 20 ; player is facing right
-
-.boulderDustAnimationOffsetsCustom
-; Each pair represents the x and y pixels offsets from the player of where the cut tree animation should be drawn
-; These offsets represent 2 blocks away from the player
-    db  8,  52 ; player is facing down
-    db  8, -12 ; player is facing up
-    db -24, 20 ; player is facing left
-    db 40,  20 ; player is facing right
 
 .replaceTreeTileBlockCustom
 ; Determine the address of the tile block that contains the tile in front of the
@@ -3370,20 +3351,6 @@ UsedCutCustom:
     ld a, [de] ; replacement tile block from matching array entry
     ld [hl], a
     ret
-
-.cutTreeBlockSwapsCustom
-    ; first byte = tileset block containing the cut tree
-    ; second byte = corresponding tileset block after the cut animation happens
-    db $32, $6D
-    db $33, $6C
-    db $34, $6F
-    db $35, $4C
-    db $60, $6E
-    db $0B, $0A
-    db $3C, $35
-    db $3F, $35
-    db $3D, $36
-    db -1 ; end
 
 UsedFlyCustom:
     ld a, [wObtainedBadges]
