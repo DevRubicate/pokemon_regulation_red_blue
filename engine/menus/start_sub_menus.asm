@@ -598,6 +598,10 @@ DrawTrainerInfo:
     ld de, TrainerInfo_ExpText
     call PlaceString
 
+    hlcoord 1, 5
+    ld de, TrainerInfo_DamageText
+    call PlaceString
+
     hlcoord 7, 1
 	ld de, wPlayerName
 	call PlaceString
@@ -623,6 +627,11 @@ DrawTrainerInfo:
     lb bc, 3, 0
     call PrintNumber
 
+    hlcoord 6, 5
+    ld de, wRegulationTotalDamageTaken
+    lb bc, 3, 0
+    call PrintNumber
+
     ret
 
 
@@ -638,6 +647,8 @@ TrainerInfo_TimeText:
 	db "TIME@"
 TrainerInfo_ExpText:
     db "EXP@"
+TrainerInfo_DamageText:
+    db "DAMAGE@"
 
 ; $76 is a circle tile
 TrainerInfo_BadgesText:

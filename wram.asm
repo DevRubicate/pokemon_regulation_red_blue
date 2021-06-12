@@ -1246,6 +1246,7 @@ wHPBarTempHP::
 
 wHPBarHPDifference::
 	ds 1
+
 	ds 7
 
 wAIItem::
@@ -2154,7 +2155,10 @@ wSavedSpriteMapY::
 wSavedSpriteMapX::
 	ds 1
 
-	ds 5
+wRegulationTotalDamageTaken::
+	ds 3
+
+    ds 2
 
 wWhichPrize::
 	ds 1

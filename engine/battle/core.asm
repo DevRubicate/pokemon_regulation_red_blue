@@ -5156,6 +5156,31 @@ ApplyDamageToPlayerPokemon:
 	ld [hli], a
 	ld [hl], a
 .animateHpBar
+
+
+
+    ; Add the damage gained to the total damage recorded
+    ld a, [wDamage+1]
+    ld hl, wRegulationTotalDamageTaken+2
+    add a, [hl]
+    ld [wRegulationTotalDamageTaken+2], a
+
+    ld a, [wDamage]
+    ld hl, wRegulationTotalDamageTaken+1
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken+1], a
+
+    ld a, 0
+    ld hl, wRegulationTotalDamageTaken
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken], a
+
+
+
+
+
+
+
 	ld hl, wBattleMonMaxHP
 	ld a, [hli]
 	ld [wHPBarMaxHP+1], a
