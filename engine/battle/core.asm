@@ -311,8 +311,17 @@ MainInBattleLoop:
 	ret c ; return if player ran from battle
 	ld a, [wEscapedFromBattle]
 	and a
-	ret nz ; return if pokedoll was used to escape from battle
-
+	jr z, .noPokedoll ; return if pokedoll was used to escape from battle
+    call IsGhostBattle
+    ret nz                      ; not ghost, exit battle without being branded a cheater
+    ld a, [wEnemyMonSpecies]
+    cp RESTLESS_SOUL            ; check if it's ghost marowak
+    ret nz
+    ld a, [wRegulationGlitch]
+    set 3, a                    ; used a pokedoll on ghost
+    ld [wRegulationGlitch], a
+    ret
+.noPokedoll
     ; Check if pokemon has been knocked out by catching them
     ld hl, wEnemyMonHP
     ld a, [hli]

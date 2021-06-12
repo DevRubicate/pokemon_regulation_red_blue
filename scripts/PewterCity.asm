@@ -47,6 +47,7 @@ PewterCityScript_CheckCheater:
     call ArePlayerCoordsInArray
     ret nc
 
+    ; Record that this glitch was used
     ld a, [wRegulationGlitch]
     set 0, a
     ld [wRegulationGlitch], a

@@ -105,12 +105,20 @@ ApplyOutOfBattlePoisonDamage:
 	ld hl, wd72e
 	set 5, [hl]
 	ld a, $ff
-	jr .done
-.noBlackOut
-	xor a
-.done
 	ld [wOutOfBattleBlackout], a
+    CheckEventHL EVENT_IN_SAFARI_ZONE ; check if we are in the safari zone
+    jr z, .noSafari
+    ; Record that this glitch was used
+    ld a, [wRegulationGlitch]
+    set 1, a
+    ld [wRegulationGlitch], a
+.noSafari
 	ret
+
+.noBlackOut
+    xor a
+    ld [wOutOfBattleBlackout], a
+    ret
 
 RecordPoisonDamage:
     push hl

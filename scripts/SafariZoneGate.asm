@@ -112,8 +112,20 @@ SafariZoneGate_ScriptPointers:
 	ret nz
 	call Delay3
 	ld a, [wcf0d]
+    or a
+    jr z, SafariZoneCheater
+    dec a
 	ld [wSafariZoneGateCurScript], a
 	ret
+
+SafariZoneCheater:
+    ; Record that this glitch was used
+    ld a, [wRegulationGlitch]
+    set 2, a
+    ld [wRegulationGlitch], a
+    ld a, 0
+    ld [wSafariZoneGateCurScript], a
+    ret
 
 SafariZoneEntranceAutoWalk:
 	push af
@@ -236,7 +248,7 @@ SafariZoneGate_TextPointers:
 	ld c, $3
 	call SafariZoneEntranceAutoWalk
 	ResetEvents EVENT_SAFARI_GAME_OVER, EVENT_IN_SAFARI_ZONE
-	ld a, $0
+	ld a, $1                                                   ; Cheat detection: increased by one
 	ld [wcf0d], a
 	jr .asm_753b3
 .asm_7539c
@@ -247,7 +259,7 @@ SafariZoneGate_TextPointers:
 	ld a, D_UP
 	ld c, $1
 	call SafariZoneEntranceAutoWalk
-	ld a, $5
+	ld a, $6                                                   ; Cheat detection: increased by one
 	ld [wcf0d], a
 .asm_753b3
 	ld a, $6
