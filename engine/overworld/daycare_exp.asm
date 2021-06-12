@@ -2,6 +2,7 @@ IncrementDayCareMonExp:
 	ld a, [wDayCareInUse]
 	and a
 	ret z
+    call IncrementwRegulationTotalExp
 	ld hl, wDayCareMonExp + 2
 	inc [hl]
 	ret nz
@@ -16,3 +17,14 @@ IncrementDayCareMonExp:
 	ld a, $50
 	ld [hl], a
 	ret
+
+IncrementwRegulationTotalExp:
+    ld hl, wRegulationTotalExp + 2
+    inc [hl]
+    ret nz
+    dec hl
+    inc [hl]
+    ret nz
+    dec hl
+    inc [hl]
+    ret

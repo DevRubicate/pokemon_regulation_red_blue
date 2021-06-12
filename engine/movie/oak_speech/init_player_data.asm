@@ -1,7 +1,5 @@
 InitPlayerData:
 InitPlayerData2:
-    ret
-;;;;
 	call Random
 	ldh a, [hRandomSub]
 	ld [wPlayerID], a
