@@ -3356,6 +3356,8 @@ UsedFlyCustom:
     ld a, [wObtainedBadges]
     bit BIT_THUNDERBADGE, a
     jp z, BadgeRequiredCustom
+    call CheckIfInOutsideMap
+    jr nz, CannotFlyInside
     call ChooseFlyDestination
     ret
 
@@ -3392,12 +3394,20 @@ UsedFlashCustom:
     text_end
 
 BadgeRequiredCustom:
-    ld hl, .newBadgeRequiredText
+    ld hl, NewBadgeRequiredText
     jp PrintText
-.newBadgeRequiredText
+
+NewBadgeRequiredText:
     text_far _NewBadgeRequiredText
     text_end
 
+CannotFlyInside:
+    ld hl, CannotFlyInsideText
+    jp PrintText
+
+CannotFlyInsideText:
+    text_far _CannotFlyInsideText
+    text_end
 
 UsedStrengthCustomText:
     text_far _UsedStrengthCustomText

@@ -72,6 +72,11 @@ _NewBadgeRequiredText::
 	line "is required."
 	prompt
 
+_CannotFlyInsideText::
+    text "No! You cannot"
+    line "FLY here."
+    prompt
+
 _DoYouWantHMDirectlyText::
     text "Do you want to use"
     line "the HM directly?"
