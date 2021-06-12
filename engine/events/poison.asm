@@ -24,6 +24,7 @@ ApplyOutOfBattlePoisonDamage:
 	or b
 	jr z, .nextMon ; already fainted
 ; subtract 1 from HP
+    call RecordPoisonDamage
 	ld a, [hl]
 	dec a
 	ld [hld], a
@@ -110,3 +111,30 @@ ApplyOutOfBattlePoisonDamage:
 .done
 	ld [wOutOfBattleBlackout], a
 	ret
+
+RecordPoisonDamage:
+    push hl
+
+
+
+    ; Add the damage gained to the total damage recorded
+    ld a, 1
+    ld hl, wRegulationTotalDamageTaken+2
+    add a, [hl]
+    ld [wRegulationTotalDamageTaken+2], a
+
+    ld a, 0
+    ld hl, wRegulationTotalDamageTaken+1
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken+1], a
+
+    ld a, 0
+    ld hl, wRegulationTotalDamageTaken
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken], a
+
+
+
+
+    pop hl
+    ret

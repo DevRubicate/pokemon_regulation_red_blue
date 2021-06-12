@@ -1,5 +1,6 @@
 InitPlayerData:
 InitPlayerData2:
+
 	call Random
 	ldh a, [hRandomSub]
 	ld [wPlayerID], a
@@ -43,8 +44,7 @@ START_MONEY EQU $3000
 	ld hl, wGameProgressFlags
 	ld bc, wGameProgressFlagsEnd - wGameProgressFlags
 	call FillMemory ; clear all game progress flags
-
-	jp InitializeMissableObjectsFlags
+	farjp InitializeMissableObjectsFlags
 
 InitializeEmptyList:
 	xor a ; count

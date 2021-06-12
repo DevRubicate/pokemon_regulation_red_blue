@@ -25,6 +25,8 @@ RecoilEffect_:
 	jr nz, .updateHP
 	inc c ; minimum recoil damage is 1
 .updateHP
+    call RecordRecoilDamage
+
 ; subtract HP from user due to the recoil damage
 	ld a, [hli]
 	ld [wHPBarMaxHP+1], a
@@ -68,3 +70,21 @@ RecoilEffect_:
 HitWithRecoilText:
 	text_far _HitWithRecoilText
 	text_end
+
+RecordRecoilDamage:
+    push hl
+    ; Add the damage gained to the total damage recorded
+    ld a, c
+    ld hl, wRegulationTotalDamageTaken+2
+    add a, [hl]
+    ld [wRegulationTotalDamageTaken+2], a
+    ld a, b
+    ld hl, wRegulationTotalDamageTaken+1
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken+1], a
+    ld a, 0
+    ld hl, wRegulationTotalDamageTaken
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken], a
+    pop hl
+    ret

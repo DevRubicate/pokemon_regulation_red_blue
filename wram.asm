@@ -2155,10 +2155,7 @@ wSavedSpriteMapY::
 wSavedSpriteMapX::
 	ds 1
 
-wRegulationTotalDamageTaken::
-	ds 3
-
-    ds 2
+	ds 5
 
 wWhichPrize::
 	ds 1
@@ -2950,8 +2947,10 @@ wWhichDungeonWarp::
 
 wUnusedD71F::
     ds 1
+wRegulationTotalDamageTaken::
+    ds 3
 
-    ds 8
+    ds 5
 
 wd728::
 ; bit 0: using Strength outside of battle
