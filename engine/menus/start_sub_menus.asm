@@ -580,34 +580,64 @@ DrawTrainerInfo:
 	hlcoord 6, 9
 	ld de, TrainerInfo_BadgesText
 	call PlaceString
-	hlcoord 2, 2
-	ld de, TrainerInfo_NameMoneyTimeText
+
+
+	hlcoord 1, 1
+	ld de, TrainerInfo_NameText
 	call PlaceString
-	hlcoord 7, 2
+
+    hlcoord 1, 2
+    ld de, TrainerInfo_MoneyText
+    call PlaceString
+
+    hlcoord 1, 3
+    ld de, TrainerInfo_TimeText
+    call PlaceString
+
+    hlcoord 1, 4
+    ld de, TrainerInfo_ExpText
+    call PlaceString
+
+    hlcoord 7, 1
 	ld de, wPlayerName
 	call PlaceString
-	hlcoord 8, 4
+
+	hlcoord 7, 2
 	ld de, wPlayerMoney
 	ld c, $e3
 	call PrintBCDNumber
-	hlcoord 9, 6
+
+	hlcoord 8, 3
 	ld de, wPlayTimeHours ; hours
 	lb bc, LEFT_ALIGN | 1, 3
 	call PrintNumber
+
 	ld [hl], $d6 ; colon tile ID
 	inc hl
 	ld de, wPlayTimeMinutes ; minutes
 	lb bc, LEADING_ZEROES | 1, 2
-	jp PrintNumber
+	call PrintNumber
+
+    hlcoord 6, 4
+    ld de, wRegulationTotalExp
+    lb bc, 3, 0
+    call PrintNumber
+
+    ret
+
 
 TrainerInfo_FarCopyData:
 	ld a, BANK(TrainerInfoTextBoxTileGraphics)
 	jp FarCopyData2
 
-TrainerInfo_NameMoneyTimeText:
-	db   "NAME/"
-	next "MONEY/"
-	next "TIME/@"
+TrainerInfo_NameText:
+	db "NAME@"
+TrainerInfo_MoneyText:
+    db "MONEY@"
+TrainerInfo_TimeText:
+	db "TIME@"
+TrainerInfo_ExpText:
+    db "EXP@"
 
 ; $76 is a circle tile
 TrainerInfo_BadgesText:

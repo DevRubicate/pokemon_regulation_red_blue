@@ -2573,7 +2573,10 @@ wTilesetTalkingOverTiles::
 wGrassTile::
 	ds 1
 
-	ds 4
+wRegulationTotalExp::
+	ds 3
+
+    ds 1
 
 wNumBoxItems::
 	ds 1

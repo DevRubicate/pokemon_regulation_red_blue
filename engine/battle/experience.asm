@@ -148,6 +148,23 @@ GainExperience:
 	call GetPartyMonName
 	ld hl, GainedText
 	call PrintText
+
+    ; Add the exp gained to the total exp recorded
+    ld a, [wExpAmountGained+1]
+    ld hl, wRegulationTotalExp+2
+    add a, [hl]
+    ld [wRegulationTotalExp+2], a
+
+    ld a, [wExpAmountGained]
+    ld hl, wRegulationTotalExp+1
+    adc a, [hl]
+    ld [wRegulationTotalExp+1], a
+
+    ld a, 0
+    ld hl, wRegulationTotalExp
+    adc a, [hl]
+    ld [wRegulationTotalExp], a
+
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	call LoadMonData
