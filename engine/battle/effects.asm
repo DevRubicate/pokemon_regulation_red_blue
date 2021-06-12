@@ -173,14 +173,24 @@ DrainHPEffect:
 	jpfar DrainHPEffect_
 
 ExplodeEffect:
-	ld hl, wBattleMonHP
-	ld de, wPlayerBattleStatus2
 	ldh a, [hWhoseTurn]
 	and a
 	jr z, .faintUser
 	ld hl, wEnemyMonHP
 	ld de, wEnemyBattleStatus2
+    xor a
+    ld [hli], a ; set the mon's HP to 0
+    ld [hli], a
+    inc hl
+    ld [hl], a ; set mon's status to 0
+    ld a, [de]
+    res SEEDED, a ; clear mon's leech seed status
+    ld [de], a
+    ret
 .faintUser
+    call RecordExplodeSelfDamage
+    ld hl, wBattleMonHP
+    ld de, wPlayerBattleStatus2
 	xor a
 	ld [hli], a ; set the mon's HP to 0
 	ld [hli], a
@@ -190,6 +200,23 @@ ExplodeEffect:
 	res SEEDED, a ; clear mon's leech seed status
 	ld [de], a
 	ret
+
+RecordExplodeSelfDamage:
+    ; Add the damage gained to the total damage recorded
+    ld a, [wBattleMonHP+1]
+    ld hl, wRegulationTotalDamageTaken+2
+    add a, [hl]
+    ld [wRegulationTotalDamageTaken+2], a
+    ld a, [wBattleMonHP]
+    ld hl, wRegulationTotalDamageTaken+1
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken+1], a
+    ld a, 0
+    ld hl, wRegulationTotalDamageTaken
+    adc a, [hl]
+    ld [wRegulationTotalDamageTaken], a
+    ret
+
 
 FreezeBurnParalyzeEffect:
 	xor a

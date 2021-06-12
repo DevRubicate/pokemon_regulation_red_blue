@@ -18,15 +18,12 @@ PewterCityScript0:
 	ld [wMuseum1FCurScript], a
 	ResetEvent EVENT_BOUGHT_MUSEUM_TICKET
 	call PewterCityScript_1925e
+    call PewterCityScript_CheckCheater
 	ret
 
 PewterCityScript_1925e:
 	CheckEvent EVENT_BEAT_BROCK
 	ret nz
-IF DEF(_DEBUG)
-	call DebugPressedOrHeldB
-	ret nz
-ENDC
 	ld hl, CoordsData_19277
 	call ArePlayerCoordsInArray
 	ret nc
@@ -42,6 +39,26 @@ CoordsData_19277:
 	dbmapcoord 37, 18
 	dbmapcoord 37, 19
 	db -1 ; end
+
+PewterCityScript_CheckCheater:
+    CheckEvent EVENT_BEAT_BROCK
+    ret nz
+    ld hl, CoordsData_Cheater
+    call ArePlayerCoordsInArray
+    ret nc
+
+    ld a, [wRegulationGlitch]
+    set 0, a
+    ld [wRegulationGlitch], a
+
+    ret
+
+CoordsData_Cheater:
+    dbmapcoord 38, 16
+    dbmapcoord 38, 17
+    dbmapcoord 38, 18
+    dbmapcoord 38, 19
+    db -1 ; end
 
 PewterCityScript1:
 	ld a, [wNPCMovementScriptPointerTableNum]

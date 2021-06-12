@@ -2576,7 +2576,7 @@ wGrassTile::
 
 wRegulationTotalExp::
 	ds 3
-
+wRegulationGlitch::
     ds 1
 
 wNumBoxItems::

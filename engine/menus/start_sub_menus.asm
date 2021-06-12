@@ -582,10 +582,6 @@ DrawTrainerInfo:
 	call PlaceString
 
 
-	hlcoord 1, 1
-	ld de, TrainerInfo_NameText
-	call PlaceString
-
     hlcoord 1, 2
     ld de, TrainerInfo_MoneyText
     call PlaceString
@@ -602,18 +598,22 @@ DrawTrainerInfo:
     ld de, TrainerInfo_DamageText
     call PlaceString
 
-    hlcoord 7, 1
+    hlcoord 1, 6
+    ld de, TrainerInfo_CheaterText
+    call PlaceString
+
+    hlcoord 1, 1
 	ld de, wPlayerName
 	call PlaceString
 
 	hlcoord 7, 2
 	ld de, wPlayerMoney
-	ld c, $e3
+	ld c, $a3
 	call PrintBCDNumber
 
 	hlcoord 8, 3
 	ld de, wPlayTimeHours ; hours
-	lb bc, LEFT_ALIGN | 1, 3
+	lb bc, 1, 3
 	call PrintNumber
 
 	ld [hl], $d6 ; colon tile ID
@@ -622,14 +622,19 @@ DrawTrainerInfo:
 	lb bc, LEADING_ZEROES | 1, 2
 	call PrintNumber
 
-    hlcoord 6, 4
+    hlcoord 7, 4
     ld de, wRegulationTotalExp
     lb bc, 3, 0
     call PrintNumber
 
-    hlcoord 6, 5
+    hlcoord 7, 5
     ld de, wRegulationTotalDamageTaken
     lb bc, 3, 0
+    call PrintNumber
+
+    hlcoord 7, 6
+    ld de, wRegulationGlitch
+    lb bc, 1, 0
     call PrintNumber
 
     ret
@@ -639,8 +644,6 @@ TrainerInfo_FarCopyData:
 	ld a, BANK(TrainerInfoTextBoxTileGraphics)
 	jp FarCopyData2
 
-TrainerInfo_NameText:
-	db "NAME@"
 TrainerInfo_MoneyText:
     db "MONEY@"
 TrainerInfo_TimeText:
@@ -649,6 +652,8 @@ TrainerInfo_ExpText:
     db "EXP@"
 TrainerInfo_DamageText:
     db "DAMAGE@"
+TrainerInfo_CheaterText:
+    db "GLITCH@"
 
 ; $76 is a circle tile
 TrainerInfo_BadgesText:
