@@ -23,7 +23,6 @@ INCLUDE "engine/menus/main_menu.asm"
 INCLUDE "engine/movie/oak_speech/oak_speech.asm"
 INCLUDE "engine/overworld/special_warps.asm"
 INCLUDE "engine/menus/naming_screen.asm"
-INCLUDE "engine/movie/oak_speech/oak_speech2.asm"
 INCLUDE "engine/items/subtract_paid_money.asm"
 INCLUDE "engine/menus/swap_items.asm"
 INCLUDE "engine/events/pokemart.asm"
@@ -328,7 +327,7 @@ SECTION "Itemfinder 1", ROMX
 INCLUDE "engine/movie/credits.asm"
 INCLUDE "engine/pokemon/status_ailments.asm"
 INCLUDE "engine/items/itemfinder.asm"
-
+INCLUDE "engine/movie/oak_speech/oak_speech2.asm"
 
 SECTION "Vending Machine", ROMX
 

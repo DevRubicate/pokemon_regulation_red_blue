@@ -1953,6 +1953,17 @@ _OakSpeechRuleSavefilePermadeath::
     cont "saving your game."
     prompt
 
+_OakSpeechRuleAidGivesTradeStone::
+    text "TRADE STONE can be"
+    line "used to evolve"
+    cont "#MON that"
+    cont "normally evolve"
+    cont "from trading."
+    para "Ask my lab AIDE"
+    line "for the"
+    cont "TRADE STONE."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"

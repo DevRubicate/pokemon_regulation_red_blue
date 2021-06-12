@@ -1,34 +1,6 @@
 OakExplainRules:
-    ld a, [wCustomPokemonCode]
-    ld hl, wCustomPokemonCode+1
-    or [hl]
-    ld hl, wCustomPokemonCode+2
-    or [hl]
-    ld hl, wCustomPokemonCode+3
-    or [hl]
-    ld hl, wCustomPokemonCode+4
-    or [hl]
-    ld hl, wCustomPokemonCode+5
-    or [hl]
-    ld hl, wCustomPokemonCode+6
-    or [hl]
-    ld hl, wCustomPokemonCode+7
-    or [hl]
-    ld hl, wCustomPokemonCode+8
-    or [hl]
-    ld hl, wCustomPokemonCode+9
-    or [hl]
-    jp z, .noCustomRules            ; skip rules dialog if every rule is 0
-
-    call GBFadeOutToWhite
-    call ClearScreen
-    ld de, ProfOakPic
-    lb bc, BANK(ProfOakPic), $00
-    call IntroDisplayPicCenteredOrUpperRight
-    call FadeInIntroPic
     ld hl, OakSpeechRuleStart
     call PrintText
-
     ld a, [wCustomPokemonCode]    ; load the custom starter rule
     or a
     jr z, .noCustomStarter        ; skip text if there is no rule
@@ -272,10 +244,18 @@ OakExplainRules:
 
     ld a, [wCustomPokemonCode+4]    ; load the savefile permadeath rule
     bit 3, a
-    jr z, .noSavefilePermadeagth    ; skip text if there is no rule
+    jr z, .noSavefilePermadeath     ; skip text if there is no rule
     ld hl, OakSpeechRuleSavefilePermadeath
     call PrintText
-.noSavefilePermadeagth
+.noSavefilePermadeath
+
+    ld a, [wCustomPokemonCode+4]    ; load the trade stone rule
+    bit 4, a
+    jr z, .noTradeStone             ; skip text if there is no rule
+    ld hl, OakSpeechRuleAidGivesTradeStone
+    call PrintText
+.noTradeStone
+
 
 .noCustomRules
     ret
@@ -287,3 +267,91 @@ SetMoveNameAsDeleted:
     ld a, BANK(_MoveDeleted)
     call FarCopyData
     ret
+
+OakSpeechRuleStart:
+    text_far _OakSpeechRuleStart
+    text_end
+OakSpeechRuleCustomStarter:
+    text_far _OakSpeechRuleCustomStarter
+    text_end
+OakSpeechRuleCustomMove1:
+    text_far _OakSpeechRuleCustomMove1
+    text_end
+OakSpeechRuleCustomMove2:
+    text_far _OakSpeechRuleCustomMove2
+    text_end
+OakSpeechRuleCustomMove3:
+    text_far _OakSpeechRuleCustomMove3
+    text_end
+OakSpeechRuleCustomMove4:
+    text_far _OakSpeechRuleCustomMove4
+    text_end
+OakSpeechRuleDifficulty:
+    text_far _OakSpeechRuleDifficulty
+    text_end
+OakSpeechRuleMonotype:
+    text_far _OakSpeechRuleMonotype
+    text_end
+OakSpeechRuleNoEvolve:
+    text_far _OakSpeechRuleNoEvolve
+    text_end
+OakSpeechRuleNoTrainerExp:
+    text_far _OakSpeechRuleNoTrainerExp
+    text_end
+OakSpeechRuleNoWildExp:
+    text_far _OakSpeechRuleNoWildExp
+    text_end
+OakSpeechRuleNoWild:
+    text_far _OakSpeechRuleNoWild
+    text_end
+OakSpeechRuleNoCatchWild:
+    text_far _OakSpeechRuleNoCatchWild
+    text_end
+OakSpeechRuleNoCatchLegendary:
+    text_far _OakSpeechRuleNoCatchLegendary
+    text_end
+OakSpeechRuleNoGiftMon:
+    text_far _OakSpeechRuleNoGiftMon
+    text_end
+OakSpeechRuleNoTrade:
+    text_far _OakSpeechRuleNoTrade
+    text_end
+OakSpeechRuleNoRestorativeItemCombat:
+    text_far _OakSpeechRuleNoRestorativeItemCombat
+    text_end
+OakSpeechRuleNoRestorativeItemNonCombat:
+    text_far _OakSpeechRuleNoRestorativeItemNonCombat
+    text_end
+OakSpeechRuleNoBattleItem:
+    text_far _OakSpeechRuleNoBattleItem
+    text_end
+OakSpeechRuleNoShopping:
+    text_far _OakSpeechRuleNoShopping
+    text_end
+OakSpeechRuleNoDirectHM:
+    text_far _OakSpeechRuleNoDirectHM
+    text_end
+OakSpeechRuleNoTMandHM:
+    text_far _OakSpeechRuleNoTMandHM
+    text_end
+OakSpeechRuleNoLevelMoves:
+    text_far _OakSpeechRuleLevelMoves
+    text_end
+OakSpeechRuleNoDaycare:
+    text_far _OakSpeechRuleNoDaycare
+    text_end
+OakSpeechRuleCatchTrainerPokemon:
+    text_far _OakSpeechRuleCatchTrainerPokemon
+    text_end
+OakSpeechRuleSoloStarter:
+    text_far _OakSpeechRuleSoloStarter
+    text_end
+OakSpeechRulePokemonPerish:
+    text_far _OakSpeechRulePokemonPerish
+    text_end
+OakSpeechRuleSavefilePermadeath:
+    text_far _OakSpeechRuleSavefilePermadeath
+    text_end
+OakSpeechRuleAidGivesTradeStone:
+    text_far _OakSpeechRuleAidGivesTradeStone
+    text_end

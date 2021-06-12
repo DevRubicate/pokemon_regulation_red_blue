@@ -2868,7 +2868,7 @@ wWalkBikeSurfState::
 ;           1: Knocked out if not using starter
 ;           2: Pokemon deleted when fainted
 ;           3: Savefile deleted on blackout
-;           4:
+;           4: Oak aid gives Trade Stone
 ;           5:
 ;           6:
 ;           7:
