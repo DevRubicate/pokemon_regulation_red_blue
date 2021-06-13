@@ -754,7 +754,7 @@ MapEntryAfterBattle::
 	jp LoadGBPal
 
 HandleBlackOut::
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jr z, .continue                 ; skip deleting savefile
     farcall ClearSAV

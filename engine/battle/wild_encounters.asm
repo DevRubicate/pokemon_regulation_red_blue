@@ -1,7 +1,7 @@
 ; try to initiate a wild pokemon encounter
 ; returns success in Z
 TryDoWildEncounter:
-    ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
+    ld a, [wRegulationCode+2]    ; load out the wild encounter rule
     bit 3, a
     ret nz                          ; prevent wild encounter if it's blocked
 

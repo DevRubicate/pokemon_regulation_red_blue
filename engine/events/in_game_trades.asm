@@ -1,5 +1,5 @@
 DoInGameTradeDialogue:
-    ld a, [wCustomPokemonCode+2]    ; load out the trade pokemon rule
+    ld a, [wRegulationCode+2]    ; load out the trade pokemon rule
     bit 7, a
     jr z, .continue
     ld hl, RefuseToTrade

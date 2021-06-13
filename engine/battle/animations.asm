@@ -669,7 +669,7 @@ DoBallTossSpecialEffects:
 .skipPlayingSound
 
 
-    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a
     jp nz, .skipTrainerBlock
 
@@ -2548,7 +2548,7 @@ BattleAnimCopyTileMapToVRAM:
 	jp Delay3
 
 TossBallAnimation:
-    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a
     jp nz, .skipTrainerBlock
 	ld a, [wIsInBattle]

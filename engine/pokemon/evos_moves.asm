@@ -1,6 +1,6 @@
 ; try to evolve the mon in [wWhichPokemon]
 TryEvolvingMon:
-    ld a, [wCustomPokemonCode+2]    ; load the evolution rule
+    ld a, [wRegulationCode+2]    ; load the evolution rule
     bit 0, a
     ret nz                          ; prevent evolution if it's blocked
 
@@ -15,7 +15,7 @@ TryEvolvingMon:
 ; this is only called after battle
 ; it is supposed to do level up evolutions, though there is a bug that allows item evolutions to occur
 EvolutionAfterBattle:
-    ld a, [wCustomPokemonCode+2]    ; load the evolution rule
+    ld a, [wRegulationCode+2]    ; load the evolution rule
     bit 0, a
     ret nz                          ; prevent evolution if it's blocked
 
@@ -344,7 +344,7 @@ LearnMoveFromLevelUp:
 	and a ; have we reached the end of the evolution data?
 	jr nz, .skipEvolutionDataLoop ; if not, jump back up
 
-    ld a, [wCustomPokemonCode+3]    ; load the no moves from leveling rule
+    ld a, [wRegulationCode+3]    ; load the no moves from leveling rule
     bit 6, a
     jr nz, .done
 

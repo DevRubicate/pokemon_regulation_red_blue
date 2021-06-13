@@ -225,7 +225,7 @@ FightingDojoAfterBattleText4:
 FightingDojoText6:
 ; Hitmonlee Poké Ball
 	text_asm
-    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    ld a, [wRegulationCode+2]    ; load out the gift pokemon rule
     and $40                         ; only look at bit 6
     jr z, .continue
     ld hl, NoHitmonleeGiftText
@@ -275,7 +275,7 @@ WantHitmonleeText:
 FightingDojoText7:
 ; Hitmonchan Poké Ball
 	text_asm
-    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    ld a, [wRegulationCode+2]    ; load out the gift pokemon rule
     and $40                         ; only look at bit 6
     jr z, .continue
     ld hl, NoHitmonchanGiftText

@@ -6,7 +6,7 @@ CeladonPrizeMenu::
 	jp PrintText
 .havingCoinCase
 
-    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    ld a, [wRegulationCode+2]    ; load out the gift pokemon rule
     bit 6, a
     jr z, .continue
 

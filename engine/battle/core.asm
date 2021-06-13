@@ -508,7 +508,7 @@ CheckMonotypeRule:
     call ConvertTypeToIndex
     ld c, a
 
-    ld a, [wCustomPokemonCode+1]    ; load out the monotype rule
+    ld a, [wRegulationCode+1]    ; load out the monotype rule
     and $f                          ; only look at the bottom nibble
     jr z, .acceptable               ; if the monotype rule is 0 then goto acceptable
 
@@ -535,7 +535,7 @@ CheckMonotypeRule:
 
 
 CheckSoloStarterRule:
-    ld a, [wCustomPokemonCode+4]    ; load out the monotype rule
+    ld a, [wRegulationCode+4]    ; load out the monotype rule
     bit 1, a
     jr z, .acceptable               ; if the solo starter rule is 0 then goto acceptable
     ld a, [wBattleMonCatchRate]
@@ -971,12 +971,12 @@ FaintEnemyPokemon:
     dec a
     jr z, .wildbattle
 
-    ld a, [wCustomPokemonCode+2]    ; load out the trainer battle experience rule
+    ld a, [wRegulationCode+2]    ; load out the trainer battle experience rule
     bit 1, a
     ret nz
     jr .continue
 .wildbattle
-    ld a, [wCustomPokemonCode+2]    ; load out the wild experience rule
+    ld a, [wRegulationCode+2]    ; load out the wild experience rule
     bit 2, a
     ret nz
 .continue
@@ -1220,7 +1220,7 @@ RemoveFaintedPlayerMon:
     cp OPP_RIVAL1
     jr z, .skipKillingPokemon
 
-    ld a, [wCustomPokemonCode+4]     ; load out the perishing pokemon rule
+    ld a, [wRegulationCode+4]     ; load out the perishing pokemon rule
     bit 2, a
     jp z, .skipKillingPokemon
     ld a, [wPlayerMonNumber]

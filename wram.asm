@@ -2881,7 +2881,7 @@ wWalkBikeSurfState::
 ; byte 6 - Starter pokemon move 2
 ; byte 7 - Starter pokemon move 3
 ; byte 8 - Starter pokemon move 4
-wCustomPokemonCode::
+wRegulationCode::
 	ds 10
 
 wTownVisitedFlag::

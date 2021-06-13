@@ -827,7 +827,7 @@ OaksLabScript_1d133:
     ld c, a
     push bc
 
-    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
+    ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
     jr z, .nocustom
     ld [wd11e], a
@@ -878,7 +878,7 @@ OaksLabScript_1d157:
 	call ReloadMapData
 	ld c, 10
 	call DelayFrames
-    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
+    ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
     jr nz, OaksLabLookAtCustom
 	ld a, [wSpriteIndex]
@@ -1253,7 +1253,7 @@ OaksLabText27:
 
 OaksLabText11:
     text_asm
-    ld a, [wCustomPokemonCode+4]     ; load out the Oak aid gives Trade Stone
+    ld a, [wRegulationCode+4]     ; load out the Oak aid gives Trade Stone
     bit 4, a
     jp z, OaksLabText10_2
 

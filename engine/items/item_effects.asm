@@ -102,11 +102,11 @@ ItemUsePtrTable:
 	dw ItemUsePPRestore  ; MAX_ELIXER
 
 ItemUseBall:
-    ld a, [wCustomPokemonCode+2]    ; load out the catching rule
+    ld a, [wRegulationCode+2]    ; load out the catching rule
     bit 4, a
     jp nz, CatchingWildNotAllowed
 
-    ld a, [wCustomPokemonCode+2]    ; load out the legendary catching rule
+    ld a, [wRegulationCode+2]    ; load out the legendary catching rule
     bit 5, a
     jp z, .noLegendaryRestriction
 
@@ -125,7 +125,7 @@ ItemUseBall:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a
     jp nz, .skipTrainerBlock
 
@@ -571,7 +571,7 @@ ItemUseBall:
 	jr nz, .skipShowingPokedexData ; if so, don't show the Pokédex data
 
 
-    ld a, [wCustomPokemonCode+4]    ; load out the catching trainer pokemon rule
+    ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a
     jp nz, .skipShowingPokedexData
 
@@ -854,12 +854,12 @@ ItemUseMedicine:
     ld a, [wIsInBattle]
     and a
     jp z, .skip                     ; Skip restorative-combat item rule if we aren't in combat
-    ld a, [wCustomPokemonCode+3]    ; load the restorative-combat item rule
+    ld a, [wRegulationCode+3]    ; load the restorative-combat item rule
     bit 0, a
     jr z, ItemUseAllowed            ; Allow item if rule is not set
     jp RestorativeItemNotAllowedInCombat
 .skip
-    ld a, [wCustomPokemonCode+3]    ; load the restorative-noncombat item rule
+    ld a, [wRegulationCode+3]    ; load the restorative-noncombat item rule
     bit 1, a
     jr z, ItemUseAllowed            ; Allow item if rule is not set
     jp RestorativeItemNotAllowedOutsideCombat
@@ -1603,7 +1603,7 @@ ItemUseXAccuracy:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    ld a, [wRegulationCode+3]    ; load the battle item rule
     bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
@@ -1670,7 +1670,7 @@ ItemUsePokedoll:
 	dec a
 	jp nz, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    ld a, [wRegulationCode+3]    ; load the battle item rule
     bit 2, a
     jr z, .PokedollUseAllowed       ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
@@ -1685,7 +1685,7 @@ ItemUseGuardSpec:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    ld a, [wRegulationCode+3]    ; load the battle item rule
     bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
@@ -1708,7 +1708,7 @@ ItemUseDireHit:
 	and a
 	jp z, ItemUseNotTime
 
-    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    ld a, [wRegulationCode+3]    ; load the battle item rule
     bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
@@ -1727,7 +1727,7 @@ ItemUseXStat:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .inBattle
-    ld a, [wCustomPokemonCode+3]    ; load the battle item rule
+    ld a, [wRegulationCode+3]    ; load the battle item rule
     bit 2, a
     jr z, .XItemUseAllowed          ; Allow item if rule is not set
     jp BattleItemNotAllowedInCombat
@@ -1793,7 +1793,7 @@ ItemUsePokeflute:
 	ld hl, PlayedFluteNoEffectText
 	jp PrintText
 .inBattle
-    ld a, [wCustomPokemonCode+3]                    ; load the restorative-combat item rule
+    ld a, [wRegulationCode+3]                    ; load the restorative-combat item rule
     bit 0, a
     jp nz, RestorativeItemNotAllowedInCombat        ; Forbid item if rule is set
 	xor a
@@ -1956,7 +1956,7 @@ ItemUseSuperRod:
 	call ReadSuperRodData
 	ld a, e
 RodResponse:
-    ld a, [wCustomPokemonCode+2]    ; load out the wild encounter rule
+    ld a, [wRegulationCode+2]    ; load out the wild encounter rule
     bit 3, a
     jr z, .continue                 ; prevent wild encounter if it's blocked
     ld hl, CatchingFishNotAllowedText
@@ -2053,12 +2053,12 @@ ItemUsePPRestore:
     ld a, [wIsInBattle]
     and a
     jp z, .skip                     ; Skip restorative-combat item rule if we aren't in combat
-    ld a, [wCustomPokemonCode+3]    ; load the restorative-combat item rule
+    ld a, [wRegulationCode+3]    ; load the restorative-combat item rule
     bit 0, a
     jr z, AllowRestoreItem          ; Allow item if rule is not yet
     jp RestorativeItemNotAllowedInCombat
 .skip
-    ld a, [wCustomPokemonCode+3]    ; load the restorative-noncombat item rule
+    ld a, [wRegulationCode+3]    ; load the restorative-noncombat item rule
     bit 1, a
     jr z, AllowRestoreItem          ; Allow item if rule is not yet
     jp RestorativeItemNotAllowedOutsideCombat
@@ -2282,7 +2282,7 @@ ItemUseTMHM:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
-    ld a, [wCustomPokemonCode+3]    ; load the direct HM item rule
+    ld a, [wRegulationCode+3]    ; load the direct HM item rule
     bit 4, a
     jr z, .normalUse                ; If rule isn't set, use HM normally
 
@@ -2327,7 +2327,7 @@ ItemUseTMHM:
 	ld [wActionResultOrTookBattleTurn], a ; item not used
 	ret
 .useMachine
-    ld a, [wCustomPokemonCode+3]    ; load the TM and HM item rule
+    ld a, [wRegulationCode+3]    ; load the TM and HM item rule
     bit 5, a
     jr z, .continue                ; If rule isn't set, use TM normally
     ld hl, MachineMoveForbiddenText

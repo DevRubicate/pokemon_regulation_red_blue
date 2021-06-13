@@ -1,5 +1,5 @@
 VendingMachineMenu::
-    ld a, [wCustomPokemonCode+3]    ; load the item rule
+    ld a, [wRegulationCode+3]    ; load the item rule
     bit 3, a
     jr z, .normalUse                ; Allow vending machine if rule is not set
 

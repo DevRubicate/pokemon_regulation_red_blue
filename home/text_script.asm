@@ -138,7 +138,7 @@ CloseTextDisplay::
 	jp UpdateSprites
 
 DisplayPokemartDialogue::
-    ld a, [wCustomPokemonCode+3]    ; load the shopping rule
+    ld a, [wRegulationCode+3]    ; load the shopping rule
     bit 3, a
     jr z, .continue                 ; continue using the mart
 

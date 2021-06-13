@@ -11,7 +11,7 @@ CeladonMansion5Text1:
 
 CeladonMansion5Text2:
     text_asm
-    ld a, [wCustomPokemonCode+2]    ; load out the gift pokemon rule
+    ld a, [wRegulationCode+2]    ; load out the gift pokemon rule
     and $40                         ; only look at bit 6
     jr z, .continue
     ld hl, .noEevee

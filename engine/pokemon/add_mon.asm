@@ -292,7 +292,7 @@ _AddPartyMon::
 OverwriteMovesCustom:
 
     inc de                          ; pointer to the first move
-    ld a, [wCustomPokemonCode+5]    ; load the first custom move
+    ld a, [wRegulationCode+5]    ; load the first custom move
     or a
     jr z, .skipMove1                ; if the move value is 0 then skip
     cp $FF                          ; $FF means we want this move deleted
@@ -326,7 +326,7 @@ OverwriteMovesCustom:
 .skipMove1
 
     inc de
-    ld a, [wCustomPokemonCode+6]
+    ld a, [wRegulationCode+6]
     or a
     jr z, .skipMove2
     cp $FF
@@ -354,7 +354,7 @@ OverwriteMovesCustom:
 .skipMove2
 
     inc de
-    ld a, [wCustomPokemonCode+7]
+    ld a, [wRegulationCode+7]
     or a
     jr z, .skipMove3
     cp $FF
@@ -376,7 +376,7 @@ OverwriteMovesCustom:
 .skipMove3
 
     inc de
-    ld a, [wCustomPokemonCode+8]
+    ld a, [wRegulationCode+8]
     or a
     jr z, .skipMove4
     cp $FF

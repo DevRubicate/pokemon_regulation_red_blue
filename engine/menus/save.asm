@@ -130,7 +130,7 @@ SAVGoodChecksum:
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
 
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jr z, .continue                 ; skip checking cheating flag
 
@@ -184,7 +184,7 @@ SaveSAV:
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jp nz, Init                     ; exit on saving
 
@@ -295,7 +295,7 @@ SaveSAVtoSRAM2:
 SaveSAVtoSRAM::
 	ld a, $2
 	ld [wSaveFileStatus], a
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jr z, .continue                 ; skip recording cheating flag
     ld a, $FF
@@ -306,7 +306,7 @@ SaveSAVtoSRAM::
 	jp SaveSAVtoSRAM2
 
 SaveSAVtoSRAMAntiCheat::
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     ret z                           ; exit if it's not on
     ld a, $2
@@ -379,7 +379,7 @@ BoxSRAMPointerTable:
 	dw sBox6 ; sBox12
 
 ChangeBox::
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jr nz, .continue                ; skip asking for saving the box
 	ld hl, WhenYouChangeBoxText
@@ -420,7 +420,7 @@ ChangeBox::
 	ld a, [hl]
 	ld [de], a
 	call RestoreMapTextPointer
-    ld a, [wCustomPokemonCode+4]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+4]    ; load out savefile deleted on blackout
     bit 3, a
     jr nz, .skipSave                ; skip asking for saving the box
 	call SaveSAVtoSRAM

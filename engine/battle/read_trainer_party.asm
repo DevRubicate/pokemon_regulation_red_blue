@@ -1,7 +1,7 @@
 CustomBoostLevel:
     ld d, a                         ; save the pokemon's base level in d
 
-    ld a, [wCustomPokemonCode+1]    ; load the difficulty rule
+    ld a, [wRegulationCode+1]    ; load the difficulty rule
     srl a                           ; shift right
     srl a                           ; shift right
     srl a                           ; shift right

@@ -63,7 +63,7 @@ OakSpeech:
 	call PrintText
 	call GBFadeOutToWhite
 	call ClearScreen
-    ld a, [wCustomPokemonCode]  ; Load out starting pokemon rule
+    ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
     jr z, .nocustom
     ld [wd11e], a
@@ -103,24 +103,24 @@ OakSpeech:
 
 
 
-    ld a, [wCustomPokemonCode]
-    ld hl, wCustomPokemonCode+1
+    ld a, [wRegulationCode]
+    ld hl, wRegulationCode+1
     or [hl]
-    ld hl, wCustomPokemonCode+2
+    ld hl, wRegulationCode+2
     or [hl]
-    ld hl, wCustomPokemonCode+3
+    ld hl, wRegulationCode+3
     or [hl]
-    ld hl, wCustomPokemonCode+4
+    ld hl, wRegulationCode+4
     or [hl]
-    ld hl, wCustomPokemonCode+5
+    ld hl, wRegulationCode+5
     or [hl]
-    ld hl, wCustomPokemonCode+6
+    ld hl, wRegulationCode+6
     or [hl]
-    ld hl, wCustomPokemonCode+7
+    ld hl, wRegulationCode+7
     or [hl]
-    ld hl, wCustomPokemonCode+8
+    ld hl, wRegulationCode+8
     or [hl]
-    ld hl, wCustomPokemonCode+9
+    ld hl, wRegulationCode+9
     or [hl]
     jp z, .noCustomRules            ; skip rules dialog if every rule is 0
 
@@ -211,7 +211,7 @@ OakSpeechText3:
 	text_far _OakSpeechText3
 	text_end
 ChooseCode:
-    ld hl, wCustomPokemonCode
+    ld hl, wRegulationCode
     ld a, NAME_CODE_SCREEN
     ld [wNamingScreenType], a
     call DisplayNamingScreen
