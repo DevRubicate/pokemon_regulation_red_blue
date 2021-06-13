@@ -611,11 +611,13 @@ DrawTrainerInfo:
 	ld c, $a3
 	call PrintBCDNumber
 
-	hlcoord 8, 3
+	hlcoord 9, 3
 	ld de, wPlayTimeHours ; hours
 	lb bc, 1, 3
 	call PrintNumber
 
+
+    hlcoord 12, 3
 	ld [hl], $d6 ; colon tile ID
 	inc hl
 	ld de, wPlayTimeMinutes ; minutes
