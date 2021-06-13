@@ -215,6 +215,17 @@ RecordExplodeSelfDamage:
     ld hl, wRegulationTotalDamageTaken
     adc a, [hl]
     ld [wRegulationTotalDamageTaken], a
+    jr nc, .noOverflow
+
+    ld a, $FF
+    ld [wRegulationTotalDamageTaken+2], a
+    ld [wRegulationTotalDamageTaken+1], a
+    ld [wRegulationTotalDamageTaken], a
+
+.noOverflow
+
+
+
     ret
 
 

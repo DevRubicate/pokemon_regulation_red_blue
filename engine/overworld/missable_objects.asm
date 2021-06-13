@@ -88,7 +88,7 @@ InitializeMissableObjectsFlags:
 	ld a, [wMissableObjectCounter]
 	ld c, a
 	ld b, FLAG_SET
-	call MissableObjectFlagAction ; set flag if Item is hidden
+	call FlagAction ; set flag if Item is hidden
 .skip
 	ld hl, wMissableObjectCounter
 	inc [hl]
@@ -113,7 +113,7 @@ IsObjectHidden:
 	ld c, a
 	ld b, FLAG_TEST
 	ld hl, wMissableObjectFlags
-	call MissableObjectFlagAction
+	call FlagAction
 	ld a, c
 	and a
 	jr nz, .hidden
@@ -131,7 +131,7 @@ ShowObject2:
 	ld a, [wMissableObjectIndex]
 	ld c, a
 	ld b, FLAG_RESET
-	call MissableObjectFlagAction   ; reset "removed" flag
+	call FlagAction   ; reset "removed" flag
 	jp UpdateSprites
 
 ; removes missable object (items, leg. pokemon, etc.) from the map
@@ -141,75 +141,5 @@ HideObject:
 	ld a, [wMissableObjectIndex]
 	ld c, a
 	ld b, FLAG_SET
-	call MissableObjectFlagAction   ; set "removed" flag
+	call FlagAction   ; set "removed" flag
 	jp UpdateSprites
-
-MissableObjectFlagAction:
-; identical to FlagAction
-
-	push hl
-	push de
-	push bc
-
-	; bit
-	ld a, c
-	ld d, a
-	and 7
-	ld e, a
-
-	; byte
-	ld a, d
-	srl a
-	srl a
-	srl a
-	add l
-	ld l, a
-	jr nc, .ok
-	inc h
-.ok
-
-	; d = 1 << e (bitmask)
-	inc e
-	ld d, 1
-.shift
-	dec e
-	jr z, .shifted
-	sla d
-	jr .shift
-.shifted
-
-	ld a, b
-	and a
-	jr z, .reset
-	cp 2
-	jr z, .read
-
-.set
-	ld a, [hl]
-	ld b, a
-	ld a, d
-	or b
-	ld [hl], a
-	jr .done
-
-.reset
-	ld a, [hl]
-	ld b, a
-	ld a, d
-	xor $ff
-	and b
-	ld [hl], a
-	jr .done
-
-.read
-	ld a, [hl]
-	ld b, a
-	ld a, d
-	and b
-
-.done
-	pop bc
-	pop de
-	pop hl
-	ld c, a
-	ret

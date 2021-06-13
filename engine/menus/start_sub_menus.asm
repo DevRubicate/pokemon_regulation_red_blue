@@ -606,7 +606,7 @@ DrawTrainerInfo:
 	ld de, wPlayerName
 	call PlaceString
 
-	hlcoord 7, 2
+	hlcoord 8, 2
 	ld de, wPlayerMoney
 	ld c, $a3
 	call PrintBCDNumber
@@ -622,20 +622,25 @@ DrawTrainerInfo:
 	lb bc, LEADING_ZEROES | 1, 2
 	call PrintNumber
 
-    hlcoord 7, 4
+    hlcoord 8, 4
     ld de, wRegulationTotalExp
     lb bc, 3, 0
     call PrintNumber
 
-    hlcoord 7, 5
+    hlcoord 8, 5
     ld de, wRegulationTotalDamageTaken
     lb bc, 3, 0
     call PrintNumber
 
-    hlcoord 7, 6
-    ld de, wRegulationGlitch
-    lb bc, 1, 0
-    call PrintNumber
+    ld a, [wRegulationGlitch]
+    or a
+    hlcoord 13, 6
+    ld de, TrainerInfo_CheaterNoText
+    jr z, .noGlitch
+    hlcoord 12, 6
+    ld de, TrainerInfo_CheaterYesText
+.noGlitch
+    call PlaceString
 
     ret
 
@@ -654,6 +659,10 @@ TrainerInfo_DamageText:
     db "DAMAGE@"
 TrainerInfo_CheaterText:
     db "GLITCH@"
+TrainerInfo_CheaterYesText:
+    db "YES@"
+TrainerInfo_CheaterNoText:
+    db "NO@"
 
 ; $76 is a circle tile
 TrainerInfo_BadgesText:

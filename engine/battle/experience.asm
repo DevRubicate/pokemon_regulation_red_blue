@@ -154,16 +154,28 @@ GainExperience:
     ld hl, wRegulationTotalExp+2
     add a, [hl]
     ld [wRegulationTotalExp+2], a
-
     ld a, [wExpAmountGained]
     ld hl, wRegulationTotalExp+1
     adc a, [hl]
     ld [wRegulationTotalExp+1], a
-
     ld a, 0
     ld hl, wRegulationTotalExp
     adc a, [hl]
     ld [wRegulationTotalExp], a
+    jr nc, .noOverflow
+
+    ld a, $FF
+    ld [wRegulationTotalExp+2], a
+    ld [wRegulationTotalExp+1], a
+    ld [wRegulationTotalExp], a
+
+.noOverflow
+
+
+
+
+
+
 
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a

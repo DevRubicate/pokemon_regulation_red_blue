@@ -130,18 +130,23 @@ RecordPoisonDamage:
     ld hl, wRegulationTotalDamageTaken+2
     add a, [hl]
     ld [wRegulationTotalDamageTaken+2], a
-
     ld a, 0
     ld hl, wRegulationTotalDamageTaken+1
     adc a, [hl]
     ld [wRegulationTotalDamageTaken+1], a
-
     ld a, 0
     ld hl, wRegulationTotalDamageTaken
     adc a, [hl]
     ld [wRegulationTotalDamageTaken], a
 
+    jr nc, .noOverflow
 
+    ld a, $FF
+    ld [wRegulationTotalDamageTaken+2], a
+    ld [wRegulationTotalDamageTaken+1], a
+    ld [wRegulationTotalDamageTaken], a
+
+.noOverflow
 
 
     pop hl
