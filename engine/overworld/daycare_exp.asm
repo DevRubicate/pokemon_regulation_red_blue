@@ -27,14 +27,10 @@ IncrementwRegulationTotalExp:
     ret nz
     dec hl
     inc [hl]
-
-
     jr nz, .noOverflow
     ld a, $FF
     ld [wRegulationTotalExp+2], a
     ld [wRegulationTotalExp+1], a
     ld [wRegulationTotalExp], a
 .noOverflow
-
-
     ret

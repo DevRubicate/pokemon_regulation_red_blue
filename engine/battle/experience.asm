@@ -163,20 +163,11 @@ GainExperience:
     adc a, [hl]
     ld [wRegulationTotalExp], a
     jr nc, .noOverflow
-
     ld a, $FF
     ld [wRegulationTotalExp+2], a
     ld [wRegulationTotalExp+1], a
     ld [wRegulationTotalExp], a
-
 .noOverflow
-
-
-
-
-
-
-
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	call LoadMonData

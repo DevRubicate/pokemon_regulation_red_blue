@@ -3084,7 +3084,10 @@ wFirstLockTrashCanIndex::
 wSecondLockTrashCanIndex::
 	ds 1
 
-	ds 2
+	ds 1
+
+wGrassGlitchActive::
+    ds 1
 
 wEventFlags::
 	flag_array NUM_EVENTS

@@ -14,6 +14,11 @@ LoadWildData::
 	ld [wGrassRate], a
 	and a
 	jr z, .NoGrassData ; if no grass data, skip to surfing data
+
+    ld a, 0
+    ld [wGrassGlitchActive], a
+    ld a, [wGrassRate]
+
 	push hl
 	ld de, wGrassMons ; otherwise, load grass data
 	ld bc, $14
@@ -21,7 +26,7 @@ LoadWildData::
 	pop hl
 	ld bc, $14
 	add hl, bc
-.NoGrassData
+.continue
 	ld a, [hli]
 	ld [wWaterRate], a
 	and a
@@ -29,5 +34,12 @@ LoadWildData::
 	ld de, wWaterMons  ; otherwise, load surfing data
 	ld bc, $14
 	jp CopyData
+
+
+.NoGrassData
+    ld a, 1
+    ld [wGrassGlitchActive], a
+    ld a, [wGrassRate]
+    jr .continue
 
 INCLUDE "data/wild/grass_water.asm"

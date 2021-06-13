@@ -70,7 +70,7 @@ TryDoWildEncounter:
 	ld hl, wGrassMons
 	lda_coord 8, 9
 	cp $14 ; is the bottom left tile (8,9) of the half-block we're standing in a water tile?
-	jr nz, .gotWildEncounterType ; else, it's treated as a grass tile by default
+	jr nz, .checkForGrassGlitch ; else, it's treated as a grass tile by default
 	ld hl, wWaterMons
 ; since the bottom right tile of a "left shore" half-block is $14 but the bottom left tile is not,
 ; "left shore" half-blocks (such as the one in the east coast of Cinnabar) load grass encounters.
@@ -104,5 +104,17 @@ TryDoWildEncounter:
 .willEncounter
 	xor a
 	ret
+
+.checkForGrassGlitch
+    ld a, [wGrassGlitchActive]
+    or a
+    jr z, .gotWildEncounterType
+    ld a, [wRegulationGlitch]
+    set 4, a                    ; missingno glitch
+    ld [wRegulationGlitch], a
+    jr .gotWildEncounterType
+
+
+
 
 INCLUDE "data/wild/probabilities.asm"
