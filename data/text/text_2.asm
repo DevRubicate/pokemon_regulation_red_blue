@@ -1960,8 +1960,7 @@ _OakSpeechRuleAidGivesTradeStone::
     cont "normally evolve"
     cont "from trading."
     para "Ask my lab AIDE"
-    line "for the"
-    cont "TRADE STONE."
+    line "for a TRADE STONE."
     prompt
 
 _RefuseToTrade::

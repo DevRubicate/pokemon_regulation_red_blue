@@ -681,8 +681,11 @@ PrintNamingText:
 .placeString
 	jp PlaceString
 .codeString
-    hlcoord 5, 1
+    hlcoord 2, 0
     ld de, CodeTextString
+    call PlaceString
+    hlcoord 1, 16
+    ld de, VersionString
     call PlaceString
     hlcoord 8, 16
     ld de, AuthorString
@@ -699,7 +702,10 @@ NameTextString:
 	db "NAME?@"
 
 CodeTextString:
-	db "Regulation@"
+	db "Regulation Code@"
 
 AuthorString:
     db "By Rubicate@"
+
+VersionString:
+    db "v2@"

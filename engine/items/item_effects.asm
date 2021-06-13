@@ -102,6 +102,10 @@ ItemUsePtrTable:
 	dw ItemUsePPRestore  ; MAX_ELIXER
 
 ItemUseBall:
+    ld a, [wBattleType]
+    dec a
+    jr z, .noLegendaryRestriction
+
     ld a, [wRegulationCode+2]    ; load out the catching rule
     bit 4, a
     jp nz, CatchingWildNotAllowed
