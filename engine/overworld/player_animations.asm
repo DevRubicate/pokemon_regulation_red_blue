@@ -120,6 +120,15 @@ _LeaveMapAnim::
 	call GBFadeOutToWhite
 	jp RestoreFacingDirectionAndYScreenPos
 .playerNotStandingOnWarpPadOrHole
+
+    ld a, [wFlags_0xcd60]
+    bit 0, a
+    jr z, .noTeleportGlitch
+    ld a, [wRegulationGlitch]
+    set 5, a
+    ld [wRegulationGlitch], a
+.noTeleportGlitch
+
 	ld a, $4
 	call StopMusic
 	ld a, [wd732]
@@ -138,6 +147,15 @@ _LeaveMapAnim::
 	call PlayerSpinInPlace
 	jr .spinWhileMovingUp
 .flyAnimation
+
+    ld a, [wFlags_0xcd60]
+    bit 0, a
+    jr z, .noFlyGlitch
+    ld a, [wRegulationGlitch]
+    set 5, a
+    ld [wRegulationGlitch], a
+.noFlyGlitch
+
 	call LoadBirdSpriteGraphics
 	ld hl, wFlyAnimUsingCoordList
 	ld a, $ff ; is not using coord list (flap in place)
