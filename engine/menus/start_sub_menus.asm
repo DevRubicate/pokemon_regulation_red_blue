@@ -577,8 +577,8 @@ DrawTrainerInfo:
 	call TrainerInfo_DrawVerticalLine
 	hlcoord 19, 10
 	call TrainerInfo_DrawVerticalLine
-	hlcoord 6, 9
-	ld de, TrainerInfo_BadgesText
+	hlcoord 2, 8
+	ld de, TrainerInfo_RegulationCodeText
 	call PlaceString
 
 
@@ -598,10 +598,6 @@ DrawTrainerInfo:
     ld de, TrainerInfo_DamageText
     call PlaceString
 
-    hlcoord 1, 6
-    ld de, TrainerInfo_CheaterText
-    call PlaceString
-
     hlcoord 1, 1
 	ld de, wPlayerName
 	call PlaceString
@@ -615,7 +611,6 @@ DrawTrainerInfo:
 	ld de, wPlayTimeHours ; hours
 	lb bc, 1, 3
 	call PrintNumber
-
 
     hlcoord 12, 3
 	ld [hl], $d6 ; colon tile ID
@@ -634,12 +629,50 @@ DrawTrainerInfo:
     lb bc, 3, 0
     call PrintNumber
 
+
+
+
+
+    ; Print out the regulation code
+    hlcoord 0, 9
+    ld a, 10
+    ld b, a
+    ld de, wRegulationCode
+.loop
+    ld a, [de]
+    srl a
+    srl a
+    srl a
+    srl a
+    cp $9
+    jr nc, .numerical1
+    add $f6
+    jr .next1
+.numerical1
+    add $76
+.next1
+    ld [hli], a
+    ld a, [de]
+    and $f
+    cp $9
+    jr nc, .numerical2
+    add $f6
+    jr .next2
+.numerical2
+    add $76
+.next2
+    ld [hli], a
+    inc de
+    dec b
+    jr nz, .loop
+
+
+
+    ; Print out the CHEAT if glitches has been detected
     ld a, [wRegulationGlitch]
     or a
-    hlcoord 13, 6
-    ld de, TrainerInfo_CheaterNoText
     jr z, .noGlitch
-    hlcoord 12, 6
+    hlcoord 10, 1
     ld de, TrainerInfo_CheaterYesText
 .noGlitch
     call PlaceString
@@ -659,16 +692,12 @@ TrainerInfo_ExpText:
     db "EXP@"
 TrainerInfo_DamageText:
     db "DAMAGE@"
-TrainerInfo_CheaterText:
-    db "GLITCH@"
 TrainerInfo_CheaterYesText:
-    db "YES@"
-TrainerInfo_CheaterNoText:
-    db "NO@"
+    db "CHEAT@"
 
 ; $76 is a circle tile
-TrainerInfo_BadgesText:
-	db $76,"BADGES",$76,"@"
+TrainerInfo_RegulationCodeText:
+	db "REGULATION CODE@"
 
 ; draws a text box on the trainer info screen
 ; height is always 6

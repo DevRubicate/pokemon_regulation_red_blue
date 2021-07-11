@@ -102,11 +102,16 @@ ItemUsePtrTable:
 	dw ItemUsePPRestore  ; MAX_ELIXER
 
 ItemUseBall:
-    ld a, [wBattleType]
-    dec a
-    jr z, .noLegendaryRestriction
+; Balls can't be used out of battle.
+    ld a, [wIsInBattle]
+    and a
+    jp z, ItemUseNotTime
 
-    ld a, [wRegulationCode+2]    ; load out the catching rule
+    ld a, [wIsInBattle] ; if this is a trainer battle, skip some checks
+    dec a
+    jr nz, .noLegendaryRestriction
+
+    ld a, [wRegulationCode+2]    ; load out the wild catching rule
     bit 4, a
     jp nz, CatchingWildNotAllowed
 
@@ -124,10 +129,7 @@ ItemUseBall:
     cp 131 ; Mewtwo
     jp z, CatchingLegendaryNotAllowed
 .noLegendaryRestriction
-; Balls can't be used out of battle.
-	ld a, [wIsInBattle]
-	and a
-	jp z, ItemUseNotTime
+
 
     ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a

@@ -198,8 +198,9 @@ _MachineMoveForbiddenText::
 _CatchingWildNotAllowedText::
     text "OAK: <PLAYER>!"
     line "You may not catch"
-    cont "#MON according"
-    cont "to the rules!"
+    cont "wild #MON"
+    cont "according to the"
+    cont "rules!"
     prompt
 
 _CatchingLegendaryNotAllowedText::
