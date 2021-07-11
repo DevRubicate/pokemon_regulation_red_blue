@@ -644,21 +644,21 @@ DrawTrainerInfo:
     srl a
     srl a
     srl a
-    cp $9
-    jr nc, .numerical1
+    cp $a
+    jr nc, .alpha1
     add $f6
     jr .next1
-.numerical1
+.alpha1
     add $76
 .next1
     ld [hli], a
     ld a, [de]
     and $f
-    cp $9
-    jr nc, .numerical2
+    cp $a
+    jr nc, .alpha2
     add $f6
     jr .next2
-.numerical2
+.alpha2
     add $76
 .next2
     ld [hli], a

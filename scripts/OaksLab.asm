@@ -833,6 +833,7 @@ OaksLabScript_1d133:
     ld [wd11e], a
     callfar PokedexToIndex
     ld a, [wd11e]
+    ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall fo fame speech
     pop bc
     jr .continue
 

@@ -2968,7 +2968,8 @@ wBeatGymFlags::
 ; redundant because it matches wObtainedBadges
 ; used to determine whether to show name on statue and in two NPC text scripts
 	ds 1
-
+wRegulationPlayerTrueStarter::
+; The real starter pokemon you have due to regulation code
 	ds 1
 
 wd72c::
