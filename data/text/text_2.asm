@@ -961,6 +961,14 @@ _NoRunningText::
 	cont "trainer battle!"
 	prompt
 
+_WildRunningForbiddenText::
+    text "OAK: <PLAYER>!"
+    line "You may not run"
+    cont "from wild battles"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _GotAwayText::
 	text "Got away safely!"
 	prompt
@@ -1961,6 +1969,11 @@ _OakSpeechRuleAidGivesTradeStone::
     cont "from trading."
     para "Ask my lab AIDE"
     line "for a TRADE STONE."
+    prompt
+
+_OakSpeechRuleNoRunningWildBattle::
+    text "You may not run"
+    line "from wild battles."
     prompt
 
 _RefuseToTrade::

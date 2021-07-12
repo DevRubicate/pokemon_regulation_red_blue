@@ -2873,7 +2873,7 @@ wWalkBikeSurfState::
 ;           2: Pokemon deleted when fainted
 ;           3: Savefile deleted on blackout
 ;           4: Oak aid gives Trade Stone
-;           5:
+;           5: Can't run from wild battles
 ;           6:
 ;           7:
 ;

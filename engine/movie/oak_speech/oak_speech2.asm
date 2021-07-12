@@ -256,6 +256,13 @@ OakExplainRules:
     call PrintText
 .noTradeStone
 
+    ld a, [wRegulationCode+4]    ; load the no running from wild encounters rule
+    bit 5, a
+    jr z, .noWildRunBan             ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoRunningWildBattle
+    call PrintText
+.noWildRunBan
+
 
 .noCustomRules
     ret
@@ -354,4 +361,7 @@ OakSpeechRuleSavefilePermadeath:
     text_end
 OakSpeechRuleAidGivesTradeStone:
     text_far _OakSpeechRuleAidGivesTradeStone
+    text_end
+OakSpeechRuleNoRunningWildBattle:
+    text_far _OakSpeechRuleNoRunningWildBattle
     text_end

@@ -1730,6 +1730,9 @@ TryRunningFromBattle:
 	ld a, [wIsInBattle]
 	dec a
 	jr nz, .trainerBattle ; jump if it's a trainer battle
+    ld a, [wRegulationCode+4]    ; load out the can't run away from wild battles rule
+    bit 5, a
+    jp nz, .runningForbidden
 	ld a, [wNumRunAttempts]
 	inc a
 	ld [wNumRunAttempts], a
@@ -1834,6 +1837,14 @@ TryRunningFromBattle:
 	call SaveScreenTilesToBuffer1
 	scf ; set carry
 	ret
+.runningForbidden
+    ld hl, WildRunningForbiddenText
+    call PrintText
+    ld a, 1
+    ld [wForcePlayerToChooseMon], a
+    call SaveScreenTilesToBuffer1
+    and a ; reset carry
+    ret
 
 CantEscapeText:
 	text_far _CantEscapeText
@@ -1842,6 +1853,10 @@ CantEscapeText:
 NoRunningText:
 	text_far _NoRunningText
 	text_end
+
+WildRunningForbiddenText:
+    text_far _WildRunningForbiddenText
+    text_end
 
 GotAwayText:
 	text_far _GotAwayText
