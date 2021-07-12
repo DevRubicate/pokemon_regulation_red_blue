@@ -629,10 +629,6 @@ DrawTrainerInfo:
     lb bc, 3, 0
     call PrintNumber
 
-
-
-
-
     ; Print out the regulation code
     hlcoord 0, 9
     ld a, 10
@@ -651,6 +647,7 @@ DrawTrainerInfo:
 .alpha1
     add $76
 .next1
+    ld a, $b
     ld [hli], a
     ld a, [de]
     and $f
@@ -661,22 +658,20 @@ DrawTrainerInfo:
 .alpha2
     add $76
 .next2
+    ld a, $b
     ld [hli], a
     inc de
     dec b
     jr nz, .loop
 
-
-
     ; Print out the CHEAT if glitches has been detected
     ld a, [wRegulationGlitch]
     or a
-    jr z, .noGlitch
+    jr z, .noCheat
     hlcoord 10, 1
     ld de, TrainerInfo_CheaterYesText
-.noGlitch
     call PlaceString
-
+.noCheat
     ret
 
 
