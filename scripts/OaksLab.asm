@@ -380,6 +380,9 @@ OaksLabScript11:
 	bit 0, a
 	ret nz
 
+    ; mark this battle as one where pokemon cannot die
+    ld a, 1
+    ld [wRegulationMonDeathImmunity], a
 	; define which team rival uses, and fight it
 	ld a, OPP_RIVAL1
 	ld [wCurOpponent], a

@@ -1553,7 +1553,7 @@ wTrainerBaseMoney::
 
 wMissableObjectCounter::
 	ds 1
-
+wRegulationMonDeathImmunity::
 	ds 1
 
 wTrainerName::
@@ -2898,7 +2898,6 @@ wFossilItem::
 wFossilMon::
 ; mon that will result from the item
 	ds 1
-wMonotypeUsed::
     ds 1
 wEnemyMonPartyPosBackup::
 	ds 1

@@ -49,8 +49,8 @@ EndOfBattle:
     or a
     jp z, Init
 
-
 	xor a
+    ld [wRegulationMonDeathImmunity], a            ; remove the perishing rule skip
 	ld [wLowHealthAlarm], a ;disable low health alarm
 	ld [wChannelSoundIDs + Ch5], a
 	ld [wIsInBattle], a

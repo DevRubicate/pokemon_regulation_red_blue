@@ -500,6 +500,14 @@ ConvertTypeToIndex:
     ret
 
 CheckMonotypeRule:
+    ld hl, wPlayerBattleStatus3  ; If a Pokemon has used Transform, we don't check the monotype rule for it
+    bit TRANSFORMED, [hl]
+    jr nz, .acceptable
+
+    ld hl, wPlayerBattleStatus3  ; If a Pokemon has used Conversion, we don't check the monotype rule for it
+    bit HAS_CONVERSION, [hl]
+    jr nz, .acceptable
+
     ld a, [wBattleMonType1]
     call ConvertTypeToIndex
     ld b, a
@@ -525,17 +533,17 @@ CheckMonotypeRule:
     ret                             ; return with zero flag set
 .acceptable
 
-    ld a, b
-    or c
-    ld [wMonotypeUsed], a           ; record what types are used
-
     ld a, 1                         ; This monotype rule was acceptable
     or a
     ret                             ; return with zero flag cleared
 
 
 CheckSoloStarterRule:
-    ld a, [wRegulationCode+4]    ; load out the monotype rule
+    ld hl, wPlayerBattleStatus3  ; If a Pokemon has used Transform, we don't check the solo starter rule for it
+    bit TRANSFORMED, [hl]
+    jr nz, .acceptable
+
+    ld a, [wRegulationCode+4]    ; load out the solo starter rule
     bit 1, a
     jr z, .acceptable               ; if the solo starter rule is 0 then goto acceptable
     ld a, [wBattleMonCatchRate]
@@ -1195,12 +1203,6 @@ RemoveFaintedPlayerMon:
 	call WaitForSoundToFinish
 .skipWaitForSound
 
-
-
-
-
-
-
 ; a is 0, so this zeroes the enemy's accumulated damage.
 	ld hl, wEnemyBideAccumulatedDamage
 	ld [hli], a
@@ -1216,9 +1218,9 @@ RemoveFaintedPlayerMon:
 	ld a, $1
 	ld [wBattleResult], a
 
-    ld a, [wCurOpponent]            ; skip perishing rule if it's the first rival battle
-    cp OPP_RIVAL1
-    jr z, .skipKillingPokemon
+    ld a, [wRegulationMonDeathImmunity]            ; skip perishing rule if this battle has been marked as deathless
+    or a
+    jr nz, .skipKillingPokemon
 
     ld a, [wRegulationCode+4]     ; load out the perishing pokemon rule
     bit 2, a
@@ -1242,7 +1244,6 @@ RemoveFaintedPlayerMon:
 
 
 .skipKillingPokemon
-
 
 ; When the player mon and enemy mon faint at the same time and the fact that the
 ; enemy mon has fainted is detected first (e.g. when the player mon knocks out

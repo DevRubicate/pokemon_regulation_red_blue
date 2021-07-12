@@ -14,6 +14,9 @@ ConversionEffect_:
 	bit INVULNERABLE, a ; is mon immune to typical attacks (dig/fly)
 	jr nz, PrintButItFailedText
 ; copy target's types to user
+    ld hl, wPlayerBattleStatus3
+    set HAS_CONVERSION, [hl]
+
 	ld a, [hli]
 	ld [de], a
 	inc de
