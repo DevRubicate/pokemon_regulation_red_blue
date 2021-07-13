@@ -647,7 +647,6 @@ DrawTrainerInfo:
 .alpha1
     add $76
 .next1
-    ld a, $b
     ld [hli], a
     ld a, [de]
     and $f
@@ -658,7 +657,6 @@ DrawTrainerInfo:
 .alpha2
     add $76
 .next2
-    ld a, $b
     ld [hli], a
     inc de
     dec b
