@@ -1319,7 +1319,7 @@ wNPCMovementScriptSpriteOffset::
 
 wScriptedNPCWalkCounter::
 	ds 1
-
+wRodResponseBackup::
 	ds 1
 
 wGBC::

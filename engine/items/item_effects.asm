@@ -1962,12 +1962,14 @@ ItemUseSuperRod:
 	call ReadSuperRodData
 	ld a, e
 RodResponse:
+    ld [wRodResponseBackup], a
     ld a, [wRegulationCode+2]    ; load out the wild encounter rule
     bit 3, a
     jr z, .continue                 ; prevent wild encounter if it's blocked
     ld hl, CatchingFishNotAllowedText
     jp PrintText
 .continue
+    ld a, [wRodResponseBackup]
 	ld [wRodResponse], a
 	dec a ; is there a bite?
 	jr nz, .next
