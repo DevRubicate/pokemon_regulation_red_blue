@@ -1965,9 +1965,8 @@ _OakSpeechRuleAidGivesTradeStone::
     text "TRADE STONE can be"
     line "used to evolve"
     cont "#MON that"
-    cont "normally evolve"
-    cont "from trading."
-    para "Ask my lab AIDE"
+    cont "evolve from trade."
+    para "Ask the Cable Club"
     line "for a TRADE STONE."
     prompt
 
