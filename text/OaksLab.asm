@@ -368,28 +368,6 @@ _OaksLabText_1d405::
 	line "PROF.OAK's AIDE."
 	done
 
-_OaksLabText_OfferTradeStone::
-    text "PROF.OAK has"
-    line "instructed me to"
-    cont "give you this."
-    para "It allows you to"
-    line "evolve #Mon"
-    cont "that only evolve"
-    cont "from trading."
-    prompt
-
-_OaksLabText_GotTradeStone::
-    text "<PLAYER> got"
-    line "@"
-    text_ram wcf4b
-    text "!@"
-    text_end
-
-_OaksLabText_BagFull::
-    text "You have too much"
-    line "stuff with you!"
-    done
-
 _OaksLabText_441cc::
 	text "#DEX comp-"
 	line "letion is:"

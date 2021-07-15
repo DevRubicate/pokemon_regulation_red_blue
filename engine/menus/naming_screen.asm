@@ -202,6 +202,16 @@ DisplayNamingScreen:
     ld hl, wcf4b
     ld bc, NAME_LENGTH
     call CopyCode
+    call VerifyCode
+    jr nz, .acceptableRegulationCode
+
+    ; ouch this code wasn't acceptable, tell that to the player
+    call ClearScreen
+    call ClearSprites
+    ld hl, InvalidRegulationCode
+    call PrintText
+    jp DisplayNamingScreen
+.acceptableRegulationCode
     call GBPalWhiteOutWithDelay3
     call ClearScreen
     call ClearSprites
@@ -399,8 +409,6 @@ CopyCodeSegment:
 .number
     sbc $f6
 .save
-
-
     ld b, a
     sla b
     sla b
@@ -429,6 +437,19 @@ CopyCodeSegment:
 .zero2
     ld a, $f6
     jr .continue2
+
+VerifyCode:
+    ld a, [wRegulationCode]
+    cp 152                      ; Have you inputed a starter pokemon above 151?
+    jr nc, .acceptablePokemon
+
+    ld a, 1
+    or a
+    ret
+.acceptablePokemon
+
+    xor a
+    ret
 
 LoadEDTile:
 	ld de, ED_Tile
@@ -708,4 +729,8 @@ AuthorString:
     db "By Rubicate@"
 
 VersionString:
-    db "v3@"
+    db "v5@"
+
+InvalidRegulationCode:
+    text_far _InvalidRegulationCode
+    text_end

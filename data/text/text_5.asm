@@ -8,6 +8,28 @@ _CableClubNPCMakingPreparationsText::
 	cont "Please wait."
 	done
 
+_CableClubNPCGiveTradeStone::
+    text "PROF.OAK has"
+    line "instructed me to"
+    cont "give you this."
+    para "It allows you to"
+    line "evolve #Mon"
+    cont "that only evolve"
+    cont "from trading."
+    prompt
+
+_CableClubNPCGotTradeStone::
+    text "<PLAYER> got"
+    line "@"
+    text_ram wcf4b
+    text "!@"
+    text_end
+
+_CableClubNPCBagFull::
+    text "You have too much"
+    line "stuff with you!"
+    done
+
 _UsedStrengthText::
 	text_ram wcd6d
 	text " used"

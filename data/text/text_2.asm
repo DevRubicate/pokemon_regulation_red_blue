@@ -2001,6 +2001,12 @@ _HisNameIsText::
 	cont "name is <RIVAL>!"
 	prompt
 
+_InvalidRegulationCode::
+    text "Regulation Code is"
+    line "invalid for this"
+    cont "game version."
+    prompt
+
 _WillBeTradedText::
 	text_ram wNameOfPlayerMonToBeTraded
 	text " and"

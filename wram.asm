@@ -2490,7 +2490,7 @@ wWarpEntries::
 wDestinationWarpID::
 ; if $ff, the player's coordinates are not updated when entering the map
 	ds 1
-
+wTest::
 	ds 128
 
 wNumSigns::
@@ -2595,7 +2595,7 @@ wNumHoFTeams::
 ; number of HOF teams
 	ds 1
 
-wUnusedD5A3::
+wRegulationGlitchFirstTime::
 	ds 1
 
 wPlayerCoins::

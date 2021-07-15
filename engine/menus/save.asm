@@ -169,6 +169,16 @@ SaveSAV:
 	and a
 	ret nz
 .save
+    call CheckCheatLabel
+    jr z, .save2
+    ld hl, CheatLabelBrandedText
+    call SaveSAVConfirm
+    and a
+    ret nz
+    ld a, [wRegulationGlitch]
+    ld [wRegulationGlitchFirstTime], a
+
+.save2
 	call SaveSAVtoSRAM
 	hlcoord 1, 13
 	lb bc, 4, 18
@@ -215,6 +225,10 @@ GameSavedText:
 OlderFileWillBeErasedText:
 	text_far _OlderFileWillBeErasedText
 	text_end
+
+CheatLabelBrandedText:
+    text_far _CheatLabelBrandedText
+    text_end
 
 SaveSAVtoSRAM0:
 	ld a, SRAM_ENABLE
@@ -680,6 +694,23 @@ SAVCheckRandomID:
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
 	ret
+
+CheckCheatLabel:
+; checks if you had not cheated before, but you are a cheater now
+    ld a, [wRegulationGlitch]
+    or a
+    jr z, .noWarning
+    ld a, [wRegulationGlitchFirstTime]
+    or a
+    jr nz, .noWarning
+
+    ld a, 1
+    or a
+    ret
+.noWarning
+    xor a
+    ret
+
 
 SaveHallOfFameTeams:
 	ld a, [wNumHoFTeams]

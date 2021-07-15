@@ -19,6 +19,14 @@ _OlderFileWillBeErasedText::
 	cont "save. Okay?"
 	done
 
+_CheatLabelBrandedText::
+    text "Cheating glitches"
+    line "detected."
+    para "Savefile will be"
+    line "branded as CHEAT"
+    cont "Okay?"
+    done
+
 _WhenYouChangeBoxText::
 	text "When you change a"
 	line "#MON BOX, data"

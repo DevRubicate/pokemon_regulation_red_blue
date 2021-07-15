@@ -1,4 +1,24 @@
 CableClubNPC::
+    ld a, [wRegulationCode+4]     ; load out the Trade Stone rule
+    bit 4, a
+    jp z, .normal
+    ld hl, CableClubNPCGiveTradeStone
+    call PrintText
+    lb bc, TRADE_STONE, 1
+    call GiveItem
+    jr c, .got_item
+    ld hl, CableClubNPCBagFull
+    jr .doneTradeStone
+.got_item
+    ld a, SFX_GET_ITEM_1
+    call PlaySound
+    ld hl, CableClubNPCGotTradeStone
+.doneTradeStone
+    call PrintText
+    jp TextScriptEnd
+
+
+.normal
 	ld hl, CableClubNPCWelcomeText
 	call PrintText
 	CheckEvent EVENT_GOT_POKEDEX
@@ -149,3 +169,16 @@ CloseLinkConnection:
 	ld a, START_TRANSFER_EXTERNAL_CLOCK
 	ldh [rSC], a
 	ret
+
+CableClubNPCGiveTradeStone:
+    text_far _CableClubNPCGiveTradeStone
+    text_end
+
+CableClubNPCGotTradeStone:
+    text_far _CableClubNPCGotTradeStone
+    text_end
+
+CableClubNPCBagFull:
+    text_far _CableClubNPCBagFull
+    text_end
+

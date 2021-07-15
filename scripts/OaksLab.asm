@@ -1256,30 +1256,8 @@ OaksLabText27:
 	text_end
 
 OaksLabText11:
-    text_asm
-    ld a, [wRegulationCode+4]     ; load out the Oak aid gives Trade Stone
-    bit 4, a
-    jp z, OaksLabText10_2
-
-
-    ld hl, OaksLabText_OfferTradeStone
-    call PrintText
-    lb bc, TRADE_STONE, 1
-    call GiveItem
-    jr c, .got_item
-    ld hl, OaksLabText_BagFull
-    jr .done
-.got_item
-    ld a, SFX_GET_ITEM_1
-    call PlaySound
-    ld hl, OaksLabText_GotTradeStone
-.done
-    call PrintText
-    jp TextScriptEnd
-
 OaksLabText10:
 	text_asm
-OaksLabText10_2:
 	ld hl, OaksLabText_1d405
 	call PrintText
 	jp TextScriptEnd
@@ -1287,15 +1265,3 @@ OaksLabText10_2:
 OaksLabText_1d405:
 	text_far _OaksLabText_1d405
 	text_end
-
-OaksLabText_OfferTradeStone:
-    text_far _OaksLabText_OfferTradeStone
-    text_end
-
-OaksLabText_GotTradeStone:
-    text_far _OaksLabText_GotTradeStone
-    text_end
-
-OaksLabText_BagFull:
-    text_far _OaksLabText_BagFull
-    text_end
