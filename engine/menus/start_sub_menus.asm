@@ -670,6 +670,9 @@ DrawTrainerInfo:
     ld de, TrainerInfo_CheaterYesText
     call PlaceString
 .noCheat
+
+    farcall ResetTrainers
+
     ret
 
 

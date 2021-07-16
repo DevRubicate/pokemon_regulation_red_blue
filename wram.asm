@@ -8,7 +8,7 @@ INCLUDE "vram.asm"
 
 SECTION "WRAM", WRAM0
 
-wUnusedC000::
+wVariableA:: ; General purpose variable
 	ds 1
 
 wSoundID::
@@ -2874,7 +2874,7 @@ wWalkBikeSurfState::
 ;           3: Savefile deleted on blackout
 ;           4: Oak aid gives Trade Stone
 ;           5: Can't run from wild battles
-;           6:
+;           6: Your move cannot be super effective
 ;           7:
 ;
 ; byte 5 - Starter pokemon move 1

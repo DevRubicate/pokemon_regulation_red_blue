@@ -1,0 +1,597 @@
+ResetTrainers::
+
+    ; Brock's Gym
+    ResetEvent EVENT_BEAT_PEWTER_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_BROCK
+
+    ; Misty's Gym
+    ResetEvent EVENT_BEAT_CERULEAN_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_CERULEAN_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_MISTY
+
+    ; Lt. Surge's Gym
+    ResetEvent EVENT_BEAT_VERMILION_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_VERMILION_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_VERMILION_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_LT_SURGE
+
+    ; Erika's Gym
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_3
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_4
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_5
+    ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_6
+    ResetEvent EVENT_BEAT_ERIKA
+
+    ; Koga's Gym
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_3
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_4
+    ResetEvent EVENT_BEAT_FUCHSIA_GYM_TRAINER_5
+    ResetEvent EVENT_BEAT_KOGA
+
+    ; Sabrina's Gym
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_3
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_4
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_5
+    ResetEvent EVENT_BEAT_SAFFRON_GYM_TRAINER_6
+    ResetEvent EVENT_BEAT_SABRINA
+
+    ; Blaine's Gym
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_3
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_4
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_5
+    ResetEvent EVENT_BEAT_CINNABAR_GYM_TRAINER_6
+    ResetEvent EVENT_BEAT_BLAINE
+    ResetEvent EVENT_CINNABAR_GYM_GATE0_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE1_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE2_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE3_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE4_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE5_UNLOCKED
+    ResetEvent EVENT_CINNABAR_GYM_GATE6_UNLOCKED
+
+    ; Giovanni's Gym
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_0
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_1
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_2
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_3
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_4
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_5
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_6
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_7
+    ResetEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
+
+    ; Route 3
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_7
+
+    ; Route 4
+    ResetEvent EVENT_BEAT_ROUTE_4_TRAINER_0
+
+    ; Route 6
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_6_TRAINER_5
+
+    ; Route 8
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_8_TRAINER_8
+
+    ; Route 9
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_9_TRAINER_8
+
+    ; Route 10
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_10_TRAINER_5
+
+    ; Route 11
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_11_TRAINER_9
+
+    ; Route 12
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_12_TRAINER_6
+
+    ; Route 13
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_13_TRAINER_9
+
+    ; Route 14
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_14_TRAINER_9
+
+    ; Route 15
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_15_TRAINER_9
+
+    ; Route 16
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_16_TRAINER_5
+
+    ; Route 17
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_17_TRAINER_9
+
+    ; Route 18
+    ResetEvent EVENT_BEAT_ROUTE_18_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_18_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_18_TRAINER_2
+
+    ; Route 19
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_19_TRAINER_9
+
+    ; Route 20
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_8
+    ResetEvent EVENT_BEAT_ROUTE_20_TRAINER_9
+
+    ; Route 21
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_21_TRAINER_8
+
+    ; Route 24
+    ResetEvent EVENT_BEAT_ROUTE24_ROCKET
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_24_TRAINER_5
+    ResetEvent EVENT_GOT_NUGGET
+    ld a, HS_NUGGET_BRIDGE_GUY
+    call ResetMissableObject
+
+    ; Route 25
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_0
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_1
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_2
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_3
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_4
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_5
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_6
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_7
+    ResetEvent EVENT_BEAT_ROUTE_25_TRAINER_8
+
+    ; Viridian Forest
+    ResetEvent EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_0
+    ResetEvent EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_1
+    ResetEvent EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_2
+
+    ; Mt Moon
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_0
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_1
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_2
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_3
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_4
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_5
+    ResetEvent EVENT_BEAT_MT_MOON_1_TRAINER_6
+    ResetEvent EVENT_BEAT_MT_MOON_3_TRAINER_0
+    ResetEvent EVENT_BEAT_MT_MOON_3_TRAINER_1
+    ResetEvent EVENT_BEAT_MT_MOON_3_TRAINER_2
+    ResetEvent EVENT_BEAT_MT_MOON_3_TRAINER_3
+    ResetEvent EVENT_BEAT_MT_MOON_EXIT_SUPER_NERD
+
+    ; SS Anne
+    ResetEvent EVENT_BEAT_SS_ANNE_5_TRAINER_0
+    ResetEvent EVENT_BEAT_SS_ANNE_5_TRAINER_1
+    ResetEvent EVENT_BEAT_SS_ANNE_8_TRAINER_0
+    ResetEvent EVENT_BEAT_SS_ANNE_8_TRAINER_1
+    ResetEvent EVENT_BEAT_SS_ANNE_8_TRAINER_2
+    ResetEvent EVENT_BEAT_SS_ANNE_8_TRAINER_3
+    ResetEvent EVENT_BEAT_SS_ANNE_9_TRAINER_0
+    ResetEvent EVENT_BEAT_SS_ANNE_9_TRAINER_1
+    ResetEvent EVENT_BEAT_SS_ANNE_9_TRAINER_2
+    ResetEvent EVENT_BEAT_SS_ANNE_9_TRAINER_3
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_0
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_1
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_2
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_3
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_4
+    ResetEvent EVENT_BEAT_SS_ANNE_10_TRAINER_5
+    ResetEvent EVENT_SS_ANNE_LEFT
+    ResetEvent EVENT_RUBBED_CAPTAINS_BACK
+    ResetEvent EVENT_WALKED_PAST_GUARD_AFTER_SS_ANNE_LEFT
+    ResetEvent EVENT_STARTED_WALKING_OUT_OF_DOCK
+    ResetEvent EVENT_WALKED_OUT_OF_DOCK
+    ld a, HS_SS_ANNE_2F_RIVAL
+    call ResetMissableObject
+    ld a, $0
+    ld [wSSAnne2FCurScript], a
+
+    ; Rock Tunnel
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_1
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_2
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_3
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_4
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_5
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_1_TRAINER_6
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_1
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_2
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_3
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_4
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_5
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_6
+    ResetEvent EVENT_BEAT_ROCK_TUNNEL_2_TRAINER_7
+
+    ; Team Rocket Hideout
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_1
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_2
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_3
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_4
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_2_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_3_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_3_TRAINER_1
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_4_TRAINER_0
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_4_TRAINER_1
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_4_TRAINER_2
+    ResetEvent EVENT_BEAT_ROCKET_HIDEOUT_GIOVANNI
+    ResetEvent EVENT_ROCKET_HIDEOUT_4_DOOR_UNLOCKED
+    ld a, HS_GAME_CORNER_ROCKET
+    call ResetMissableObject
+    ld a, HS_ROCKET_HIDEOUT_B4F_GIOVANNI
+    call ResetMissableObject
+
+    ; Pokemon Tower
+    ResetEvent EVENT_BEAT_POKEMONTOWER_3_TRAINER_0
+    ResetEvent EVENT_BEAT_POKEMONTOWER_3_TRAINER_1
+    ResetEvent EVENT_BEAT_POKEMONTOWER_3_TRAINER_2
+    ResetEvent EVENT_BEAT_POKEMONTOWER_4_TRAINER_0
+    ResetEvent EVENT_BEAT_POKEMONTOWER_4_TRAINER_1
+    ResetEvent EVENT_BEAT_POKEMONTOWER_4_TRAINER_2
+    ResetEvent EVENT_BEAT_POKEMONTOWER_5_TRAINER_0
+    ResetEvent EVENT_BEAT_POKEMONTOWER_5_TRAINER_1
+    ResetEvent EVENT_BEAT_POKEMONTOWER_5_TRAINER_2
+    ResetEvent EVENT_BEAT_POKEMONTOWER_5_TRAINER_3
+    ResetEvent EVENT_BEAT_POKEMONTOWER_6_TRAINER_0
+    ResetEvent EVENT_BEAT_POKEMONTOWER_6_TRAINER_1
+    ResetEvent EVENT_BEAT_POKEMONTOWER_6_TRAINER_2
+    ResetEvent EVENT_BEAT_POKEMONTOWER_7_TRAINER_0
+    ResetEvent EVENT_BEAT_POKEMONTOWER_7_TRAINER_1
+    ResetEvent EVENT_BEAT_POKEMONTOWER_7_TRAINER_2
+    ResetEvent EVENT_BEAT_POKEMON_TOWER_RIVAL
+    ld a, HS_POKEMON_TOWER_2F_RIVAL
+    call ResetMissableObject
+    ld a, HS_POKEMON_TOWER_7F_ROCKET_1
+    call ResetMissableObject
+    ld a, HS_POKEMON_TOWER_7F_ROCKET_2
+    call ResetMissableObject
+    ld a, HS_POKEMON_TOWER_7F_ROCKET_3
+    call ResetMissableObject
+
+    ; Fighting Dojo
+    ResetEvent EVENT_BEAT_KARATE_MASTER
+    ResetEvent EVENT_BEAT_FIGHTING_DOJO_TRAINER_0
+    ResetEvent EVENT_BEAT_FIGHTING_DOJO_TRAINER_1
+    ResetEvent EVENT_BEAT_FIGHTING_DOJO_TRAINER_2
+    ResetEvent EVENT_BEAT_FIGHTING_DOJO_TRAINER_3
+    ResetEvent EVENT_DEFEATED_FIGHTING_DOJO
+
+    ; Silph Co
+    ResetEvent EVENT_BEAT_SILPH_CO_RIVAL
+    ResetEvent EVENT_BEAT_SILPH_CO_2F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_2F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_2F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_2F_TRAINER_3
+    ResetEvent EVENT_BEAT_SILPH_CO_3F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_3F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_4F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_4F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_4F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_5F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_5F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_5F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_5F_TRAINER_3
+    ResetEvent EVENT_BEAT_SILPH_CO_6F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_6F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_6F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_7F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_7F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_7F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_7F_TRAINER_3
+    ResetEvent EVENT_BEAT_SILPH_CO_8F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_8F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_8F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_9F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_9F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_9F_TRAINER_2
+    ResetEvent EVENT_BEAT_SILPH_CO_10F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_10F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_11F_TRAINER_0
+    ResetEvent EVENT_BEAT_SILPH_CO_11F_TRAINER_1
+    ResetEvent EVENT_BEAT_SILPH_CO_GIOVANNI
+    ld a, HS_SILPH_CO_2F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_2F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_2F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_2F_4
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_2F_5
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_3F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_3F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_4F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_4F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_4F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_5F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_5F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_5F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_5F_4
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_6F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_6F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_6F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_4
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_8
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_8F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_8F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_8F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_9F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_9F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_9F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_10F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_10F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_10F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_11F_1
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_11F_2
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_11F_3
+    call ResetMissableObject
+    ld a, HS_SILPH_CO_7F_RIVAL
+    call ResetMissableObject
+
+    ; Mansion
+    ResetEvent EVENT_BEAT_MANSION_1_TRAINER_0
+    ResetEvent EVENT_BEAT_MANSION_2_TRAINER_0
+    ResetEvent EVENT_BEAT_MANSION_3_TRAINER_0
+    ResetEvent EVENT_BEAT_MANSION_3_TRAINER_1
+    ResetEvent EVENT_BEAT_MANSION_4_TRAINER_0
+    ResetEvent EVENT_BEAT_MANSION_4_TRAINER_1
+
+    ; Victory Road
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_3_TRAINER_0
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_3_TRAINER_1
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_3_TRAINER_2
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_3_TRAINER_3
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_2_TRAINER_0
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_2_TRAINER_1
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_2_TRAINER_2
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_2_TRAINER_3
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_2_TRAINER_4
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_1_TRAINER_0
+    ResetEvent EVENT_BEAT_VICTORY_ROAD_1_TRAINER_1
+
+    ; The rival enconuter on Nugget Bridge
+    ResetEvent EVENT_BEAT_CERULEAN_RIVAL
+    ld a, HS_CERULEAN_RIVAL
+    call ResetMissableObject
+
+    ; The thief that has stolen the dig TM
+    ResetEvent EVENT_BEAT_CERULEAN_ROCKET_THIEF
+    ld a, HS_CERULEAN_ROCKET
+    call ResetMissableObject
+
+    ; Rival on Route 22
+    ResetEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
+    ResetEvent EVENT_BEAT_ROUTE22_RIVAL_2ND_BATTLE
+
+    ret
+
+ResetMissableObject:
+    ld hl, wMissableObjectFlags
+    ld c, a
+    ld b, FLAG_RESET
+
+; Perform action b on bit c
+; in the bitfield at hl.
+;  0: reset
+;  1: set
+;  2: read
+; Return the result in c.
+
+    push hl
+    push de
+    push bc
+
+    ; bit
+    ld a, c
+    ld d, a
+    and 7
+    ld e, a
+
+    ; byte
+    ld a, d
+    srl a
+    srl a
+    srl a
+    add l
+    ld l, a
+    jr nc, .ok
+    inc h
+.ok
+
+    ; d = 1 << e (bitmask)
+    inc e
+    ld d, 1
+.shift
+    dec e
+    jr z, .shifted
+    sla d
+    jr .shift
+.shifted
+
+    ld a, b
+    and a
+    jr z, .reset
+    cp 2
+    jr z, .read
+
+.set
+    ld b, [hl]
+    ld a, d
+    or b
+    ld [hl], a
+    jr .done
+
+.reset
+    ld b, [hl]
+    ld a, d
+    xor $ff
+    and b
+    ld [hl], a
+    jr .done
+
+.read
+    ld b, [hl]
+    ld a, d
+    and b
+.done
+    pop bc
+    pop de
+    pop hl
+    ld c, a
+    ret

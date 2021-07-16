@@ -5533,10 +5533,33 @@ AdjustDamageForMoveType:
 	push hl
 	push bc
 	inc hl
+
+    ; store for later
+    ld a, [hl] ; a = damage multiplier
+    ld [wVariableA], a
+
+    ; Skip the regulation code if it's the enemy's turn
+    ld a, [hWhoseTurn]
+    and a
+    jr nz, .continue  ; if it's the enemy turn then move on
+
+    ld a, [wRegulationCode+4] ; Load out the rule for not having super effective moves
+    bit 6, a
+    jr z, .continue    ; if the rule isn't active then move on
+
+    ld a, [wVariableA]
+    cp SUPER_EFFECTIVE
+    jr nz, .continue   ; If it's not super effective then move on
+
+    pop bc
+    pop hl
+    jr .nextTypePair   ; move on and ignore this entry
+
+.continue
 	ld a, [wDamageMultipliers]
 	and $80
 	ld b, a
-	ld a, [hl] ; a = damage multiplier
+	ld a, [wVariableA] ; damage multiplier
 	ldh [hMultiplier], a
 	add b
 	ld [wDamageMultipliers], a

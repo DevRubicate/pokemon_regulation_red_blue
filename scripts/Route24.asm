@@ -109,12 +109,17 @@ Route24Text1:
 	jr nz, .got_item
 	ld hl, Route24Text_51510
 	call PrintText
+    CheckEvent EVENT_ALREADY_CLAIMED_NUGGET
+    jr nz, .skip_nugget
 	lb bc, NUGGET, 1
 	call GiveItem
 	jr nc, .bag_full
 	SetEvent EVENT_GOT_NUGGET
+    SetEvent EVENT_ALREADY_CLAIMED_NUGGET
 	ld hl, Route24Text_5151a
 	call PrintText
+.skip_nugget
+    SetEvent EVENT_GOT_NUGGET
 	ld hl, Route24Text_51526
 	call PrintText
 	ld hl, wd72d

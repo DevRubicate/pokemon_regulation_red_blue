@@ -501,7 +501,7 @@
 	const EVENT_BEAT_ROUTE_24_TRAINER_3
 	const EVENT_BEAT_ROUTE_24_TRAINER_4
 	const EVENT_BEAT_ROUTE_24_TRAINER_5
-	const_skip
+	const EVENT_ALREADY_CLAIMED_NUGGET
 	const EVENT_NUGGET_REWARD_AVAILABLE
 
 ; Route 25 events
@@ -600,7 +600,7 @@
 	const_skip
 	const EVENT_677 ; ???
 	const_skip 7
-	const EVENT_67F ; ???
+	const EVENT_GOT_SILPH_SCOPE
 	const_skip
 	const EVENT_BEAT_ROCKET_HIDEOUT_2_TRAINER_0
 	const_skip 15
