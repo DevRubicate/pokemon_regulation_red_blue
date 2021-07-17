@@ -2875,7 +2875,7 @@ wWalkBikeSurfState::
 ;           4: Oak aid gives Trade Stone
 ;           5: Can't run from wild battles
 ;           6: Your move cannot be super effective
-;           7:
+;           7: Trainers reset on pokemon center or blackout
 ;
 ; byte 5 - Starter pokemon move 1
 ; byte 6 - Starter pokemon move 2

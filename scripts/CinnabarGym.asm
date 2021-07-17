@@ -142,10 +142,12 @@ CinnabarGymScript3:
 	ld a, $f0
 	ld [wJoyIgnore], a
 CinnabarGymScript3_75857:
+    SetEvent EVENT_BEAT_BLAINE
+    CheckEvent EVENT_GOT_TM38
+    jr nz, .gymVictory
 	ld a, $a
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_BLAINE
 	lb bc, TM_FIRE_BLAST, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -210,7 +212,7 @@ CinnabarGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_BLAINE
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM38
+	CheckEvent EVENT_GOT_TM38
 	jr nz, .afterVictory
 	call z, CinnabarGymScript3_75857
 	call DisableWaitingAfterTextDisplay

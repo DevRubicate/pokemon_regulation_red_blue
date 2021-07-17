@@ -44,10 +44,12 @@ FuchsiaGymScript3:
 	ld a, $f0
 	ld [wJoyIgnore], a
 FuchsiaGymScript3_75497:
+    SetEvent EVENT_BEAT_KOGA
+    CheckEvent EVENT_GOT_TM06
+    jr nz, .gymVictory
 	ld a, $9
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_KOGA
 	lb bc, TM_TOXIC, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -104,7 +106,7 @@ FuchsiaGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_KOGA
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM06
+	CheckEvent EVENT_GOT_TM06
 	jr nz, .afterVictory
 	call z, FuchsiaGymScript3_75497
 	call DisableWaitingAfterTextDisplay

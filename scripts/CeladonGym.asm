@@ -43,10 +43,12 @@ CeladonGymScript3:
 	ld [wJoyIgnore], a
 
 CeladonGymText_48963:
+    SetEvent EVENT_BEAT_ERIKA
+    CheckEvent EVENT_GOT_TM21
+    jr nz, .gymVictory
 	ld a, $9
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_ERIKA
 	lb bc, TM_MEGA_DRAIN, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -105,7 +107,7 @@ CeladonGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_ERIKA
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM21
+	CheckEvent EVENT_GOT_TM21
 	jr nz, .afterVictory
 	call z, CeladonGymText_48963
 	call DisableWaitingAfterTextDisplay

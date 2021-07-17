@@ -43,4 +43,11 @@ ResetStatusAndHalveMoneyOnBlackout::
 	set 6, [hl]
 	ld a, %11111111
 	ld [wJoyIgnore], a
+
+    ld a, [wRegulationCode+4]    ; load out the trainer reset rule
+    bit 7, a
+    jp z, .skipTrainerReset
+    farcall ResetTrainers
+.skipTrainerReset
+
 	predef_jump HealParty

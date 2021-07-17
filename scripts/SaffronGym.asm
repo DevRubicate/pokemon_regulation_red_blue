@@ -43,10 +43,12 @@ SaffronGymScript3:
 	ld [wJoyIgnore], a
 
 SaffronGymText_5d068:
+    SetEvent EVENT_BEAT_SABRINA
+    CheckEvent EVENT_GOT_TM46
+    jr nz, .gymVictory
 	ld a, $a
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_SABRINA
 	lb bc, TM_PSYWAVE, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -106,7 +108,7 @@ SaffronGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_SABRINA
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM46
+	CheckEvent EVENT_GOT_TM46
 	jr nz, .afterVictory
 	call z, SaffronGymText_5d068
 	call DisableWaitingAfterTextDisplay

@@ -43,10 +43,12 @@ CeruleanGymScript3:
 	ld [wJoyIgnore], a
 
 CeruleanGymScript_5c70d:
+    SetEvent EVENT_BEAT_MISTY
+    CheckEvent EVENT_GOT_TM11
+    jr nz, .gymVictory
 	ld a, $5
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_MISTY
 	lb bc, TM_BUBBLEBEAM, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -91,7 +93,7 @@ CeruleanGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_MISTY
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM11
+	CheckEvent EVENT_GOT_TM11
 	jr nz, .afterVictory
 	call z, CeruleanGymScript_5c70d
 	call DisableWaitingAfterTextDisplay

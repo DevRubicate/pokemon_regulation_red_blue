@@ -37,6 +37,13 @@ DisplayPokemonCenterDialogue_::
 	ld [wSprite01StateData1ImageIndex], a ; make the nurse bow
 	ld c, a
 	call DelayFrames
+
+    ld a, [wRegulationCode+4]    ; load out the trainer reset rule
+    bit 7, a
+    jp z, .skipTrainerReset
+    farcall ResetTrainers
+.skipTrainerReset
+
 	jr .done
 .declinedHealing
 	call LoadScreenTilesFromBuffer1 ; restore screen

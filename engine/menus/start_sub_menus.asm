@@ -671,8 +671,6 @@ DrawTrainerInfo:
     call PlaceString
 .noCheat
 
-    farcall ResetTrainers
-
     ret
 
 

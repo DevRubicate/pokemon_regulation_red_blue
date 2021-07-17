@@ -14,6 +14,8 @@ ResetTrainers::
     ResetEvent EVENT_BEAT_VERMILION_GYM_TRAINER_1
     ResetEvent EVENT_BEAT_VERMILION_GYM_TRAINER_2
     ResetEvent EVENT_BEAT_LT_SURGE
+    ResetEvent EVENT_2ND_LOCK_OPENED
+    ResetEvent EVENT_1ST_LOCK_OPENED
 
     ; Erika's Gym
     ResetEvent EVENT_BEAT_CELADON_GYM_TRAINER_0
@@ -71,6 +73,8 @@ ResetTrainers::
     ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_6
     ResetEvent EVENT_BEAT_VIRIDIAN_GYM_TRAINER_7
     ResetEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
+    ld a, HS_VIRIDIAN_GYM_GIOVANNI
+    call ResetMissableObject
 
     ; Route 3
     ResetEvent EVENT_BEAT_ROUTE_3_TRAINER_0
@@ -515,9 +519,31 @@ ResetTrainers::
     ld a, HS_CERULEAN_ROCKET
     call ResetMissableObject
 
-    ; Rival on Route 22
-    ResetEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
+    ; Rival on Route 22, first or second encounter, or neither.
+    ld a, [wObtainedBadges]
+    cp $FF                  ; If the player has all the badges
+    jp nz, .noSecondRival
+    SetEvent EVENT_ROUTE22_RIVAL_WANTS_BATTLE   ; Note that this one is Set, not Clear
+    SetEvent EVENT_2ND_ROUTE22_RIVAL_BATTLE
     ResetEvent EVENT_BEAT_ROUTE22_RIVAL_2ND_BATTLE
+    ld a, HS_ROUTE_22_RIVAL_2
+    call ResetMissableObject
+    ld a, $0
+    ld [wRoute22CurScript], a
+    jr .noFirstRival
+.noSecondRival
+
+    ld a, [wObtainedBadges]
+    bit BIT_BOULDERBADGE, a ; Has the player already beaten brock?
+    jp nz, .noFirstRival
+    SetEvent EVENT_ROUTE22_RIVAL_WANTS_BATTLE   ; Note that this one is Set, not Clear
+    SetEvent EVENT_1ST_ROUTE22_RIVAL_BATTLE
+    ResetEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
+    ld a, HS_ROUTE_22_RIVAL_1
+    call ResetMissableObject
+    ld a, $0
+    ld [wRoute22CurScript], a
+.noFirstRival
 
     ret
 

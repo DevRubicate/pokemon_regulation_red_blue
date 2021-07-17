@@ -1,7 +1,6 @@
 CeladonCity_Script:
 	call EnableAutoTextBoxDrawing
 	ResetEvents EVENT_1B8, EVENT_1BF
-	ResetEvent EVENT_67F
 	ret
 
 CeladonCity_TextPointers:

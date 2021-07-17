@@ -62,10 +62,12 @@ VermilionGymLTSurgePostBattle:
 	ld [wJoyIgnore], a
 
 VermilionGymReceiveTM24:
+    SetEvent EVENT_BEAT_LT_SURGE
+    CheckEvent EVENT_GOT_TM24
+    jr nz, .gymVictory
 	ld a, $6
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_LT_SURGE
 	lb bc, TM_THUNDERBOLT, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -113,7 +115,7 @@ LTSurgeText:
 	text_asm
 	CheckEvent EVENT_BEAT_LT_SURGE
 	jr z, .beforeBeat
-	CheckEventReuseA EVENT_GOT_TM24
+	CheckEvent EVENT_GOT_TM24
 	jr nz, .afterBeat
 	call z, VermilionGymReceiveTM24
 	call DisableWaitingAfterTextDisplay

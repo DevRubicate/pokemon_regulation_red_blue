@@ -134,10 +134,12 @@ ViridianGymScript3:
 	ld a, $f0
 	ld [wJoyIgnore], a
 ViridianGymScript3_74995:
+    SetEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
+    CheckEvent EVENT_GOT_TM27
+    jr nz, .gymVictory
 	ld a, $c
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
 	lb bc, TM_FISSURE, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -205,7 +207,7 @@ ViridianGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM27
+	CheckEvent EVENT_GOT_TM27
 	jr nz, .afterVictory
 	call z, ViridianGymScript3_74995
 	call DisableWaitingAfterTextDisplay

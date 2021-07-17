@@ -42,10 +42,12 @@ PewterGymScript3:
 	ld a, $f0
 	ld [wJoyIgnore], a
 PewterGymScript_5c3df:
+    SetEvent EVENT_BEAT_BROCK
+    CheckEvent EVENT_GOT_TM34
+    jr nz, .gymVictory
 	ld a, $4
 	ldh [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	SetEvent EVENT_BEAT_BROCK
 	lb bc, TM_BIDE, 1
 	call GiveItem
 	jr nc, .BagFull
@@ -96,7 +98,7 @@ PewterGymText1:
 	text_asm
 	CheckEvent EVENT_BEAT_BROCK
 	jr z, .beginBattle
-	CheckEventReuseA EVENT_GOT_TM34
+	CheckEvent EVENT_GOT_TM34
 	jr nz, .gymVictory
 	call z, PewterGymScript_5c3df
 	call DisableWaitingAfterTextDisplay
