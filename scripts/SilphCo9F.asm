@@ -149,6 +149,13 @@ SilphCo9Text1:
 	call GBFadeOutToWhite
 	call Delay3
 	call GBFadeInFromWhite
+
+    ld a, [wRegulationCode+4]    ; load out the trainer reset rule
+    bit 7, a
+    jp z, .skipTrainerReset
+    farcall ResetTrainers
+.skipTrainerReset
+
 	ld hl, SilphCo9Text_5d8ea
 	call PrintText
 	jr .asm_5d8e2
