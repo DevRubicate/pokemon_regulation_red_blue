@@ -29,6 +29,13 @@ PokemonTower5Script0:
 	ld [wJoyIgnore], a
 	ld hl, wd72e
 	set 4, [hl]
+
+    ld a, [wRegulationCode+4]    ; load out the trainer reset rule
+    bit 7, a
+    jp z, .skipTrainerReset
+    farcall ResetTrainers
+.skipTrainerReset
+
 	predef HealParty
 	call GBFadeOutToWhite
 	call Delay3

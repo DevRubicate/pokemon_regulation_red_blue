@@ -23,6 +23,12 @@ MomWakeUpText:
 	text_end
 
 MomHealPokemon:
+    ld a, [wRegulationCode+4]    ; load out the trainer reset rule
+    bit 7, a
+    jp z, .skipTrainerReset
+    farcall ResetTrainers
+.skipTrainerReset
+
 	ld hl, MomHealText1
 	call PrintText
 	call GBFadeOutToWhite
