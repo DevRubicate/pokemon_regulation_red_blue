@@ -200,18 +200,38 @@ DisplayNamingScreen:
 .submitCode
     pop de
     ld hl, wcf4b
-    ld bc, NAME_LENGTH
-    call CopyCode
-    call VerifyCode
-    jr nz, .acceptableRegulationCode
+    ld de, wcf4b
+    ld bc, 10
+    call ProcessCode
+    call SaveCode
+    jr nz, .doneInputtingCodeSegments
 
-    ; ouch this code wasn't acceptable, tell that to the player
-    call ClearScreen
-    call ClearSprites
-    ld hl, InvalidRegulationCode
-    call PrintText
-    jp DisplayNamingScreen
-.acceptableRegulationCode
+    ; clear out the text buffer
+    ld a, 0
+    ld [wcf4b+ 0], a
+    ld [wcf4b+ 1], a
+    ld [wcf4b+ 2], a
+    ld [wcf4b+ 3], a
+    ld [wcf4b+ 4], a
+    ld [wcf4b+ 5], a
+    ld [wcf4b+ 6], a
+    ld [wcf4b+ 7], a
+    ld [wcf4b+ 8], a
+    ld [wcf4b+ 9], a
+    ld [wcf4b+10], a
+    ld [wcf4b+11], a
+    ld [wcf4b+12], a
+    ld [wcf4b+13], a
+    ld [wcf4b+14], a
+    ld [wcf4b+15], a
+    ld [wcf4b+16], a
+    ld [wcf4b+17], a
+    ld [wcf4b+18], a
+    ld [wcf4b+19], a
+
+    jp DisplayNamingScreen              ; Player gets to write another segment
+
+.doneInputtingCodeSegments
     call GBPalWhiteOutWithDelay3
     call ClearScreen
     call ClearSprites
@@ -380,22 +400,39 @@ DisplayNamingScreen:
 	ld [wTopMenuItemX], a
 	jp EraseMenuCursor
 
-CopyCode:
-; Copy bc bytes from hl to de.
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-    call CopyCodeSegment
-.done
+
+ProcessCode:
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+    call ProcessCodeByte
+
+    ld a, 0
+    ld [wcf4b+10], a    ; Make sure the code terminates with a 0
+
+    ; Count how long the length is
+    ld a, 11
+    ld b, a
+    ld hl, wcf4b+10
+.loop
+    dec b
+    dec hl
+    ld a, [hl]
+    cp 0
+    jr z, .loop
+    ld a, b
+    ld [wVariableA], a  ; Save the length of the code in VariableA
+
     ret
 
-CopyCodeSegment:
+
+ProcessCodeByte:
     ld a, [hli]
     cp $50
     jr z, .zero
@@ -438,17 +475,84 @@ CopyCodeSegment:
     ld a, $f6
     jr .continue2
 
-VerifyCode:
-    ld a, [wRegulationCode]
-    cp 152                      ; Have you inputed a starter pokemon above 151?
-    jr nc, .acceptablePokemon
+SaveCode:
+    ld hl, wcf4b
+    ld a, [hl]
+    cp $FF                      ; Is the value FF, which means custom logic?
+    jr nz, .notNewCustomLogicCode
+    call CopyNewCustomLogicCode
+
+    call ClearScreen
+    call ClearSprites
+    ld hl, CodeAcceptedGiveNextPart
+    call PrintText
+
+    xor a
+    ret     ; Ask for more codes
+.notNewCustomLogicCode
+    jr nz, .notContinuedCustomLogicCode
+    call CopyContinuedCustomLogicCode
+
+    call ClearScreen
+    call ClearSprites
+    ld hl, CodeAcceptedGiveNextPart
+    call PrintText
+
+    xor a
+    ret     ; Ask for more codes
+.notContinuedCustomLogicCode
+
+    cp 152                      ; Have you inputed a starter pokemon between 0 to 151?
+    jr nc, .notFinalCode
+    call CopyFinalCode
 
     ld a, 1
     or a
-    ret
-.acceptablePokemon
+    ret     ; Do not ask for more codes
+.notFinalCode
+    ; ouch this code wasn't acceptable, tell that to the player
+    call ClearScreen
+    call ClearSprites
+    ld hl, InvalidRegulationCode
+    call PrintText
 
     xor a
+    ret     ; Ask for new code
+
+CopyFinalCode:
+; Copy bc bytes from hl to de.
+    ld hl, wcf4b
+    ld de, wRegulationCode
+    ld bc, 10
+    call CopyData
+    ret
+
+CopyNewCustomLogicCode:
+    ld hl, wcf4b+1
+    ld a, [hl]
+    cp $01                                           ; Trigger CalculateEnemyLevel
+    jr nz, .noTriggerCalculateEnemyLevel
+
+    ld a, 1
+    ld [wRegulationTriggerCalculateEnemyLevel], a
+
+    jr .copy
+.noTriggerCalculateEnemyLevel
+    ;cp $2                           ; Trigger: B
+    ;cp $3                           ; Trigger: C
+
+.copy
+    ld bc, 0
+    ld a, [wVariableA]              ; Load the length of the code
+    sub 1                           ; Subtract 2 (to account for us skipping the initial $FF and the trigger code), but add 1 for the extra terminator
+    ld c, a                         ; Load a into b, bc should now be the length - 2
+    ld hl, wcf4b+2                  ; Copy starting 2 bytes out, skipping the initial $FF for custom logic and the trigger code
+    ld de, wRegulationCustomLogic   ; destination
+    call CopyData
+    ret
+
+CopyContinuedCustomLogicCode:
+
     ret
 
 LoadEDTile:
@@ -731,6 +835,11 @@ AuthorString:
 VersionString:
     db "v5@"
 
+CodeAcceptedGiveNextPart:
+    text_far _CodeAcceptedGiveNextPart
+    text_end
+
 InvalidRegulationCode:
     text_far _InvalidRegulationCode
     text_end
+

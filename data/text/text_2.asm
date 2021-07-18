@@ -2000,6 +2000,11 @@ _HisNameIsText::
 	cont "name is <RIVAL>!"
 	prompt
 
+_CodeAcceptedGiveNextPart::
+    text "Code accepted!"
+    line "Input next part"
+    prompt
+
 _InvalidRegulationCode::
     text "Regulation Code is"
     line "invalid for this"

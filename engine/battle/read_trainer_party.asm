@@ -1,4 +1,4 @@
-CustomBoostLevel:
+RegulationBoostLevel:
     ld d, a                         ; save the pokemon's base level in d
 
     ld a, [wRegulationCode+1]    ; load the difficulty rule
@@ -52,6 +52,23 @@ CustomBoostLevel:
     ld a, 255
     ret
 
+RegulationTriggerCalculateEnemyLevel:
+    ld a, [wRegulationTriggerCalculateEnemyLevel]
+    or a
+    jr z, .noTrigger
+
+    push bc
+    push de
+    push hl
+    ld [WRegulationCustomCodeProgramCounter], a ; Load the current program counter
+    farcall CustomLogicInterpreter
+    pop hl
+    pop de
+    pop bc
+
+.noTrigger
+    ret
+
 ReadTrainer:
 
 ; don't change any moves in a link battle
@@ -103,8 +120,9 @@ ReadTrainer:
 	ld a, [hli]
 	cp $FF ; is the trainer special?
 	jr z, .SpecialTrainer ; if so, check for special moves
-    call CustomBoostLevel
+    call RegulationBoostLevel
 	ld [wCurEnemyLVL], a
+    call RegulationTriggerCalculateEnemyLevel
 .LoopTrainerData
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
@@ -126,8 +144,9 @@ ReadTrainer:
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
 	jr z, .AddLoneMove
-    call CustomBoostLevel
+    call RegulationBoostLevel
 	ld [wCurEnemyLVL], a
+    call RegulationTriggerCalculateEnemyLevel
 	ld a, [hli]
 	ld [wcf91], a
 	ld a, ENEMY_PARTY_DATA

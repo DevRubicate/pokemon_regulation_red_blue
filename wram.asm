@@ -424,7 +424,7 @@ wMenuWrappingEnabled::
 wCheckFor180DegreeTurn::
 ; whether to check for 180-degree turn (0 = don't, 1 = do)
 	ds 1
-
+WRegulationCustomCodeProgramCounter::
 	ds 1
 
 wMissableObjectIndex::
@@ -438,6 +438,7 @@ wPredefRegisters::
 wTrainerHeaderFlagBit::
 	ds 1
 
+wRegulationTriggerCalculateEnemyLevel::
 	ds 1
 
 wNPCMovementScriptPointerTableNum::
@@ -499,12 +500,12 @@ wSlotMachineSavedROMBank::
 ; ROM back to return to when the player is done with the slot machine
 	ds 1
 
-	ds 26
+	ds 26 ; dangerous due to missingno?
 
 wAnimPalette::
 	ds 1
 
-	ds 29
+	ds 29 ; dangerous due to missingno?
 
 UNION
 wNPCMovementDirections2::
@@ -523,7 +524,7 @@ wNumStepsToTake::
 	ds 1
 ENDU
 
-	ds 10
+	ds 10 ; dangerous due to missingno?
 
 wRLEByteCount::
 	ds 1
@@ -1134,8 +1135,24 @@ wFlags_0xcd60::
 ; bit 6: tried pushing against boulder once (you need to push twice before it will move)
 	ds 1
 
-	ds 9
+wRegulationCustomCodeVariableA::
+    ds 1
+wRegulationCustomCodeVariableA_Byte2::
+    ds 1
+wRegulationCustomCodeVariableB::
+    ds 1
+wRegulationCustomCodeVariableB_Byte2::
+    ds 1
+wRegulationCustomCodeVariableC::
+    ds 1
+wRegulationCustomCodeVariableC_Byte2::
+    ds 1
+wRegulationCustomCodeVariableD::
+    ds 1
+wRegulationCustomCodeVariableD_Byte2::
+    ds 1
 
+	ds 1
 wActionResultOrTookBattleTurn::
 ; This has overlapping related uses.
 ; When the player tries to use an item or use certain field moves, 0 is stored
@@ -2490,8 +2507,11 @@ wWarpEntries::
 wDestinationWarpID::
 ; if $ff, the player's coordinates are not updated when entering the map
 	ds 1
-wTest::
-	ds 128
+
+wRegulationCustomLogic_MinusOne::
+    ds 1
+wRegulationCustomLogic::
+	ds 127
 
 wNumSigns::
 ; number of signs in the current map (up to 16)
@@ -2949,7 +2969,10 @@ wUnusedD71F::
 wRegulationTotalDamageTaken::
     ds 3
 
-    ds 5
+wRegulationRandomSeed::
+    ds 3
+
+    ds 2
 
 wd728::
 ; bit 0: using Strength outside of battle
@@ -3217,7 +3240,6 @@ wBoxMonNicksEnd::
 
 wBoxDataEnd::
 
-
 SECTION "Stack", WRAM0
 
 wStack::
@@ -3226,3 +3248,4 @@ wStack::
 INCLUDE "sram.asm"
 
 INCLUDE "hram.asm"
+

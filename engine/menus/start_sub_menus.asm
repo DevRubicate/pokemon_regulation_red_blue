@@ -671,6 +671,8 @@ DrawTrainerInfo:
     call PlaceString
 .noCheat
 
+    farcall CustomLogicInterpreter
+
     ret
 
 
