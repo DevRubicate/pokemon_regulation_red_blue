@@ -424,7 +424,8 @@ wMenuWrappingEnabled::
 wCheckFor180DegreeTurn::
 ; whether to check for 180-degree turn (0 = don't, 1 = do)
 	ds 1
-WRegulationCustomCodeProgramCounter::
+wRegulationCustomLogicLength::
+WRegulationCustomLogicProgramCounter::
 	ds 1
 
 wMissableObjectIndex::
@@ -450,7 +451,10 @@ wNPCMovementScriptBank::
 ; ROM bank of current NPC movement script
 	ds 1
 
-	ds 2
+wRegulationTriggerNewSavefile::
+	ds 1
+
+    ds 1
 
 wUnusedCC5B::
 
@@ -1135,21 +1139,21 @@ wFlags_0xcd60::
 ; bit 6: tried pushing against boulder once (you need to push twice before it will move)
 	ds 1
 
-wRegulationCustomCodeVariableA::
+wRegulationCustomLogicVariableA::
     ds 1
-wRegulationCustomCodeVariableA_Byte2::
+wRegulationCustomLogicVariableA_Byte2::
     ds 1
-wRegulationCustomCodeVariableB::
+wRegulationCustomLogicVariableB::
     ds 1
-wRegulationCustomCodeVariableB_Byte2::
+wRegulationCustomLogicVariableB_Byte2::
     ds 1
-wRegulationCustomCodeVariableC::
+wRegulationCustomLogicVariableC::
     ds 1
-wRegulationCustomCodeVariableC_Byte2::
+wRegulationCustomLogicVariableC_Byte2::
     ds 1
-wRegulationCustomCodeVariableD::
+wRegulationCustomLogicVariableD::
     ds 1
-wRegulationCustomCodeVariableD_Byte2::
+wRegulationCustomLogicVariableD_Byte2::
     ds 1
 
 	ds 1
@@ -2970,9 +2974,9 @@ wRegulationTotalDamageTaken::
     ds 3
 
 wRegulationRandomSeed::
-    ds 3
-
     ds 2
+
+    ds 3
 
 wd728::
 ; bit 0: using Strength outside of battle

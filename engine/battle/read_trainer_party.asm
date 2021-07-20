@@ -60,7 +60,7 @@ RegulationTriggerCalculateEnemyLevel:
     push bc
     push de
     push hl
-    ld [WRegulationCustomCodeProgramCounter], a ; Load the current program counter
+    ld [WRegulationCustomLogicProgramCounter], a ; Load the current program counter
     farcall CustomLogicInterpreter
     pop hl
     pop de

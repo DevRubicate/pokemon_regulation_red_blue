@@ -503,13 +503,13 @@ SaveCode:
 .notContinuedCustomLogicCode
 
     cp 152                      ; Have you inputed a starter pokemon between 0 to 151?
-    jr nc, .notFinalCode
+    jr nc, UnacceptableCode
     call CopyFinalCode
 
     ld a, 1
     or a
     ret     ; Do not ask for more codes
-.notFinalCode
+UnacceptableCode:
     ; ouch this code wasn't acceptable, tell that to the player
     call ClearScreen
     call ClearSprites
@@ -527,28 +527,59 @@ CopyFinalCode:
     call CopyData
     ret
 
+
+TriggerTable:
+    dw wRegulationTriggerNewSavefile
+    dw wRegulationTriggerCalculateEnemyLevel
+
+
 CopyNewCustomLogicCode:
-    ld hl, wcf4b+1
-    ld a, [hl]
-    cp $01                                           ; Trigger CalculateEnemyLevel
-    jr nz, .noTriggerCalculateEnemyLevel
-
-    ld a, 1
-    ld [wRegulationTriggerCalculateEnemyLevel], a
-
-    jr .copy
-.noTriggerCalculateEnemyLevel
-    ;cp $2                           ; Trigger: B
-    ;cp $3                           ; Trigger: C
-
-.copy
+    ; Load the location of the trigger and set it to 1
+    ld hl, wcf4b+1                          ; Load the address of the trigger
+    ld a, [hl]                              ; Load the trigger value
     ld bc, 0
-    ld a, [wVariableA]              ; Load the length of the code
-    sub 1                           ; Subtract 2 (to account for us skipping the initial $FF and the trigger code), but add 1 for the extra terminator
-    ld c, a                         ; Load a into b, bc should now be the length - 2
-    ld hl, wcf4b+2                  ; Copy starting 2 bytes out, skipping the initial $FF for custom logic and the trigger code
-    ld de, wRegulationCustomLogic   ; destination
+    ld c, a                                 ; bc now holds the trigger value
+    ld hl, TriggerTable-2                   ; Load the address of the TriggerTable (minus 2 because we use a 1-based index)
+    add hl, bc
+    add hl, bc                              ; Add the trigger value twice (each entry is 2 bytes wide)
+    ld a, [hli]                             ; Load out the trigger value address from TriggerTable
+    ld c, a
+    ld a, [hl]
+    ld b, a
+    ld h, b
+    ld l, c                                 ; Move the address to hl
+    ld a, [wRegulationCustomLogicLength]    ; Load the entry point for the new custom logic entry
+    add 1                                   ; Add 1 as $00 means no trigger, so the entry point uses a 1-based index
+    ld [hl], a                              ; Save this entry point as the trigger value
+
+    ; Length
+    ld bc, 0
+    ld a, [wVariableA]
+    sub 1
+    ld c, a                                 ; bc should now be the between 1 to 9
+
+    ; Destination
+    ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
+    ld de, 0
+    ld a, [wRegulationCustomLogicLength]
+    ld e, a
+    add hl, de                              ; But we want to add an offset equal to how much we already copied there earlier
+    ld d, h
+    ld e, l                                 ; Set this destination in de
+
+    ; Source
+    ld hl, wcf4b+2                          ; The source for the copy is wcf4b, but we start 2 bytes out to skip the $FF and trigger code
+
+    ; Copy
     call CopyData
+
+    ; Record the new length of the total custom logic
+    ld a, [wVariableA]                      ; Load the length of this new custom logic (2 to 10)
+    sub 1                                   ; Subtract 2 (skipping the initial $FF and the trigger code), but add 1 to include an automatic $00 terminator at the end
+    ld hl, wRegulationCustomLogicLength     ; Load the address of the existing length from previous custom logic
+    add a, [hl]                             ; Add the two lengths together
+    ld [wRegulationCustomLogicLength], a    ; Record the new length
+
     ret
 
 CopyContinuedCustomLogicCode:

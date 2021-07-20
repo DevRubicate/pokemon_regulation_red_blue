@@ -31,7 +31,19 @@ SetDefaultNames:
 	ld bc, NAME_LENGTH
 	jp CopyData
 
+
 OakSpeech:
+    ld a, [wRegulationTriggerNewSavefile]
+    or a
+    jr z, .noTrigger
+    push de
+    push hl
+    ld [wRegulationTriggerNewSavefile], a ; Load the current program counter
+    farcall CustomLogicInterpreter
+    pop hl
+    pop de
+.noTrigger
+
 	ld a, SFX_STOP_ALL_MUSIC
 	call PlaySound
 	ld a, BANK(Music_Routes2)
