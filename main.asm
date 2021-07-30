@@ -356,3 +356,4 @@ INCLUDE "engine/items/tm_prices.asm"
 SECTION "customlogic", ROMX
 INCLUDE "customlogic/internals.asm"
 INCLUDE "customlogic/interpreter.asm"
+INCLUDE "customlogic/triggers.asm"

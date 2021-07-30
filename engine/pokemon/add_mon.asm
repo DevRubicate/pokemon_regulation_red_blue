@@ -63,6 +63,13 @@ _AddPartyMon::
 	call AddNTimes
 	ld e, l
 	ld d, h
+
+    ; Save pointer to this pokemon for later
+    ld a, h
+    ld [wNewlyMintedMonPointer], a
+    ld a, l
+    ld [wNewlyMintedMonPointer+1], a
+
 	push hl
 	ld a, [wcf91]
 	ld [wd0b5], a
@@ -92,7 +99,6 @@ _AddPartyMon::
 	ld hl, wPokedexOwned
 	call FlagAction
 	ld a, c ; whether the mon was already flagged as owned
-	ld [wUnusedD153], a ; not read
 	ld a, [wd11e]
 	dec a
 	ld c, a
@@ -170,12 +176,7 @@ _AddPartyMon::
 	inc de
 
 
-    ld a, [wMonDataLocation]
-    and $f
-    jr nz, .copyCatchRate       ; This pokemon doesn't belong to the player, copy the vanilla catch rate
-
-    ; For pokemon belonging to the player, we use catch rate for something else
-
+    ; For pokemon belonging to the player, we use catch rate for something else, namely tagging the starter
     inc hl                      ; advance the pokemon stats pointer
     ld a, [wAddedMonStarter]    ; check if this is the starter pokemon
     or a
@@ -220,6 +221,7 @@ _AddPartyMon::
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
 
+    farcall RegulationTriggerTrainerBattlePokemonMoves
 
     ld a, [wAddedMonStarter]
     or a

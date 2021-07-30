@@ -1,4 +1,5 @@
 RegulationBoostLevel:
+    ld a, [wCurEnemyLVL]
     ld d, a                         ; save the pokemon's base level in d
 
     ld a, [wRegulationCode+1]    ; load the difficulty rule
@@ -47,27 +48,33 @@ RegulationBoostLevel:
     ret
 .noModifier
     ld a, d                         ; restore pokemon's level
+    ld [wCurEnemyLVL], a
     ret
 .maxLevel
     ld a, 255
+    ld [wCurEnemyLVL], a
     ret
 
-RegulationTriggerCalculateEnemyLevel:
-    ld a, [wRegulationTriggerCalculateEnemyLevel]
-    or a
-    jr z, .noTrigger
+RegulationInitTrainer::
 
-    push bc
-    push de
-    push hl
-    ld [WRegulationCustomLogicProgramCounter], a ; Load the current program counter
-    farcall CustomLogicInterpreter
-    pop hl
-    pop de
-    pop bc
+    RegulationTriggerStart      wRegulationTriggerTrainerBattle, NULL, wTrainerNo, NULL, NULL, NULL, NULL, NULL, NULL
 
-.noTrigger
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wCurOpponent]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattle
+
+    ; Convert trainer class index from 0-46 to 201-247
+    ld a, [wVariableA]
+    add OPP_ID_OFFSET + 1
+    ld [wCurOpponent], a
+
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattle, NULL, wTrainerNo, NULL, NULL, NULL, NULL, NULL, NULL
+
     ret
+
 
 ReadTrainer:
 
@@ -93,6 +100,9 @@ ReadTrainer:
 	ld c, a
 	ld b, 0
 	add hl, bc ; hl points to trainer class
+
+
+
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -119,10 +129,8 @@ ReadTrainer:
 .IterateTrainer
 	ld a, [hli]
 	cp $FF ; is the trainer special?
-	jr z, .SpecialTrainer ; if so, check for special moves
-    call RegulationBoostLevel
+	jp z, .SpecialTrainer ; if so, check for special moves
 	ld [wCurEnemyLVL], a
-    call RegulationTriggerCalculateEnemyLevel
 .LoopTrainerData
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
@@ -132,10 +140,38 @@ ReadTrainer:
 	ld [wcf91], a ; write species somewhere (XXX why?)
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
+
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NULL, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wCurOpponent]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    farcall IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
+
+    ; Convert pokemon from pokedex No to index
+    ld a, [wVariableB+1]
+    ld [wd11e], a
+    farcall PokedexToIndex
+    ld a, [wd11e]
+    ld [wcf91], a
+
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    call RegulationBoostLevel
+
 	push hl
 	call AddPartyMon
 	pop hl
-	jr .LoopTrainerData
+	jp .LoopTrainerData
 .SpecialTrainer
 ; if this code is being run:
 ; - each pokemon has a specific level
@@ -143,18 +179,44 @@ ReadTrainer:
 ; - if [wLoneAttackNo] != 0, one pokemon on the team has a special move
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
-	jr z, .AddLoneMove
-    call RegulationBoostLevel
+	jp z, .AddLoneMove
 	ld [wCurEnemyLVL], a
-    call RegulationTriggerCalculateEnemyLevel
 	ld a, [hli]
-	ld [wcf91], a
+	ld [wcf91], a              ; Pokemon species
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
+
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NULL, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wCurOpponent]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    farcall IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
+
+    ; Convert pokemon from pokedex No to index
+    ld a, [wVariableB+1]
+    ld [wd11e], a
+    farcall PokedexToIndex
+    ld a, [wd11e]
+    ld [wcf91], a
+
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    call RegulationBoostLevel
+
 	push hl
 	call AddPartyMon
 	pop hl
-	jr .SpecialTrainer
+	jp .SpecialTrainer
 .AddLoneMove
 ; does the trainer have a single monster with a different move?
 	ld a, [wLoneAttackNo] ; Brock is 01, Misty is 02, Erika is 04, etc

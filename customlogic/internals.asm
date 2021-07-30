@@ -21,3 +21,28 @@ RegulationRandomNumber::
     ld [wRegulationRandomSeed+1], a
     ld b, a
   ret
+
+RegulationRandomizeTruly::
+    ld a, [rDIV]
+    ld b, a
+    add a, a
+    add a, a
+    add a, b
+    inc a
+    rlc a
+    ld c, a
+    ld [wRegulationRandomSeed], a
+    ld b, a
+    ld a, [rDIV]
+    xor a, $FF
+    xor a, b
+    ld b, a
+    add a, a
+    add a, a
+    add a, b
+    inc a
+    rlc a
+    ld d, a
+    ld [wRegulationRandomSeed+1], a
+    ld b, a
+  ret

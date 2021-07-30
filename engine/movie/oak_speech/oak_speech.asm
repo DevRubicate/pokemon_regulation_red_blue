@@ -22,28 +22,10 @@ SetDefaultNames:
 	ld a, [wOptionsInitialized]
 	and a
 	call z, InitOptions
-	ld hl, NintenText
-	ld de, wPlayerName
-	ld bc, NAME_LENGTH
-	call CopyData
-	ld hl, SonyText
-	ld de, wRivalName
-	ld bc, NAME_LENGTH
-	jp CopyData
+    ret
 
 
 OakSpeech:
-    ld a, [wRegulationTriggerNewSavefile]
-    or a
-    jr z, .noTrigger
-    push de
-    push hl
-    ld [wRegulationTriggerNewSavefile], a ; Load the current program counter
-    farcall CustomLogicInterpreter
-    pop hl
-    pop de
-.noTrigger
-
 	ld a, SFX_STOP_ALL_MUSIC
 	call PlaySound
 	ld a, BANK(Music_Routes2)
@@ -111,9 +93,11 @@ OakSpeech:
 	ld hl, IntroduceRivalText
 	call PrintText
 	call ChooseRivalName
-.skipChoosingNames
+    farcall RegulationRandomizeTruly
 
-
+    RegulationTriggerStart      wRegulationTriggerNewGame, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerExecute    wRegulationTriggerNewGame
+    RegulationTriggerEnd        wRegulationTriggerNewGame, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 
     ld a, [wRegulationCode]
     ld hl, wRegulationCode+1

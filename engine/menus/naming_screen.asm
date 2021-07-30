@@ -476,12 +476,32 @@ ProcessCodeByte:
     jr .continue2
 
 SaveCode:
+    ld a, [wVariableB]
+    or a
+    jr z, .normalParsing
+    dec a
+    ld [wVariableB], a
+    ; Multi-line code parsing
+    call CopyContinuedCustomLogicCode
+    call ClearScreen
+    call ClearSprites
+    ld hl, CodeAcceptedGiveNextPart
+    call PrintText
+    xor a
+    ret     ; Ask for more codes
+
+    ; Normal parsing
+.normalParsing
     ld hl, wcf4b
     ld a, [hl]
-    cp $FF                      ; Is the value FF, which means custom logic?
-    jr nz, .notNewCustomLogicCode
-    call CopyNewCustomLogicCode
+    cp 152                          ; Is the first number above 151 (Mew)?
+    jr c, .notNewCustomLogicCode    ; Nope, so player picked a pokemon
 
+    ; The player picked custom logic, so we setup a multi-line parsing situation
+    sub 152
+    ld [wVariableB], a
+
+    call CopyNewCustomLogicCode
     call ClearScreen
     call ClearSprites
     ld hl, CodeAcceptedGiveNextPart
@@ -490,34 +510,11 @@ SaveCode:
     xor a
     ret     ; Ask for more codes
 .notNewCustomLogicCode
-    jr nz, .notContinuedCustomLogicCode
-    call CopyContinuedCustomLogicCode
-
-    call ClearScreen
-    call ClearSprites
-    ld hl, CodeAcceptedGiveNextPart
-    call PrintText
-
-    xor a
-    ret     ; Ask for more codes
-.notContinuedCustomLogicCode
-
-    cp 152                      ; Have you inputed a starter pokemon between 0 to 151?
-    jr nc, UnacceptableCode
     call CopyFinalCode
-
     ld a, 1
     or a
     ret     ; Do not ask for more codes
-UnacceptableCode:
-    ; ouch this code wasn't acceptable, tell that to the player
-    call ClearScreen
-    call ClearSprites
-    ld hl, InvalidRegulationCode
-    call PrintText
 
-    xor a
-    ret     ; Ask for new code
 
 CopyFinalCode:
 ; Copy bc bytes from hl to de.
@@ -529,28 +526,52 @@ CopyFinalCode:
 
 
 TriggerTable:
-    dw wRegulationTriggerNewSavefile
-    dw wRegulationTriggerCalculateEnemyLevel
-
+    dw $0000
+    dw wRegulationTriggerNewGame
+    dw wRegulationTriggerBlackedOut
+    dw wRegulationTriggerRanAway
+    dw wRegulationTriggerPartyHealed
+    dw wRegulationTriggerFoundItem
+    dw wRegulationTriggerFoundPokemon
+    dw wRegulationTriggerUsedItem
+    dw wRegulationTriggerPokemonFainted
+    dw wRegulationTriggerPokemonCaught
+    dw wRegulationTriggerPokemonGainExp
+    dw wRegulationTriggerPokemonGainLevel
+    dw wRegulationTriggerPokemonGainMove
+    dw wRegulationTriggerPokemonEvolve
+    dw wRegulationTriggerTrainerBattle
+    dw wRegulationTriggerTrainerBattlePokemon
+    dw wRegulationTriggerTrainerBattlePokemonMove1
+    dw wRegulationTriggerTrainerBattlePokemonMove2
+    dw wRegulationTriggerTrainerBattlePokemonMove3
+    dw wRegulationTriggerTrainerBattlePokemonMove4
+    dw wRegulationTriggerWildBattlePokemon
+    dw wRegulationTriggerWildBattlePokemonMove1
+    dw wRegulationTriggerWildBattlePokemonMove2
+    dw wRegulationTriggerWildBattlePokemonMove3
+    dw wRegulationTriggerWildBattlePokemonMove4
 
 CopyNewCustomLogicCode:
-    ; Load the location of the trigger and set it to 1
-    ld hl, wcf4b+1                          ; Load the address of the trigger
-    ld a, [hl]                              ; Load the trigger value
+    ; Load the location of the trigger and set it to the custom logic program counter
+    ld hl, wcf4b+1                          ; Find the address in the text buffer holding our trigger index
+    ld a, [hl]                              ; Load the trigger index
+    or a
+    jr z, .triggerLess                      ; If the trigger index is 0, it means no trigger
     ld bc, 0
-    ld c, a                                 ; bc now holds the trigger value
-    ld hl, TriggerTable-2                   ; Load the address of the TriggerTable (minus 2 because we use a 1-based index)
+    ld c, a                                 ; bc now holds the trigger index
+    ld hl, TriggerTable                     ; Load the base address of the TriggerTable
     add hl, bc
-    add hl, bc                              ; Add the trigger value twice (each entry is 2 bytes wide)
-    ld a, [hli]                             ; Load out the trigger value address from TriggerTable
+    add hl, bc                              ; Add the trigger index twice (each entry is 2 bytes wide)
+    ld a, [hli]                             ; Load out the upper byte of the trigger address from TriggerTable
     ld c, a
-    ld a, [hl]
-    ld b, a
-    ld h, b
-    ld l, c                                 ; Move the address to hl
+    ld a, [hl]                              ; Load out the lower byte of the trigger address from TriggerTable
+    ld h, a
+    ld l, c                                 ; Move the full address to hl
     ld a, [wRegulationCustomLogicLength]    ; Load the entry point for the new custom logic entry
-    add 1                                   ; Add 1 as $00 means no trigger, so the entry point uses a 1-based index
+    add 1                                   ; Add 1 as $00 means that the trigger is inactive, so the entry point uses a 1-based index
     ld [hl], a                              ; Save this entry point as the trigger value
+.triggerLess
 
     ; Length
     ld bc, 0
@@ -583,6 +604,34 @@ CopyNewCustomLogicCode:
     ret
 
 CopyContinuedCustomLogicCode:
+
+    ; Length
+    ld bc, 0
+    ld a, [wVariableA]                      ; Load the length
+    inc a                                   ; Increase by 1 because we want to include an extra $00 terminator at the end
+    ld c, a                                 ; bc should now be the between 1 to 9
+
+    ; Destination
+    ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
+    ld de, 0
+    ld a, [wRegulationCustomLogicLength]
+    dec a                                   ; Last segment we terminated with a $00, but now we want to override that with this continued code
+    ld e, a
+    add hl, de                              ; But we want to add an offset equal to how much we already copied there earlier
+    ld d, h
+    ld e, l                                 ; Set this destination in de
+
+    ; Source
+    ld hl, wcf4b                            ; The source for the copy is wcf4b, and this time we don't start 2 bytes out
+
+    ; Copy
+    call CopyData
+
+    ; Record the new length of the total custom logic
+    ld a, [wVariableA]                      ; Load the length of this new custom logic (2 to 10)
+    ld hl, wRegulationCustomLogicLength     ; Load the address of the existing length from previous custom logic
+    add a, [hl]                             ; Add the two lengths together
+    ld [wRegulationCustomLogicLength], a    ; Record the new length
 
     ret
 
