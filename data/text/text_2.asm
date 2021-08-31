@@ -2011,6 +2011,14 @@ _InvalidRegulationCode::
     cont "game version."
     prompt
 
+_CodeCompletedShowChecksum::
+    text "Code completed!"
+    line "Your checksum is"
+    cont "@"
+    text_ram wcd6d
+    cont "@"
+    prompt
+
 _WillBeTradedText::
 	text_ram wNameOfPlayerMonToBeTraded
 	text " and"

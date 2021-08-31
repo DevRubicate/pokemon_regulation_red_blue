@@ -345,6 +345,30 @@ IntroDisplayPicCenteredOrUpperRight:
 	predef_jump CopyUncompressedPicToTilemap
 
 
+DisplayPicUpperRight::
+    call GetPredefRegisters
+    push bc
+    ld a, b
+    call UncompressSpriteFromDE
+    ld hl, sSpriteBuffer1
+    ld de, sSpriteBuffer0
+    ld bc, $310
+    call CopyData
+    ld de, vFrontPic
+    call InterlaceMergeSpriteBuffers
+    pop bc
+    ld a, c
+    and a
+    hlcoord 15, 1
+    jr nz, .next
+    hlcoord 6, 4
+.next
+    xor a
+    ldh [hStartTileID], a
+    predef_jump CopyUncompressedPicToTilemap
+
+
+
 
 
 OakSpeechSlidePicLeft:

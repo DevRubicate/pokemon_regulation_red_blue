@@ -510,130 +510,123 @@ StartMenu_TrainerInfo::
 	ldh [hTileAnimations], a
 	jp RedisplayStartMenu
 
+
+
+
+
+
+DisplayPic:
+; b = bank
+; de = address of compressed pic
+; c: 0 = centred, non-zero = upper-right
+    push bc
+    ld a, b
+    call UncompressSpriteFromDE
+    ld hl, sSpriteBuffer1
+    ld de, sSpriteBuffer0
+    ld bc, $310
+    call CopyData
+    ld de, vFrontPic
+    call InterlaceMergeSpriteBuffers
+    pop bc
+    ld a, c
+    hlcoord 16, 1
+    xor a
+    ldh [hStartTileID], a
+    predef_jump CopyUncompressedPicToTilemap
+
+
+
+
+
+
+
 ; loads tile patterns and draws everything except for gym leader faces / badges
 DrawTrainerInfo:
+
+    ; Print player sprite
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $01
-	predef DisplayPicCenteredOrUpperRight
-	call DisableLCD
+	call DisplayPic
+
+    ; Erase garbage tiles
+    ld a, " "
 	hlcoord 0, 2
-	ld a, " "
 	call TrainerInfo_DrawVerticalLine
-	hlcoord 1, 2
-	call TrainerInfo_DrawVerticalLine
-	ld hl, vChars2 tile $07
-	ld de, vChars2 tile $00
-	ld bc, $1c tiles
-	call CopyData
-	ld hl, TrainerInfoTextBoxTileGraphics ; trainer info text box tile patterns
-	ld de, vChars2 tile $77
-	ld bc, 8 tiles
-	push bc
-	call TrainerInfo_FarCopyData
-	ld hl, BlankLeaderNames
-	ld de, vChars2 tile $60
-	ld bc, $17 tiles
-	call TrainerInfo_FarCopyData
-	pop bc
-	ld hl, BadgeNumbersTileGraphics  ; badge number tile patterns
-	ld de, vChars1 tile $58
-	call TrainerInfo_FarCopyData
-	ld hl, GymLeaderFaceAndBadgeTileGraphics  ; gym leader face and badge tile patterns
-	ld de, vChars2 tile $20
-	ld bc, 8 * 8 tiles
-	ld a, BANK(GymLeaderFaceAndBadgeTileGraphics)
-	call FarCopyData2
-	ld hl, TextBoxGraphics
-	ld de, 13 tiles
-	add hl, de ; hl = colon tile pattern
-	ld de, vChars1 tile $56
-	ld bc, 1 tiles
-	ld a, BANK(TextBoxGraphics)
-	push bc
-	call FarCopyData2
-	pop bc
-	ld hl, TrainerInfoTextBoxTileGraphics tile 8  ; background tile pattern
-	ld de, vChars1 tile $57
-	call TrainerInfo_FarCopyData
-	call EnableLCD
-	ld hl, wTrainerInfoTextBoxWidthPlus1
-	ld a, 18 + 1
-	ld [hli], a
-	dec a
-	ld [hli], a
-	ld [hl], 1
-	hlcoord 0, 0
-	call TrainerInfo_DrawTextBox
-	ld hl, wTrainerInfoTextBoxWidthPlus1
-	ld a, 16 + 1
-	ld [hli], a
-	dec a
-	ld [hli], a
-	ld [hl], 3
-	hlcoord 1, 10
-	call TrainerInfo_DrawTextBox
-	hlcoord 0, 10
-	ld a, $d7
-	call TrainerInfo_DrawVerticalLine
-	hlcoord 19, 10
-	call TrainerInfo_DrawVerticalLine
-	hlcoord 2, 8
-	ld de, TrainerInfo_RegulationCodeText
-	call PlaceString
+    ld a, " "
+    hlcoord 1, 7
+    ld [hl], a
+    hlcoord 1, 8
+    ld [hl], a
+    hlcoord 2, 7
+    ld [hl], a
+    hlcoord 2, 8
+    ld [hl], a
 
-
-    hlcoord 1, 2
-    ld de, TrainerInfo_MoneyText
-    call PlaceString
-
-    hlcoord 1, 3
-    ld de, TrainerInfo_TimeText
-    call PlaceString
-
-    hlcoord 1, 4
-    ld de, TrainerInfo_ExpText
-    call PlaceString
-
-    hlcoord 1, 5
-    ld de, TrainerInfo_DamageText
-    call PlaceString
-
+    ; Print name
     hlcoord 1, 1
 	ld de, wPlayerName
 	call PlaceString
 
-	hlcoord 8, 2
+    ; Print CHEAT
+    ld a, [wRegulationGlitch]
+    or a
+    jr z, .noCheat
+    hlcoord 11, 1
+    ld de, TrainerInfo_CheaterYesText
+    call PlaceString
+.noCheat
+
+    ; Print money
+    hlcoord 1, 2
+    ld de, TrainerInfo_MoneyText
+    call PlaceString
+	hlcoord 9, 2
 	ld de, wPlayerMoney
 	ld c, $a3
 	call PrintBCDNumber
 
-	hlcoord 9, 3
+    ; Print time
+    hlcoord 1, 3
+    ld de, TrainerInfo_TimeText
+    call PlaceString
+	hlcoord 10, 3
 	ld de, wPlayTimeHours ; hours
 	lb bc, 1, 3
 	call PrintNumber
-
-    hlcoord 12, 3
+    hlcoord 13, 3
 	ld [hl], $d6 ; colon tile ID
 	inc hl
 	ld de, wPlayTimeMinutes ; minutes
 	lb bc, LEADING_ZEROES | 1, 2
 	call PrintNumber
 
-    hlcoord 8, 4
+    ; Print exp
+    hlcoord 1, 4
+    ld de, TrainerInfo_ExpText
+    call PlaceString
+    hlcoord 9, 4
     ld de, wRegulationTotalExp
     lb bc, 3, 0
     call PrintNumber
 
-    hlcoord 8, 5
+    ; Print damage
+    hlcoord 1, 5
+    ld de, TrainerInfo_DamageText
+    call PlaceString
+    hlcoord 9, 5
     ld de, wRegulationTotalDamageTaken
     lb bc, 3, 0
     call PrintNumber
 
-    ; Print out the regulation code
-    hlcoord 0, 9
-    ld a, 10
+    ; Print out the checksum
+    hlcoord 1, 6
+    ld de, TrainerInfo_ChecksumText
+    call PlaceString
+    hlcoord 10, 6
+    ld a, 3
     ld b, a
-    ld de, wRegulationCode
+    ld de, wRegulationChecksum
 .loop
     ld a, [de]
     srl a
@@ -662,17 +655,43 @@ DrawTrainerInfo:
     dec b
     jr nz, .loop
 
-    ; Print out the CHEAT if glitches has been detected
-    ld a, [wRegulationGlitch]
-    or a
-    jr z, .noCheat
-    hlcoord 10, 1
-    ld de, TrainerInfo_CheaterYesText
-    call PlaceString
-.noCheat
-
-    farcall CustomLogicInterpreter
-
+    ; Load gym leader tiles
+    call DisableLCD
+    ld hl, vChars2 tile $07
+    ld de, vChars2 tile $00
+    ld bc, $1c tiles
+    call CopyData
+    ld hl, TrainerInfoTextBoxTileGraphics ; trainer info text box tile patterns
+    ld de, vChars2 tile $77
+    ld bc, 8 tiles
+    push bc
+    call TrainerInfo_FarCopyData
+    ld hl, BlankLeaderNames
+    ld de, vChars2 tile $60
+    ld bc, $17 tiles
+    call TrainerInfo_FarCopyData
+    pop bc
+    ld hl, BadgeNumbersTileGraphics  ; badge number tile patterns
+    ld de, vChars1 tile $58
+    call TrainerInfo_FarCopyData
+    ld hl, GymLeaderFaceAndBadgeTileGraphics  ; gym leader face and badge tile patterns
+    ld de, vChars2 tile $20
+    ld bc, 8 * 8 tiles
+    ld a, BANK(GymLeaderFaceAndBadgeTileGraphics)
+    call FarCopyData2
+    ld hl, TextBoxGraphics
+    ld de, 13 tiles
+    add hl, de ; hl = colon tile pattern
+    ld de, vChars1 tile $56
+    ld bc, 1 tiles
+    ld a, BANK(TextBoxGraphics)
+    push bc
+    call FarCopyData2
+    pop bc
+    ld hl, TrainerInfoTextBoxTileGraphics tile 8  ; background tile pattern
+    ld de, vChars1 tile $57
+    call TrainerInfo_FarCopyData
+    call EnableLCD
     ret
 
 
@@ -690,57 +709,9 @@ TrainerInfo_DamageText:
     db "DAMAGE@"
 TrainerInfo_CheaterYesText:
     db "CHEAT@"
+TrainerInfo_ChecksumText:
+	db "CHECKSUM@"
 
-; $76 is a circle tile
-TrainerInfo_RegulationCodeText:
-	db "REGULATION CODE@"
-
-; draws a text box on the trainer info screen
-; height is always 6
-; INPUT:
-; hl = destination address
-; [wTrainerInfoTextBoxWidthPlus1] = width
-; [wTrainerInfoTextBoxWidth] = width - 1
-; [wTrainerInfoTextBoxNextRowOffset] = distance from the end of a text box row to the start of the next
-TrainerInfo_DrawTextBox:
-	ld a, $79 ; upper left corner tile ID
-	lb de, $7a, $7b ; top edge and upper right corner tile ID's
-	call TrainerInfo_DrawHorizontalEdge ; draw top edge
-	call TrainerInfo_NextTextBoxRow
-	ld a, [wTrainerInfoTextBoxWidthPlus1]
-	ld e, a
-	ld d, 0
-	ld c, 6 ; height of the text box
-.loop
-	ld [hl], $7c ; left edge tile ID
-	add hl, de
-	ld [hl], $78 ; right edge tile ID
-	call TrainerInfo_NextTextBoxRow
-	dec c
-	jr nz, .loop
-	ld a, $7d ; lower left corner tile ID
-	lb de, $77, $7e ; bottom edge and lower right corner tile ID's
-
-TrainerInfo_DrawHorizontalEdge:
-	ld [hli], a ; place left corner tile
-	ld a, [wTrainerInfoTextBoxWidth]
-	ld c, a
-	ld a, d
-.loop
-	ld [hli], a ; place edge tile
-	dec c
-	jr nz, .loop
-	ld a, e
-	ld [hl], a ; place right corner tile
-	ret
-
-TrainerInfo_NextTextBoxRow:
-	ld a, [wTrainerInfoTextBoxNextRowOffset] ; distance to the start of the next row
-.loop
-	inc hl
-	dec a
-	jr nz, .loop
-	ret
 
 ; draws a vertical line
 ; INPUT:

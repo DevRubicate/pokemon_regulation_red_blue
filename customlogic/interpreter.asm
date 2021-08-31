@@ -1,5 +1,26 @@
 
 CustomLogicInterpreter:
+
+    ld a, [wVariableA]
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, [wVariableA+1]
+    ld [wRegulationCustomLogicVariableA+1], a
+
+    ld a, [wVariableB]
+    ld [wRegulationCustomLogicVariableB], a
+    ld a, [wVariableB+1]
+    ld [wRegulationCustomLogicVariableB+1], a
+
+    ld a, [wVariableC]
+    ld [wRegulationCustomLogicVariableC], a
+    ld a, [wVariableC+1]
+    ld [wRegulationCustomLogicVariableC+1], a
+
+    ld a, [wVariableD]
+    ld [wRegulationCustomLogicVariableD], a
+    ld a, [wVariableD+1]
+    ld [wRegulationCustomLogicVariableD+1], a
+
 InstructionEnd:
     ld a, 0
     ld b, a                                     ; Make sure b is 0
@@ -28,8 +49,10 @@ InstructionEnd:
     jr .continue
 
 .twoByteInstruction
-    ld a, [hl]                                  ; Load the next next value after the instruction (precaching)
+    ld a, 0
     ld d, a
+    ld a, [hl]                                  ; Load the next next value after the instruction (precaching)
+    ld e, a
     ld a, [WRegulationCustomLogicProgramCounter]
     add 2
     ld [WRegulationCustomLogicProgramCounter], a
@@ -272,28 +295,28 @@ Instruction_RET:
 Instruction_SET_A_8VALUE:
     ld a, 0
     ld [wRegulationCustomLogicVariableA], a
-    ld a, d
+    ld a, e
     ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_SET_B_8VALUE:
     ld a, 0
     ld [wRegulationCustomLogicVariableB], a
-    ld a, d
+    ld a, e
     ld [wRegulationCustomLogicVariableB+1], a
     jp InstructionEnd
 
 Instruction_SET_C_8VALUE:
     ld a, 0
     ld [wRegulationCustomLogicVariableC], a
-    ld a, d
+    ld a, e
     ld [wRegulationCustomLogicVariableC+1], a
     jp InstructionEnd
 
 Instruction_SET_D_8VALUE:
     ld a, 0
     ld [wRegulationCustomLogicVariableD], a
-    ld a, d
+    ld a, e
     ld [wRegulationCustomLogicVariableD+1], a
     jp InstructionEnd
 
@@ -455,29 +478,49 @@ Instruction_SET_D_RANDOM:
 
 Instruction_SET_RANDOM_A:
     ld a, [wRegulationCustomLogicVariableA]
-    ld [wRegulationRandomSeed], a
+    ld c, a
     ld a, [wRegulationCustomLogicVariableA+1]
+    ld d, a
+    add c
+    ld [wRegulationRandomSeed], a
+    ld a, c
+    xor d
     ld [wRegulationRandomSeed+1], a
     jp InstructionEnd
 
 Instruction_SET_RANDOM_B:
     ld a, [wRegulationCustomLogicVariableB]
-    ld [wRegulationRandomSeed], a
+    ld c, a
     ld a, [wRegulationCustomLogicVariableB+1]
+    ld d, a
+    add c
+    ld [wRegulationRandomSeed], a
+    ld a, c
+    xor d
     ld [wRegulationRandomSeed+1], a
     jp InstructionEnd
 
 Instruction_SET_RANDOM_C:
     ld a, [wRegulationCustomLogicVariableC]
-    ld [wRegulationRandomSeed], a
+    ld c, a
     ld a, [wRegulationCustomLogicVariableC+1]
+    ld d, a
+    add c
+    ld [wRegulationRandomSeed], a
+    ld a, c
+    xor d
     ld [wRegulationRandomSeed+1], a
     jp InstructionEnd
 
 Instruction_SET_RANDOM_D:
     ld a, [wRegulationCustomLogicVariableD]
-    ld [wRegulationRandomSeed], a
+    ld c, a
     ld a, [wRegulationCustomLogicVariableD+1]
+    ld d, a
+    add c
+    ld [wRegulationRandomSeed], a
+    ld a, c
+    xor d
     ld [wRegulationRandomSeed+1], a
     jp InstructionEnd
 
@@ -750,23 +793,79 @@ Instruction_LSHIFT_D:
     jp InstructionEnd
 
 Instruction_ADD_A_8VALUE:
-
-    jp InstructionEnd
-
 Instruction_ADD_A_16VALUE:
-
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Add the 8value/16value already preloaded
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_ADD_A_B:
-
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Load variable B
+    ld a, [wRegulationCustomLogicVariableB]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableB+1]
+    ld e, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_ADD_A_C:
-
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Load variable B
+    ld a, [wRegulationCustomLogicVariableC]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableC+1]
+    ld e, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_ADD_A_D:
-
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Load variable B
+    ld a, [wRegulationCustomLogicVariableD]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableD+1]
+    ld e, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_ADD_B_8VALUE:
@@ -938,7 +1037,7 @@ Instruction_DIV_8VALUE:
     ld [hDividend + 1], a
 
     ; The 8 bit value to divide by
-    ld a, d
+    ld a, e
     ld [hDivisor], a
 
     ; Invoke the division
@@ -1127,7 +1226,7 @@ Instruction_MOD_8VALUE:
     ld [hDividend + 1], a
 
     ; The 8 bit value to divide by
-    ld a, d
+    ld a, e
     ld [hDivisor], a
 
     ; Invoke the division
@@ -1142,8 +1241,7 @@ Instruction_MOD_8VALUE:
     jp InstructionEnd
 
 Instruction_GOTO_8VALUE:
-
-    ld a, d
+    ld a, e
     inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
 

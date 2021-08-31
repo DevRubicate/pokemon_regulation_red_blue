@@ -6493,6 +6493,9 @@ LoadEnemyMonData:
 .copyStandardMoves
 ; for a wild mon, first copy default moves from the mon header
 	ld hl, wMonHMoves
+
+
+
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -6510,6 +6513,11 @@ LoadEnemyMonData:
 	xor a
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves ; get moves based on current level
+
+
+
+    farcall RegulationTriggerWildBattlePokemonMoves
+
 .loadMovePPs
 	ld hl, wEnemyMonMoves
 	ld de, wEnemyMonPP - 1
@@ -7050,13 +7058,6 @@ InitOpponent:
 	jr InitBattleCommon
 
 DetermineWildOpponent:
-	ld a, [wd732]
-	bit 1, a
-	jr z, .asm_3ef2f
-	ldh a, [hJoyHeld]
-	bit 1, a ; B button pressed?
-	ret nz
-.asm_3ef2f
 	ld a, [wNumberOfNoRandomBattleStepsLeft]
 	and a
 	ret nz

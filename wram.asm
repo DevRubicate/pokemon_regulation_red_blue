@@ -3145,6 +3145,7 @@ wRegulationTotalDamageTaken::
 wRegulationRandomSeed::
     ds 2
 
+wRegulationChecksum::
     ds 3
 
 wd728::

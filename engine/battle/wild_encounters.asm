@@ -24,7 +24,7 @@ TryDoWildEncounter:
 	and a
 	jr z, .next
 	dec a
-	jr z, .lastRepelStep
+	jp z, .lastRepelStep
 	ld [wRepelRemainingSteps], a
 .next
 ; determine if wild pokemon can appear in the half-block we're standing in
@@ -44,17 +44,17 @@ TryDoWildEncounter:
 ; ...as long as it's not Viridian Forest or Safari Zone.
 	ld a, [wCurMap]
 	cp FIRST_INDOOR_MAP ; is this an indoor map?
-	jr c, .CantEncounter2
+	jp c, .CantEncounter2
 	ld a, [wCurMapTileset]
 	cp FOREST ; Viridian Forest/Safari Zone
-	jr z, .CantEncounter2
+	jp z, .CantEncounter2
 	ld a, [wGrassRate]
 .CanEncounter
 ; compare encounter chance with a random number to determine if there will be an encounter
 	ld b, a
 	ldh a, [hRandomAdd]
 	cp b
-	jr nc, .CantEncounter2
+	jp nc, .CantEncounter2
 	ldh a, [hRandomSub]
 	ld b, a
 	ld hl, WildMonEncounterSlotChances
@@ -70,7 +70,7 @@ TryDoWildEncounter:
 	ld hl, wGrassMons
 	lda_coord 8, 9
 	cp $14 ; is the bottom left tile (8,9) of the half-block we're standing in a water tile?
-	jr nz, .checkForGrassGlitch ; else, it's treated as a grass tile by default
+	jp nz, .checkForGrassGlitch ; else, it's treated as a grass tile by default
 	ld hl, wWaterMons
 ; since the bottom right tile of a "left shore" half-block is $14 but the bottom left tile is not,
 ; "left shore" half-blocks (such as the one in the east coast of Cinnabar) load grass encounters.
@@ -82,6 +82,28 @@ TryDoWildEncounter:
 	ld a, [hl]
 	ld [wcf91], a
 	ld [wEnemyMonSpecies2], a
+
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemon, NULL, wCurMap, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    farcall IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerWildBattlePokemon
+
+    ; Convert pokemon from pokedex No to index
+    ld a, [wVariableB+1]
+    ld [wd11e], a
+    farcall PokedexToIndex
+    ld a, [wd11e]
+    ld [wcf91], a
+    ld [wEnemyMonSpecies2], a
+
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
 	ld a, [wRepelRemainingSteps]
 	and a
 	jr z, .willEncounter
@@ -108,11 +130,11 @@ TryDoWildEncounter:
 .checkForGrassGlitch
     ld a, [wGrassGlitchActive]
     or a
-    jr z, .gotWildEncounterType
+    jp z, .gotWildEncounterType
     ld a, [wRegulationGlitch]
     set 4, a                    ; missingno glitch
     ld [wRegulationGlitch], a
-    jr .gotWildEncounterType
+    jp .gotWildEncounterType
 
 
 
