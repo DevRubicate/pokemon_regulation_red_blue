@@ -470,16 +470,28 @@ ProcessCodeByte:
 
     ld c, a
 
+    ; Checksum calculations
+
+    ; Load the first byte of the checksum
+    ; Add the input byte
+    ; Store it back into the first byte of the checksum
     ld a, [wRegulationChecksum+0]
     adc c
     ld [wRegulationChecksum+0], a
-    ld b, a
 
+    ; Load the second byte of the checksum
+    ; Subtract the first byte of the checksum
+    ; Xor the input byte
+    ; Store it back into the second byte of the checksum
+    ld b, a
     ld a, [wRegulationChecksum+1]
     sub b
     xor c
     ld [wRegulationChecksum+1], a
 
+    ; Load the third byte of the checksum
+    ; Increment by one
+    ; Store it back into the third byte of the checksum
     ld a, [wRegulationChecksum+2]
     inc a
     ld [wRegulationChecksum+2], a
@@ -493,13 +505,23 @@ ProcessCodeByte:
     jr .continue2
 
 SaveCode:
+
+    ; VariableB keeps track of how many multi-lines there are left. This is used by events that have code
+    ; that runs longer than one "line" of code.
     ld a, [wVariableB]
     or a
+
+    ; Check if we have any multi-line stuff left to parse
     jr z, .normalParsing
+
+    ; Yes we do! That means, we will now parse another line. We subtract one from VariableB since we are dealing
+    ; with one of the lines now.
     dec a
     ld [wVariableB], a
-    ; Multi-line code parsing
-    ;farcall CopyContinuedCustomLogicCode
+
+    ; Call the multi-line parsing code. The difference is that this ones knows not to expect any events in the start
+    farcall CopyContinuedCustomLogicCode
+
     call ClearScreen
     call ClearSprites
     ld hl, CodeAcceptedGiveNextPart
@@ -507,18 +529,20 @@ SaveCode:
     xor a
     ret     ; Ask for more codes
 
-    ; Normal parsing
-.normalParsing
+
+.normalParsing    ; Normal parsing, meaning this is a brand new line with the potential to be anything
     ld hl, wcf4b
     ld a, [hl]
     cp 152                          ; Is the first number above 151 (Mew)?
     jr c, .notNewCustomLogicCode    ; Nope, so player picked a pokemon
 
-    ; The player picked custom logic, so we setup a multi-line parsing situation
+    ; The player picked custom logic, so we setup a multi-line parsing situation. The amount of multi-lines is equal to
+    ; the value provided minus 152, meaning that 152 means 0 multi-lines, 153 means 1 multi-lines, etc. This is saved into
+    ; variable B for later.
     sub 152
     ld [wVariableB], a
 
-    ;farcall CopyNewCustomLogicCode
+    farcall CopyNewCustomLogicCode
     call ClearScreen
     call ClearSprites
     ld hl, CodeAcceptedGiveNextPart
@@ -526,7 +550,8 @@ SaveCode:
 
     xor a
     ret     ; Ask for more codes
-.notNewCustomLogicCode
+
+.notNewCustomLogicCode  ; It's not custom logic, that means this is the option/attribute line, the very last line allowed
     call CopyFinalCode
 
     call PrepareChecksumPrint

@@ -2016,7 +2016,7 @@ _CodeCompletedShowChecksum::
     line "Your checksum is"
     cont "@"
     text_ram wcd6d
-    cont "@"
+    text " "
     prompt
 
 _WillBeTradedText::
