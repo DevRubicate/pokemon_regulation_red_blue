@@ -801,8 +801,9 @@ OaksLabText2:
 	ld [wRivalStarterTemp], a
 	ld a, $3
 	ld [wRivalStarterBallSpriteIndex], a
+    ld a, $2
+    ld [wSpriteIndex], a
 	ld a, STARTER1
-	ld b, $2
 	jr OaksLabScript_1d133
 
 OaksLabText3:
@@ -811,8 +812,9 @@ OaksLabText3:
 	ld [wRivalStarterTemp], a
 	ld a, $4
 	ld [wRivalStarterBallSpriteIndex], a
+    ld a, $3
+    ld [wSpriteIndex], a
 	ld a, STARTER2
-	ld b, $3
 	jr OaksLabScript_1d133
 
 OaksLabText4:
@@ -821,34 +823,52 @@ OaksLabText4:
 	ld [wRivalStarterTemp], a
 	ld a, $2
 	ld [wRivalStarterBallSpriteIndex], a
+    ld a, $4
+    ld [wSpriteIndex], a
 	ld a, STARTER3
-	ld b, $4
 
 OaksLabScript_1d133:
     ld [wPlayerStarter], a  ; save the starter you should have had
-
-    ld c, a
-    push bc
-
     ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
-    jr z, .nocustom
+    jr z, .noRegulationStarter
     ld [wd11e], a
     callfar PokedexToIndex
     ld a, [wd11e]
-    ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall fo fame speech
-    pop bc
     jr .continue
-
-.nocustom
-    pop bc
-    ld a, c
+.noRegulationStarter
+    ld a, [wPlayerStarter]  ; load the starter
 .continue
 
+
+
+    ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall of fame speech
+
+
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wRegulationPlayerTrueStarter]
+    ld [wd11e], a
+    farcall IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemon
+
+    ; Convert pokemon from pokedex No to index
+    ld a, [wVariableB+1]
+    ld [wd11e], a
+    farcall PokedexToIndex
+    ld a, [wd11e]
+    ld [wRegulationPlayerTrueStarter], a
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+
+
+    ld a, [wRegulationPlayerTrueStarter]
 	ld [wcf91], a
 	ld [wd11e], a
-	ld a, b
-	ld [wSpriteIndex], a
 	CheckEvent EVENT_GOT_STARTER
 	jp nz, OaksLabScript_1d22d
 	CheckEventReuseA EVENT_OAK_ASKED_TO_CHOOSE_MON
@@ -882,9 +902,14 @@ OaksLabScript_1d157:
 	call ReloadMapData
 	ld c, 10
 	call DelayFrames
-    ld a, [wRegulationCode]  ; Load out starting pokemon rule
-    cp 0
-    jr nz, OaksLabLookAtCustom
+
+
+    ; Compare the true starter to the default starter
+    ld a, [wRegulationPlayerTrueStarter]
+    ld c, a
+    ld a, [wPlayerStarter]
+    cp c
+    jr nz, OaksLabLookAtCustom          ; If they are not the same use a special routine
 	ld a, [wSpriteIndex]
 	cp $2
 	jr z, OaksLabLookAtCharmander

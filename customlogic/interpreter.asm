@@ -1,5 +1,5 @@
 
-CustomLogicInterpreter:
+CustomLogicInterpreter::
 
     ld a, [wVariableA]
     ld [wRegulationCustomLogicVariableA], a

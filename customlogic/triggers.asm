@@ -332,3 +332,29 @@ RegulationTriggerWildBattlePokemonMoves::
 
 .notEnemyPokemon
     ret
+
+
+RegulationTriggerFoundPokemon::
+
+
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    farcall IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemon
+
+    ; Convert pokemon from pokedex No to index
+    ld a, [wVariableB+1]
+    ld [wd11e], a
+    farcall PokedexToIndex
+    ld a, [wd11e]
+    ld [wcf91], a
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ret

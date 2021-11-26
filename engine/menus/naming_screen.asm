@@ -890,7 +890,7 @@ AuthorString:
     db "By Rubicate@"
 
 VersionString:
-    db "v6@"
+    db "v6.1@"
 
 CodeTextString:
     db "Regulation Code@"

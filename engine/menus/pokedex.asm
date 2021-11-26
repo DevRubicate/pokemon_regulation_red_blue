@@ -644,7 +644,7 @@ PokedexToIndex::
 	pop bc
 	ret
 
-IndexToPokedex:
+IndexToPokedex::
 	; converts the index number at wd11e to a Pokédex number
 	push bc
 	push hl
