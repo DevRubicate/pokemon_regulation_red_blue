@@ -1972,7 +1972,27 @@ _OakSpeechRuleAidGivesTradeStone::
 
 _OakSpeechRuleNoRunningWildBattle::
     text "You may not run"
-    line "from wild battles."
+    line "from wild battles"
+    prompt
+
+_OakSpeechRuleNoSuperEffectiveMove::
+    text "Your moves are not"
+    line "super effective."
+    prompt
+
+_OakSpeechRuleTrainersRespawn::
+    text "#MON trainers"
+    line "will battle again"
+    cont "after using a"
+    cont "Pokecenter or"
+    cont "blacking out."
+    prompt
+
+_OakSpeechRuleTravelAndHMNotGated::
+    text "You can use HMs"
+    line "and travel freely"
+    cont "without having to"
+    cont "beat Gym Leaders."
     prompt
 
 _RefuseToTrade::

@@ -112,7 +112,15 @@ StartMenu_Pokemon::
 	add a
 	ld b, 0
 	ld c, a
+
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr z, .badgeCheck
+    ld hl, .outOfBattleMovePointersSkipBadgeCheck
+    jr .noBadgeCheck
+.badgeCheck
 	ld hl, .outOfBattleMovePointers
+.noBadgeCheck
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -129,9 +137,22 @@ StartMenu_Pokemon::
 	dw .dig
 	dw .teleport
 	dw .softboiled
+.outOfBattleMovePointersSkipBadgeCheck
+    dw .cutNoBadgeCheck
+    dw .flyNoBadgeCheck
+    dw .surfNoBadgeCheck
+    dw .surfNoBadgeCheck
+    dw .strengthNoBadgeCheck
+    dw .flashNoBadgeCheck
+    dw .dig
+    dw .teleport
+    dw .softboiled
+
+
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
+.flyNoBadgeCheck
 	call CheckIfInOutsideMap
 	jr z, .canFly
 	ld a, [wWhichPokemon]
@@ -152,6 +173,7 @@ StartMenu_Pokemon::
 .cut
 	bit BIT_CASCADEBADGE, a
 	jp z, .newBadgeRequired
+.cutNoBadgeCheck
 	predef UsedCut
 	ld a, [wActionResultOrTookBattleTurn]
 	and a
@@ -160,6 +182,7 @@ StartMenu_Pokemon::
 .surf
 	bit BIT_SOULBADGE, a
 	jp z, .newBadgeRequired
+.surfNoBadgeCheck
 	farcall IsSurfingAllowed
 	ld hl, wd728
 	bit 1, [hl]
@@ -177,12 +200,14 @@ StartMenu_Pokemon::
 .strength
 	bit BIT_RAINBOWBADGE, a
 	jp z, .newBadgeRequired
+.strengthNoBadgeCheck
 	predef PrintStrengthTxt
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
 .flash
 	bit BIT_BOULDERBADGE, a
 	jp z, .newBadgeRequired
+.flashNoBadgeCheck
 	xor a
 	ld [wMapPalOffset], a
 	ld hl, .flashLightsAreaText

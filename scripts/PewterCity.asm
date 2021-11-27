@@ -22,6 +22,15 @@ PewterCityScript0:
 	ret
 
 PewterCityScript_1925e:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr z, .continue
+    ld a, HS_GYM_GUY
+    ld [wMissableObjectIndex], a
+    predef HideObject            ; Remove the GYM guy who takes you to Brock
+    ret
+
+.continue
 	CheckEvent EVENT_BEAT_BROCK
 	ret nz
 	ld hl, CoordsData_19277
@@ -41,6 +50,10 @@ CoordsData_19277:
 	db -1 ; end
 
 PewterCityScript_CheckCheater:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    ret nz                       ; Don't mark as a cheater if you are allowed to walk past brock
+
     CheckEvent EVENT_BEAT_BROCK
     ret nz
     ld hl, CoordsData_Cheater

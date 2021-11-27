@@ -5,3 +5,6 @@ Fixed issue where the wild catch pokemon rule also prevented you from catching t
 Fixed bug where the move Transform would make a pokemon violate the Monotype rule or the Only Starter rule
 Fixed bug where the permament pokemon death rule exception applied to more than just the first rival battle
 Fixed some parsing bugs in the regulation code generator
+
+
+New option: Travel and HMs are not gated by Gym Leaders

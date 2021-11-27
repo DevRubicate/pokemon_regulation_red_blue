@@ -15,6 +15,9 @@ ViridianCityScript0:
 	jp ViridianCityScript_1903d
 
 ViridianCityScript_1900b:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    ret nz
 	CheckEvent EVENT_VIRIDIAN_GYM_OPEN
 	ret nz
 	ld a, [wObtainedBadges]

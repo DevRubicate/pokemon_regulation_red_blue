@@ -83,7 +83,7 @@ OakExplainRules:
     srl a                           ; shift right
     srl a                           ; shift right
     srl a                           ; shift right (upper nibble is now lower nibble)
-    jr z, .noDifficulty             ; skip text if there is no difficulty
+    jr z, :+             ; skip text if there is no difficulty
     dec a                           ; decrease by 1 for the table lookup
     ld hl, _DifficultyLabels
     ld bc, 4
@@ -93,11 +93,10 @@ OakExplainRules:
     call FarCopyData
     ld hl, OakSpeechRuleDifficulty
     call PrintText
-.noDifficulty
-
+:
     ld a, [wRegulationCode+1]    ; load the monotype rule
     and $f                          ; remove the upper 4 bits
-    jr z, .noMonotype               ; skip text if there is no monotype rule
+    jr z, :+               ; skip text if there is no monotype rule
     dec a                           ; decrease by 1 for the table lookup
     ld hl, _MonotypeLabels
     ld bc, 9
@@ -107,161 +106,157 @@ OakExplainRules:
     call FarCopyData
     ld hl, OakSpeechRuleMonotype
     call PrintText
-.noMonotype
-
+:
     ld a, [wRegulationCode+2]    ; load the no evolve rule
     bit 0, a
-    jr z, .noEvolve                 ; skip text if there is no rule
+    jr z, :+                 ; skip text if there is no rule
     ld hl, OakSpeechRuleNoEvolve
     call PrintText
-.noEvolve
-
+:
     ld a, [wRegulationCode+2]    ; load the no trainer exp rule
     bit 1, a
-    jr z, .noTrainerExp             ; skip text if there is no rule
+    jr z, :+             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrainerExp
     call PrintText
-.noTrainerExp
-
+:
     ld a, [wRegulationCode+2]    ; load the no wild exp rule
     bit 2, a
-    jr z, .noWildExp                ; skip text if there is no rule
+    jr z, :+                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWildExp
     call PrintText
-.noWildExp
-
+:
     ld a, [wRegulationCode+2]    ; load the no wild encounters rule
     bit 3, a
-    jr z, .noWildMon                ; skip text if there is no rule
+    jr z, :+                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoWild
     call PrintText
-.noWildMon
-
+:
     ld a, [wRegulationCode+2]    ; load the no catch wild rule
     bit 4, a
-    jr z, .noCatchWild              ; skip text if there is no rule
+    jr z, :+              ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchWild
     call PrintText
-.noCatchWild
-
+:
     ld a, [wRegulationCode+2]    ; load the no catch legendary rule
     bit 5, a
-    jr z, .noCatchLegendary         ; skip text if there is no rule
+    jr z, :+         ; skip text if there is no rule
     ld hl, OakSpeechRuleNoCatchLegendary
     call PrintText
-.noCatchLegendary
-
+:
     ld a, [wRegulationCode+2]    ; load the no gift pokemon rule
     bit 6, a
-    jr z, .noGiftMon                ; skip text if there is no rule
+    jr z, :+                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoGiftMon
     call PrintText
-.noGiftMon
-
+:
     ld a, [wRegulationCode+2]    ; load the no trade pokemon rule
     bit 7, a
-    jr z, .noTrade                  ; skip text if there is no rule
+    jr z, :+                  ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTrade
     call PrintText
-.noTrade
-
+:
     ld a, [wRegulationCode+3]    ; load the no restorative item combat rule
     bit 0, a
-    jr z, .noRestorativeItemCombat      ; skip text if there is no rule
+    jr z, :+      ; skip text if there is no rule
     ld hl, OakSpeechRuleNoRestorativeItemCombat
     call PrintText
-.noRestorativeItemCombat
-
+:
     ld a, [wRegulationCode+3]    ; load the no restorative item noncombat rule
     bit 1, a
-    jr z, .noRestorativeItemNonCombat   ; skip text if there is no rule
+    jr z, :+   ; skip text if there is no rule
     ld hl, OakSpeechRuleNoRestorativeItemNonCombat
     call PrintText
-.noRestorativeItemNonCombat
-
+:
     ld a, [wRegulationCode+3]    ; load the no battle item combat rule
     bit 2, a
-    jr z, .noBattleItem             ; skip text if there is no rule
+    jr z, :+             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoBattleItem
     call PrintText
-.noBattleItem
-
+:
     ld a, [wRegulationCode+3]    ; load the no shopping rule
     bit 3, a
-    jr z, .noShopping               ; skip text if there is no rule
+    jr z, :+               ; skip text if there is no rule
     ld hl, OakSpeechRuleNoShopping
     call PrintText
-.noShopping
-
+:
     ld a, [wRegulationCode+3]    ; load the direct HM rule
     bit 4, a
-    jr z, .noDirectHM               ; skip text if there is no rule
+    jr z, :+               ; skip text if there is no rule
     ld hl, OakSpeechRuleNoDirectHM
     call PrintText
-.noDirectHM
-
+:
     ld a, [wRegulationCode+3]    ; load the no TM and HM rule
     bit 5, a
-    jr z, .noTMandHM                ; skip text if there is no rule
+    jr z, :+                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoTMandHM
     call PrintText
-.noTMandHM
-
+:
     ld a, [wRegulationCode+3]    ; load the no moves from leveling rule
     bit 6, a
-    jr z, .noLevelMoves             ; skip text if there is no rule
+    jr z, :+             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoLevelMoves
     call PrintText
-.noLevelMoves
-
+:
     ld a, [wRegulationCode+3]    ; load the daycare rule
     bit 7, a
-    jr z, .noDaycare                ; skip text if there is no rule
+    jr z, :+                ; skip text if there is no rule
     ld hl, OakSpeechRuleNoDaycare
     call PrintText
-.noDaycare
-
+:
     ld a, [wRegulationCode+4]    ; load the catch trainer pokemon rule
     bit 0, a
-    jr z, .noCatchTrainerPokemon    ; skip text if there is no rule
+    jr z, :+    ; skip text if there is no rule
     ld hl, OakSpeechRuleCatchTrainerPokemon
     call PrintText
-.noCatchTrainerPokemon
-
+:
     ld a, [wRegulationCode+4]    ; load the solor starter pokemon rule
     bit 1, a
-    jr z, .noSoloStarter            ; skip text if there is no rule
+    jr z, :+            ; skip text if there is no rule
     ld hl, OakSpeechRuleSoloStarter
     call PrintText
-.noSoloStarter
-
+:
     ld a, [wRegulationCode+4]    ; load the pokemon perish rule
     bit 2, a
-    jr z, .noPokemonPerish            ; skip text if there is no rule
+    jr z, :+            ; skip text if there is no rule
     ld hl, OakSpeechRulePokemonPerish
     call PrintText
-.noPokemonPerish
-
+:
     ld a, [wRegulationCode+4]    ; load the savefile permadeath rule
     bit 3, a
-    jr z, .noSavefilePermadeath     ; skip text if there is no rule
+    jr z, :+     ; skip text if there is no rule
     ld hl, OakSpeechRuleSavefilePermadeath
     call PrintText
-.noSavefilePermadeath
-
+:
     ld a, [wRegulationCode+4]    ; load the trade stone rule
     bit 4, a
-    jr z, .noTradeStone             ; skip text if there is no rule
+    jr z, :+             ; skip text if there is no rule
     ld hl, OakSpeechRuleAidGivesTradeStone
     call PrintText
-.noTradeStone
-
+:
     ld a, [wRegulationCode+4]    ; load the no running from wild encounters rule
     bit 5, a
-    jr z, .noWildRunBan             ; skip text if there is no rule
+    jr z, :+             ; skip text if there is no rule
     ld hl, OakSpeechRuleNoRunningWildBattle
     call PrintText
-.noWildRunBan
+:
+    ld a, [wRegulationCode+4]     ; load the your moves cannot be super effective rule
+    bit 6, a
+    jr z, :+                      ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoSuperEffectiveMove
+    call PrintText
+:
+    ld a, [wRegulationCode+4]    ; load the trainers respawn when using Pokecenter or blacking out rule
+    bit 7, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleTrainersRespawn
+    call PrintText
+:
+    ld a, [wRegulationCode+9]    ; load the travel and HMs are not gated by Gym Leaders
+    bit 0, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleTravelAndHMNotGated
+    call PrintText
+:
 
 
 .noCustomRules
@@ -364,4 +359,13 @@ OakSpeechRuleAidGivesTradeStone:
     text_end
 OakSpeechRuleNoRunningWildBattle:
     text_far _OakSpeechRuleNoRunningWildBattle
+    text_end
+OakSpeechRuleNoSuperEffectiveMove:
+    text_far _OakSpeechRuleNoSuperEffectiveMove
+    text_end
+OakSpeechRuleTrainersRespawn:
+    text_far _OakSpeechRuleTrainersRespawn
+    text_end
+OakSpeechRuleTravelAndHMNotGated:
+    text_far _OakSpeechRuleTravelAndHMNotGated
     text_end
