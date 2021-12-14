@@ -23,6 +23,12 @@ _MomHealText2::
 	cont "Take care now!"
 	done
 
+_MomForbiddenHealText::
+    text "MOM: PROF.OAK told"
+    line "me not to heal"
+    cont "you."
+    done
+
 _StandByMeText::
 	text "There's a movie"
 	line "on TV. Four boys"

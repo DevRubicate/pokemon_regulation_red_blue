@@ -257,7 +257,24 @@ OakExplainRules:
     ld hl, OakSpeechRuleTravelAndHMNotGated
     call PrintText
 :
-
+    ld a, [wRegulationCode+9]    ; load the no pokemon center rule
+    bit 1, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoPokemonCenter
+    call PrintText
+:
+    ld a, [wRegulationCode+9]    ; load the no catching Safari Zone rule
+    bit 2, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleNoCatchingSafariZone
+    call PrintText
+:
+    ld a, [wRegulationCode+9]    ; load the sent to title screen on blackout rule
+    bit 3, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleSentToTitleBlackout
+    call PrintText
+:
 
 .noCustomRules
     ret
@@ -368,4 +385,13 @@ OakSpeechRuleTrainersRespawn:
     text_end
 OakSpeechRuleTravelAndHMNotGated:
     text_far _OakSpeechRuleTravelAndHMNotGated
+    text_end
+OakSpeechRuleNoPokemonCenter:
+    text_far _OakSpeechRuleNoPokemonCenter
+    text_end
+OakSpeechRuleNoCatchingSafariZone:
+    text_far _OakSpeechRuleNoCatchingSafariZone
+    text_end
+OakSpeechRuleSentToTitleBlackout:
+    text_far _OakSpeechRuleSentToTitleBlackout
     text_end

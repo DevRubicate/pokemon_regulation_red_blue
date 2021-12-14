@@ -2399,6 +2399,17 @@ DisplayBattleMenu::
 	ld [wNumRunAttempts], a
 	jp LoadScreenTilesFromBuffer1 ; restore saved screen and return
 .throwSafariBallWasSelected
+
+    ld a, [wRegulationCode+9]    ; load out the no catching safari zone pokemon rule
+    bit 2, a
+    jr z, .continue
+
+    ld hl, CannotCatchSafariZoneText
+    call PrintText
+    jp DisplayBattleMenu
+
+
+.continue
 	ld a, SAFARI_BALL
 	ld [wcf91], a
 	jp UseBagItem
@@ -2559,6 +2570,11 @@ UseBagItem:
 ItemsCantBeUsedHereText:
 	text_far _ItemsCantBeUsedHereText
 	text_end
+
+CannotCatchSafariZoneText:
+    text_far _CannotCatchSafariZoneText
+    text_end
+
 
 PartyMenuOrRockOrRun:
 	dec a ; was Run selected?

@@ -4,6 +4,12 @@ _SilphCo9Text_5d8e5::
 	cont "quick nap!"
 	prompt
 
+_SilphCo9Text_ForbiddenHealing::
+    text "PROF.OAK told me"
+    line "me not to heal"
+    cont "you."
+    prompt
+
 _SilphCo9Text_5d8ea::
 	text "Don't give up!"
 	done

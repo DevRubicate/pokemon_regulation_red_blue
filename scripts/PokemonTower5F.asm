@@ -13,6 +13,10 @@ PokemonTower5F_ScriptPointers:
 	dw EndTrainerBattle
 
 PokemonTower5Script0:
+    ld a, [wRegulationCode+9]    ; load out no pokecenter rule
+    bit 1, a
+    ret nz
+
 	ld hl, CoordsData_60992
 	call ArePlayerCoordsInArray
 	jr c, .asm_60960

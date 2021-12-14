@@ -23,6 +23,10 @@ MomWakeUpText:
 	text_end
 
 MomHealPokemon:
+    ld a, [wRegulationCode+9]    ; load out no pokecenter rule
+    bit 1, a
+    jp nz, .forbiddenHealing
+
     ld a, [wRegulationCode+4]    ; load out the trainer reset rule
     bit 7, a
     jp z, .skipTrainerReset
@@ -48,12 +52,21 @@ MomHealPokemon:
 	ld hl, MomHealText2
 	jp PrintText
 
+.forbiddenHealing
+    ld hl, MomForbiddenHealText
+    jp PrintText
+
+
 MomHealText1:
 	text_far _MomHealText1
 	text_end
 MomHealText2:
 	text_far _MomHealText2
 	text_end
+MomForbiddenHealText:
+    text_far _MomForbiddenHealText
+    text_end
+
 
 RedsHouse1FTVText:
 	text_asm

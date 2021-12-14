@@ -177,6 +177,11 @@ _ShallWeHealYourPokemonText::
 	line "#MON?"
 	done
 
+_OakForbadeUsFromHealingText::
+    text "Oak told us to not"
+    line "heal your #MON"
+    done
+
 _NeedYourPokemonText::
 	text "OK. We'll need"
 	line "your #MON."

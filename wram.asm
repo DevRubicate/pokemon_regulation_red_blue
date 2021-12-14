@@ -158,6 +158,7 @@ wVariableC:: ; General purpose variable
 wVariableD:: ; General purpose variable
     ds 2
 
+wSafeBankBackup::
     ds 5
 
 SECTION "Sprite State Data", WRAM0
@@ -3023,8 +3024,12 @@ wRoute18Gate1FCurScript::
 	ds 1
 wGameProgressFlagsEnd::
 
-	ds 78                      ; Free to be used
-	ds 56                      ; Free to be used
+wRegulationMapGroupFlags::
+    ds 5
+
+
+	ds 129                      ; Free to be used
+
 
 wObtainedHiddenItemsFlags::
 	ds 14

@@ -130,7 +130,6 @@ ItemUseBall:
     jp z, CatchingLegendaryNotAllowed
 .noLegendaryRestriction
 
-
     ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
     bit 0, a
     jp nz, .skipTrainerBlock
@@ -141,9 +140,20 @@ ItemUseBall:
 	jp nz, ThrowBallAtTrainerMon
 .skipTrainerBlock
 
+    safecall LoadMapGrouping
+    ld a, d
+
+    ;farcall SetBitFlag
+
+    debug
+
+
+
+
+
+
     ld a, [wEnemyMonPartyPos]
     ld [wEnemyMonPartyPosBackup], a
-
 
 ; If this is for the old man battle, skip checking if the party & box are full.
 	ld a, [wBattleType]

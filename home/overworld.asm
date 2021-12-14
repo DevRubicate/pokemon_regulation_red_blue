@@ -758,10 +758,16 @@ HandleBlackOut::
     jr z, .continue                 ; skip deleting savefile
     farcall ClearSAV
     jp Init
+.continue
+
+    ld a, [wRegulationCode+9]    ; load out savefile deleted on blackout
+    bit 3, a
+    jr z, .continue2                 ; skip ending to title screen
+    jp Init
+.continue2
 
 ; For when all the player's pokemon faint.
 ; Does not print the "blacked out" message.
-.continue
 	call GBFadeOutToBlack
 	ld a, $08
 	call StopMusic

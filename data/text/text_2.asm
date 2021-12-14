@@ -978,6 +978,14 @@ _ItemsCantBeUsedHereText::
 	line "used here."
 	prompt
 
+_CannotCatchSafariZoneText::
+    text "OAK: <PLAYER>!"
+    line "You may not catch"
+    cont "in Safari Zone"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _AlreadyOutText::
 	text_ram wBattleMonNick
 	text " is"
@@ -1993,6 +2001,26 @@ _OakSpeechRuleTravelAndHMNotGated::
     line "and travel freely"
     cont "without having to"
     cont "beat Gym Leaders."
+    prompt
+
+_OakSpeechRuleNoPokemonCenter::
+    text "Pokemon Centers"
+    line "and other forms"
+    cont "of party healing"
+    cont "cannot be used."
+    prompt
+
+_OakSpeechRuleNoCatchingSafariZone::
+    text "Safari Zone"
+    line "#MON cannot"
+    cont "be caught."
+    prompt
+
+_OakSpeechRuleSentToTitleBlackout::
+    text "You will be sent"
+    line "to the title"
+    cont "screen when"
+    cont "blacking out."
     prompt
 
 _RefuseToTrade::

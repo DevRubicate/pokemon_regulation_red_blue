@@ -1,5 +1,8 @@
 DisplayPokemonCenterDialogue_::
 	call SaveScreenTilesToBuffer1 ; save screen
+    ld a, [wRegulationCode+9]    ; load out no pokecenter rule
+    bit 1, a
+    jp nz, .forbiddenHealing
 	ld hl, PokemonCenterWelcomeText
 	call PrintText
 	ld hl, wd72e
@@ -51,6 +54,10 @@ DisplayPokemonCenterDialogue_::
 	ld hl, PokemonCenterFarewellText
 	call PrintText
 	jp UpdateSprites
+.forbiddenHealing
+    ld hl, OakForbadeUsFromHealingText
+    call PrintText
+    jp UpdateSprites
 
 PokemonCenterWelcomeText:
 	text_far _PokemonCenterWelcomeText
@@ -73,3 +80,7 @@ PokemonCenterFarewellText:
 	text_pause
 	text_far _PokemonCenterFarewellText
 	text_end
+
+OakForbadeUsFromHealingText:
+    text_far _OakForbadeUsFromHealingText
+    text_end

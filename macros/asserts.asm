@@ -73,3 +73,7 @@ end_water_wildmons: MACRO
 			"def_water_wildmons {d:CURRENT_WATER_WILDMONS_RATE}: expected {d:WILDDATA_LENGTH} bytes"
 	ENDC
 ENDM
+
+debug: MACRO
+    ld b, b
+ENDM

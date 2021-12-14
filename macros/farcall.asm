@@ -46,3 +46,19 @@ homecall_sf: MACRO ; homecall but save flags by popping into bc instead of af
 	ldh [hLoadedROMBank], a
 	ld [MBC1RomBank], a
 ENDM
+
+safecall: MACRO
+    ;push af
+    ;push hl
+
+    ;ld [wSafeBankBackup], a     ; save a
+    ;ld a, b
+    ;ld [wSafeBankBackup+1], a   ; save b
+    ;ld a, h
+    ;ld [wSafeBankBackup+2], a   ; save h
+    ;ld a, l
+    ;ld [wSafeBankBackup+3], a   ; save l
+    ld f, BANK(\1)
+    ld hl, \1
+    call SafeBankswitch
+ENDM

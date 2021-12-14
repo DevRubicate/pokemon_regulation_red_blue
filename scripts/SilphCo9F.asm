@@ -143,6 +143,10 @@ SilphCo9Text1:
 	text_asm
 	CheckEvent EVENT_BEAT_SILPH_CO_GIOVANNI
 	jr nz, .asm_5d8dc
+    ld a, [wRegulationCode+9]    ; load out no pokecenter rule
+    bit 1, a
+    jp nz, .forbiddenHealing
+
 	ld hl, SilphCo9Text_5d8e5
 	call PrintText
 	predef HealParty
@@ -164,6 +168,9 @@ SilphCo9Text1:
 	call PrintText
 .asm_5d8e2
 	jp TextScriptEnd
+.forbiddenHealing
+    ld hl, SilphCo9Text_ForbiddenHealing
+    call PrintText
 
 SilphCo9Text_5d8e5:
 	text_far _SilphCo9Text_5d8e5
@@ -176,6 +183,10 @@ SilphCo9Text_5d8ea:
 SilphCo9Text_5d8ef:
 	text_far _SilphCo9Text_5d8ef
 	text_end
+
+SilphCo9Text_ForbiddenHealing:
+    text_far _SilphCo9Text_ForbiddenHealing
+    text_end
 
 SilphCo9Text2:
 	text_asm
