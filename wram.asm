@@ -159,7 +159,9 @@ wVariableD:: ; General purpose variable
     ds 2
 
 wSafeBankBackup::
-    ds 5
+    ds 3
+
+    ds 2
 
 SECTION "Sprite State Data", WRAM0
 
@@ -461,8 +463,11 @@ wNPCMovementScriptBank::
 ; ROM bank of current NPC movement script
 	ds 1
 
-	ds 1   ; Free to be used, but won't be saved
-    ds 1
+wRegulationFirstAreaEncounter::
+	ds 1
+
+
+    ds 1   ; Free to be used, but won't be saved
 
 wUnusedCC5B::
 
@@ -3024,11 +3029,11 @@ wRoute18Gate1FCurScript::
 	ds 1
 wGameProgressFlagsEnd::
 
-wRegulationMapGroupFlags::
-    ds 5
+wRegulationNuzlockeFlags::
+    ds 6
 
 
-	ds 129                      ; Free to be used
+	ds 128                      ; Free to be used
 
 
 wObtainedHiddenItemsFlags::
@@ -3079,6 +3084,15 @@ wWalkBikeSurfState::
 ; byte 6 - Starter pokemon move 2
 ; byte 7 - Starter pokemon move 3
 ; byte 8 - Starter pokemon move 4
+; byte 9
+;           0: Travel and HMs not gated by Gym Leaders
+;           1: Cannot use pokecenters or party heals
+;           2: No catching safari zone pokemon
+;           3: Sent to title screen on blacking out
+;           4: Can only capture pokemon on first encounter in each area
+;           5:
+;           6:
+;           7:
 wRegulationCode::
 	ds 10
 

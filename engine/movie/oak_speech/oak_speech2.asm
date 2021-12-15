@@ -275,6 +275,12 @@ OakExplainRules:
     ld hl, OakSpeechRuleSentToTitleBlackout
     call PrintText
 :
+    ld a, [wRegulationCode+9]    ; load the can only capture pokemon on first encounter in each area rule
+    bit 4, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechRuleOnlyCatchFirstEncounter
+    call PrintText
+:
 
 .noCustomRules
     ret
@@ -394,4 +400,7 @@ OakSpeechRuleNoCatchingSafariZone:
     text_end
 OakSpeechRuleSentToTitleBlackout:
     text_far _OakSpeechRuleSentToTitleBlackout
+    text_end
+OakSpeechRuleOnlyCatchFirstEncounter:
+    text_far _OakSpeechRuleOnlyCatchFirstEncounter
     text_end

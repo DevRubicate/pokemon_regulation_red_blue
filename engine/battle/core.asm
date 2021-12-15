@@ -1496,6 +1496,11 @@ SlideTrainerPicOffScreen:
 
 ; send out a trainer's mon
 EnemySendOut:
+
+    ; The trainer is sending out his non-first pokemon, so remove the "first area encounter" variable for Nuzlocke
+    ld a, 0
+    ld [wRegulationFirstAreaEncounter], a
+
 	ld hl, wPartyGainExpFlags
 	xor a
 	ld [hl], a
@@ -7091,6 +7096,22 @@ InitBattleCommon:
 	sub OPP_ID_OFFSET
 	jp c, InitWildBattle
 	ld [wTrainerClass], a
+    ld a, [wRegulationCode+9]               ; load out the first pokemon encounter in the area rule
+    bit 4, a
+    jp z, .continue                         ; If the rule isn't active skip ahead
+    ld a, 0
+    ld [wRegulationFirstAreaEncounter], a   ; default to the pokemon not being catchable
+    safecall LoadMapGrouping                ; Load the map group we are currently in
+    ld hl, wRegulationNuzlockeFlags
+    safecall CheckBitFlag                   ; Check if we already caught a pokemon in this area
+    jp nz, .continue                        ; If we did, skip ahead
+    ld a, 1
+    ld [wRegulationFirstAreaEncounter], a   ; Record that we may catch this pokemon
+    safecall LoadMapGrouping                ; Load the map group again
+    ld hl, wRegulationNuzlockeFlags
+    safecall SetBitFlag                     ; Record that this map group has had it's first encounter
+.continue
+    farcall RegulationInitTrainer
 	call GetTrainerInformation
 	callfar ReadTrainer
 	call DoBattleTransitionAndInitBattleVariables

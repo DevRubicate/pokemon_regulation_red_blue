@@ -2023,6 +2023,13 @@ _OakSpeechRuleSentToTitleBlackout::
     cont "blacking out."
     prompt
 
+_OakSpeechRuleOnlyCatchFirstEncounter::
+    text "You can only catch"
+    line "the first #MON"
+    cont "you encounter in"
+    cont "each area."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"

@@ -124,6 +124,23 @@ TryDoWildEncounter:
 	and a
 	ret
 .willEncounter
+
+    ld a, 0
+    ld [wRegulationFirstAreaEncounter], a
+
+    safecall LoadMapGrouping
+    ld hl, wRegulationNuzlockeFlags
+    safecall CheckBitFlag
+    jp nz, .continue
+
+    ld a, 1
+    ld [wRegulationFirstAreaEncounter], a
+
+    safecall LoadMapGrouping
+    ld hl, wRegulationNuzlockeFlags
+    safecall SetBitFlag
+.continue
+
 	xor a
 	ret
 

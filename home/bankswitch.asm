@@ -35,33 +35,29 @@ Bankswitch::
 	ret
 
 SafeBankswitch::
-; self-contained bankswitch, use this when not in the home bank
-; switches to the bank in b
-    ldh a, [hLoadedROMBank]     ; load what bank we are currently in
-    push af                     ; save it for later
-    ld a, f
     ldh [hLoadedROMBank], a     ; save the bank we are jumping into
     ld [MBC1RomBank], a         ; switch banks
-    ld bc, .return              ; load address we will return to once this safecall is done
-    push bc                     ; push the address we will return to
-    push hl                     ; push the address we will jump to right now
+    push hl                     ; push the address will be jumping to
+    ld a, [wSafeBankBackup+2]   ; load l
+    ld l, a
+    ld a, [wSafeBankBackup+1]   ; load h
+    ld h, a
+    ld a, [wSafeBankBackup]     ; load a
+    ret                         ; reverse-jump to the address pushed by hl earlier
 
-
-
-    ;ld a, [wSafeBankBackup+3]   ; load l
-    ;ld l, a
-    ;ld a, [wSafeBankBackup+2]   ; load h
-    ;ld h, a
-    ;ld a, [wSafeBankBackup+1]   ; load b
-    ;ld b, a
-    ;ld a, [wSafeBankBackup]     ; load a
-    ret                         ; jump to the address given by hl
-.return
-
-
-
-    pop bc
-    ld a, b
-    ldh [hLoadedROMBank], a
-    ld [MBC1RomBank], a
-    ret
+SafeBankswitchReturn::
+    ld [wSafeBankBackup], a     ; save a
+    ld a, h
+    ld [wSafeBankBackup+1], a   ; save h
+    ld a, l
+    ld [wSafeBankBackup+2], a   ; save l
+    pop hl                      ; load what bank we want to return to
+    ld a, h
+    ldh [hLoadedROMBank], a     ; save the bank we are jumping back to
+    ld [MBC1RomBank], a         ; switch banks
+    ld a, [wSafeBankBackup+2]   ; load l
+    ld l, a
+    ld a, [wSafeBankBackup+1]   ; load h
+    ld h, a
+    ld a, [wSafeBankBackup]     ; load a
+    ret                         ; return to orginal caller

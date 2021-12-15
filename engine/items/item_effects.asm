@@ -140,18 +140,15 @@ ItemUseBall:
 	jp nz, ThrowBallAtTrainerMon
 .skipTrainerBlock
 
-    safecall LoadMapGrouping
-    ld a, d
+    ld a, [wRegulationCode+9]    ; load out the first pokemon encounter in the area rule
+    bit 4, a
+    jp z, .continue
 
-    ;farcall SetBitFlag
+    ld a, [wRegulationFirstAreaEncounter]  ; Check if this is the first encounter in this area
+    or a
+    jp z, CatchingNuzlockeNotAllowed
 
-    debug
-
-
-
-
-
-
+.continue
     ld a, [wEnemyMonPartyPos]
     ld [wEnemyMonPartyPosBackup], a
 
@@ -2472,6 +2469,10 @@ CatchingLegendaryNotAllowed:
     ld hl, CatchingLegendaryNotAllowedText
     jr ItemUseFailed
 
+CatchingNuzlockeNotAllowed:
+    ld hl, CatchingNuzlockeNotAllowedText
+    jr ItemUseFailed
+
 ItemUseNotYoursToUse:
 	ld hl, ItemUseNotYoursToUseText
 	jr ItemUseFailed
@@ -2511,6 +2512,10 @@ CatchingWildNotAllowedText:
 
 CatchingLegendaryNotAllowedText:
     text_far _CatchingLegendaryNotAllowedText
+    text_end
+
+CatchingNuzlockeNotAllowedText:
+    text_far _CatchingNuzlockeNotAllowedText
     text_end
 
 ItemUseNotTimeText:

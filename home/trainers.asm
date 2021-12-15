@@ -236,7 +236,6 @@ InitBattleEnemyParameters::
 	ld a, [wEngagedTrainerSet]
 	jr c, .noTrainer
 	ld [wTrainerNo], a
-    farcall RegulationInitTrainer
 	ret
 .noTrainer
 	ld [wCurEnemyLVL], a

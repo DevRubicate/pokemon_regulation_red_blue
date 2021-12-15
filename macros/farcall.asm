@@ -48,17 +48,23 @@ homecall_sf: MACRO ; homecall but save flags by popping into bc instead of af
 ENDM
 
 safecall: MACRO
-    ;push af
-    ;push hl
+    jr :++                      ; jump to the end of safecall so that's where we end up once it's over
+:
+    ld [wSafeBankBackup], a     ; save a
+    ld a, h
+    ld [wSafeBankBackup+1], a   ; save h
+    ld a, l
+    ld [wSafeBankBackup+2], a   ; save l
 
-    ;ld [wSafeBankBackup], a     ; save a
-    ;ld a, b
-    ;ld [wSafeBankBackup+1], a   ; save b
-    ;ld a, h
-    ;ld [wSafeBankBackup+2], a   ; save h
-    ;ld a, l
-    ;ld [wSafeBankBackup+3], a   ; save l
-    ld f, BANK(\1)
-    ld hl, \1
-    call SafeBankswitch
+    ldh a, [hLoadedROMBank]     ; load what bank we are currently in
+    push af                     ; save bank for later
+
+    ld hl, SafeBankswitchReturn ; load address we will return to once this safecall is done
+    push hl                     ; push the address we will return to
+
+    ld a, BANK(\1)              ; load the bank we wanna go to
+    ld hl, \1                   ; load the address we wanna go to
+    jp SafeBankswitch           ; jump to SafeBankSwitch which isn't stored in a bank itself
+:
+    call :--                     ; use a call to ensure this is where we return once we are done
 ENDM

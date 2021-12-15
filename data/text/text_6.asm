@@ -211,6 +211,15 @@ _CatchingLegendaryNotAllowedText::
     cont "rules!"
     prompt
 
+_CatchingNuzlockeNotAllowedText::
+    text "OAK: <PLAYER>!"
+    line "You may not catch"
+    cont "any #MON"
+    cont "in this area"
+    cont "according to the"
+    cont "rules!"
+    prompt
+
 _CatchingFishNotAllowedText::
     text "OAK: <PLAYER>!"
     line "You may not fish"
