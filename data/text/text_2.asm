@@ -1984,8 +1984,10 @@ _OakSpeechRuleNoRunningWildBattle::
     prompt
 
 _OakSpeechRuleNoSuperEffectiveMove::
-    text "Your moves are not"
-    line "super effective."
+    text "Your super"
+    line "effective moves"
+    cont "do not deal more"
+    cont "damage."
     prompt
 
 _OakSpeechRuleTrainersRespawn::
@@ -2028,6 +2030,13 @@ _OakSpeechRuleOnlyCatchFirstEncounter::
     line "the first #MON"
     cont "you encounter in"
     cont "each area."
+    prompt
+
+_OakSpeechOnlySuperEffectiveDealDamage::
+    text "You can only deal"
+    line "damage with"
+    cont "super effective"
+    cont "moves."
     prompt
 
 _RefuseToTrade::

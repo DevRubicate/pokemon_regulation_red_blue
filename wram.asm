@@ -3090,7 +3090,7 @@ wWalkBikeSurfState::
 ;           2: No catching safari zone pokemon
 ;           3: Sent to title screen on blacking out
 ;           4: Can only capture pokemon on first encounter in each area
-;           5:
+;           5: Only your super effective moves have an effect
 ;           6:
 ;           7:
 wRegulationCode::

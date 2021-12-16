@@ -281,6 +281,13 @@ OakExplainRules:
     ld hl, OakSpeechRuleOnlyCatchFirstEncounter
     call PrintText
 :
+    ld a, [wRegulationCode+9]    ; load the only your Super Effective moves can deal damage rule
+    bit 5, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechOnlySuperEffectiveDealDamage
+    call PrintText
+:
+
 
 .noCustomRules
     ret
@@ -403,4 +410,7 @@ OakSpeechRuleSentToTitleBlackout:
     text_end
 OakSpeechRuleOnlyCatchFirstEncounter:
     text_far _OakSpeechRuleOnlyCatchFirstEncounter
+    text_end
+OakSpeechOnlySuperEffectiveDealDamage:
+    text_far _OakSpeechOnlySuperEffectiveDealDamage
     text_end

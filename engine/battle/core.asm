@@ -5483,6 +5483,9 @@ IncrementMovePP:
 
 ; function to adjust the base damage of an attack to account for type effectiveness
 AdjustDamageForMoveType:
+    ld a, 0
+    ld [wVariableB], a
+
 ; values for player turn
 	ld hl, wBattleMonType
 	ld a, [hli]
@@ -5534,6 +5537,8 @@ AdjustDamageForMoveType:
 	ld hl, wDamageMultipliers
 	set 7, [hl]
 .skipSameTypeAttackBonus
+
+
 	ld a, [wMoveType]
 	ld b, a
 	ld hl, TypeEffects
@@ -5559,24 +5564,37 @@ AdjustDamageForMoveType:
     ld a, [hl] ; a = damage multiplier
     ld [wVariableA], a
 
-    ; Skip the regulation code if it's the enemy's turn
-    ld a, [hWhoseTurn]
-    and a
-    jr nz, .continue  ; if it's the enemy turn then move on
+    ; Record if this move is super effective at least once
+    cp SUPER_EFFECTIVE
+    jr nz, .continue
+    ld a, 1
+    ld [wVariableB], a
+.continue
+
+    ; The following regulation rule checks if the player is inflicting a super effective move, and if they
+    ; are, it gets nerfed into a normal effective move instead.
 
     ld a, [wRegulationCode+4] ; Load out the rule for not having super effective moves
     bit 6, a
-    jr z, .continue    ; if the rule isn't active then move on
+    jr z, .damageCalc    ; if the rule isn't active then move on to damage calculation
+
+    ld a, [hWhoseTurn]
+    and a
+    jr nz, .damageCalc  ; if it's the enemy turn then move on to damage calculation
 
     ld a, [wVariableA]
     cp SUPER_EFFECTIVE
-    jr nz, .continue   ; If it's not super effective then move on
+    jr nz, .damageCalc   ; If it's not super effective then move on to damage calculation
+
+    ; So the rule is active, and this was a super effective move. Because of this, we will
+    ; jump to .done as if the game was unable to find any type pair at all, causing a normal
+    ; effectiveness move.
 
     pop bc
     pop hl
     jr .nextTypePair   ; move on and ignore this entry
 
-.continue
+.damageCalc
 	ld a, [wDamageMultipliers]
 	and $80
 	ld b, a
@@ -5616,6 +5634,29 @@ AdjustDamageForMoveType:
 	inc hl
 	jp .loop
 .done
+
+    ; The following regulation rule prevents you from doing damage
+    ; if you aren't super effective against the enemy
+
+    ld a, [wRegulationCode+9] ; Load out the rule not doing damage if you don't have super effective moves
+    bit 5, a
+    ret z
+
+    ld a, [hWhoseTurn]
+    and a
+    ret nz                      ; If it's the enemy turn, skip this logic
+
+    ld a, [wVariableB]
+    and a
+    ret nz                      ; If you did a super effective move, skip this logic
+
+    ; We made it all the way here, which means the damage should be removed.
+
+    ld a, 0
+    ld [wDamageMultipliers], a
+    ld a, 1
+    ld [wMoveMissed], a
+
 	ret
 
 ; function to tell how effective the type of an enemy attack is on the player's current pokemon
