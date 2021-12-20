@@ -40,6 +40,7 @@ INCLUDE "engine/pokemon/remove_mon.asm"
 INCLUDE "engine/events/display_pokedex.asm"
 
 
+
 SECTION "bank3", ROMX
 
 INCLUDE "engine/joypad.asm"
@@ -360,4 +361,5 @@ INCLUDE "customlogic/internals.asm"
 INCLUDE "customlogic/interpreter.asm"
 INCLUDE "customlogic/triggers.asm"
 INCLUDE "customlogic/map_grouping.asm"
+INCLUDE "customlogic/external_functions.asm"
 INCLUDE "engine/calc_stats.asm"

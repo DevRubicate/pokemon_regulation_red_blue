@@ -308,7 +308,6 @@ LinkCanceledText:
 StartNewGame:
 	ld hl, wd732
 	res 1, [hl]
-StartNewGameDebug:
 	callfar OakSpeech
 	ld c, 20
 	call DelayFrames

@@ -152,6 +152,7 @@ StartBattle:
 	ld a, [wIsInBattle]
 	dec a ; is it a trainer battle?
 	call nz, EnemySendOutFirstMon ; if it is a trainer battle, send out enemy mon
+    safecall RegulationTriggerSentPokemon
 	ld c, 40
 	call DelayFrames
 	call SaveScreenTilesToBuffer1
@@ -864,7 +865,6 @@ HandleEnemyMonFainted:
 	ld a, [hli]
 	or [hl] ; does battle mon have 0 HP?
 	jr nz, .skipReplacingBattleMon ; if not, skip replacing battle mon
-	call DoUseNextMonDialogue ; this call is useless in a trainer battle. it shouldn't be here
 	ret c
 	call ChooseNextMon
 .skipReplacingBattleMon
@@ -1090,6 +1090,7 @@ ReplaceFaintedEnemyMon:
 	call LoadScreenTilesFromBuffer1
 .notLinkBattle
 	call EnemySendOut
+    safecall RegulationTriggerSentPokemon
 	xor a
 	ld [wEnemyMoveNum], a
 	ld [wActionResultOrTookBattleTurn], a
@@ -6556,8 +6557,6 @@ LoadEnemyMonData:
 ; for a wild mon, first copy default moves from the mon header
 	ld hl, wMonHMoves
 
-
-
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -6575,9 +6574,6 @@ LoadEnemyMonData:
 	xor a
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves ; get moves based on current level
-
-
-
     farcall RegulationTriggerWildBattlePokemonMoves
 
 .loadMovePPs
@@ -6626,6 +6622,7 @@ LoadEnemyMonData:
 	ld [hli], a
 	dec b
 	jr nz, .statModLoop
+    safecall RegulationTriggerCalcPokemonStats
 	ret
 
 ; calls BattleTransition to show the battle transition animation and initializes some battle variables

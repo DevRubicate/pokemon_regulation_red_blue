@@ -252,54 +252,56 @@ InstructionPointerTable_TwoByte:        ;              ;
     dw Instruction_IF_B_EQUAL_8VALUE    ; 0xAE, 2 byte
     dw Instruction_IF_C_EQUAL_8VALUE    ; 0xAF, 2 byte
     dw Instruction_IF_D_EQUAL_8VALUE    ; 0xB0, 2 byte
-    dw Instruction_IF_A_NOTEQUAL_8VALUE ; 0xB1, 3 byte
-    dw Instruction_IF_B_NOTEQUAL_8VALUE ; 0xB2, 3 byte
-    dw Instruction_IF_C_NOTEQUAL_8VALUE ; 0xB3, 3 byte
-    dw Instruction_IF_D_NOTEQUAL_8VALUE ; 0xB4, 3 byte
-    dw Instruction_IF_A_GREATER_8VALUE  ; 0xB5, 3 byte
-    dw Instruction_IF_B_GREATER_8VALUE  ; 0xB6, 3 byte
-    dw Instruction_IF_C_GREATER_8VALUE  ; 0xB7, 3 byte
-    dw Instruction_IF_D_GREATER_8VALUE  ; 0xB8, 3 byte
-    dw Instruction_IF_A_LESSER_8VALUE   ; 0xB9, 3 byte
-    dw Instruction_IF_B_LESSER_8VALUE   ; 0xBA, 3 byte
-    dw Instruction_IF_C_LESSER_8VALUE   ; 0xBB, 3 byte
-    dw Instruction_IF_D_LESSER_8VALUE   ; 0xBC, 3 byte
+    dw Instruction_IF_A_NOTEQUAL_8VALUE ; 0xB1, 2 byte
+    dw Instruction_IF_B_NOTEQUAL_8VALUE ; 0xB2, 2 byte
+    dw Instruction_IF_C_NOTEQUAL_8VALUE ; 0xB3, 2 byte
+    dw Instruction_IF_D_NOTEQUAL_8VALUE ; 0xB4, 2 byte
+    dw Instruction_IF_A_GREATER_8VALUE  ; 0xB5, 2 byte
+    dw Instruction_IF_B_GREATER_8VALUE  ; 0xB6, 2 byte
+    dw Instruction_IF_C_GREATER_8VALUE  ; 0xB7, 2 byte
+    dw Instruction_IF_D_GREATER_8VALUE  ; 0xB8, 2 byte
+    dw Instruction_IF_A_LESSER_8VALUE   ; 0xB9, 2 byte
+    dw Instruction_IF_B_LESSER_8VALUE   ; 0xBA, 2 byte
+    dw Instruction_IF_C_LESSER_8VALUE   ; 0xBB, 2 byte
+    dw Instruction_IF_D_LESSER_8VALUE   ; 0xBC, 2 byte
+    dw Instruction_CALL_8VALUE          ; 0xBD, 2 byte
+
 InstructionPointerTable_ThreeByte:      ;              ;
-    dw Instruction_SET_A_16VALUE        ; 0xBD, 3 byte
-    dw Instruction_SET_B_16VALUE        ; 0xBE, 3 byte
-    dw Instruction_SET_C_16VALUE        ; 0xBF, 3 byte
-    dw Instruction_SET_D_16VALUE        ; 0xC0, 3 byte
-    dw Instruction_LOAD8_16VALUE        ; 0xC1, 3 byte
-    dw Instruction_LOAD16_16VALUE       ; 0xC2, 3 byte
-    dw Instruction_SAVE8_16VALUE        ; 0xC3, 3 byte
-    dw Instruction_SAVE16_16VALUE       ; 0xC4, 3 byte
-    dw Instruction_AND_16VALUE          ; 0xC5, 3 byte
-    dw Instruction_OR_16VALUE           ; 0xC6, 3 byte
-    dw Instruction_XOR_16VALUE          ; 0xC7, 3 byte
-    dw Instruction_ADD_A_16VALUE        ; 0xC8, 3 byte
-    dw Instruction_ADD_B_16VALUE        ; 0xC9, 3 byte
-    dw Instruction_ADD_C_16VALUE        ; 0xCA, 3 byte
-    dw Instruction_ADD_D_16VALUE        ; 0xCB, 3 byte
-    dw Instruction_SUB_A_16VALUE        ; 0xCC, 3 byte
-    dw Instruction_SUB_B_16VALUE        ; 0xCD, 3 byte
-    dw Instruction_SUB_C_16VALUE        ; 0xCE, 3 byte
-    dw Instruction_SUB_D_16VALUE        ; 0xCF, 3 byte
-    dw Instruction_IF_A_EQUAL_16VALUE   ; 0xD0, 3 byte
-    dw Instruction_IF_B_EQUAL_16VALUE   ; 0xD1, 3 byte
-    dw Instruction_IF_C_EQUAL_16VALUE   ; 0xD2, 3 byte
-    dw Instruction_IF_D_EQUAL_16VALUE   ; 0xD3, 3 byte
-    dw Instruction_IF_A_NOTEQUAL_16VALUE; 0xD4, 3 byte
-    dw Instruction_IF_B_NOTEQUAL_16VALUE; 0xD5, 3 byte
-    dw Instruction_IF_C_NOTEQUAL_16VALUE; 0xD6, 3 byte
-    dw Instruction_IF_D_NOTEQUAL_16VALUE; 0xD7, 3 byte
-    dw Instruction_IF_A_GREATER_16VALUE ; 0xD8, 3 byte
-    dw Instruction_IF_B_GREATER_16VALUE ; 0xD9, 3 byte
-    dw Instruction_IF_C_GREATER_16VALUE ; 0xDA, 3 byte
-    dw Instruction_IF_D_GREATER_16VALUE ; 0xDB, 3 byte
-    dw Instruction_IF_A_LESSER_16VALUE  ; 0xDC, 3 byte
-    dw Instruction_IF_B_LESSER_16VALUE  ; 0xDD, 3 byte
-    dw Instruction_IF_C_LESSER_16VALUE  ; 0xDE, 3 byte
-    dw Instruction_IF_D_LESSER_16VALUE  ; 0xDF, 3 byte
+    dw Instruction_SET_A_16VALUE        ; 0xBE, 3 byte
+    dw Instruction_SET_B_16VALUE        ; 0xBF, 3 byte
+    dw Instruction_SET_C_16VALUE        ; 0xC0, 3 byte
+    dw Instruction_SET_D_16VALUE        ; 0xC1, 3 byte
+    dw Instruction_LOAD8_16VALUE        ; 0xC2, 3 byte
+    dw Instruction_LOAD16_16VALUE       ; 0xC3, 3 byte
+    dw Instruction_SAVE8_16VALUE        ; 0xC4, 3 byte
+    dw Instruction_SAVE16_16VALUE       ; 0xC5, 3 byte
+    dw Instruction_AND_16VALUE          ; 0xC6, 3 byte
+    dw Instruction_OR_16VALUE           ; 0xC7, 3 byte
+    dw Instruction_XOR_16VALUE          ; 0xC8, 3 byte
+    dw Instruction_ADD_A_16VALUE        ; 0xC9, 3 byte
+    dw Instruction_ADD_B_16VALUE        ; 0xCA, 3 byte
+    dw Instruction_ADD_C_16VALUE        ; 0xCB, 3 byte
+    dw Instruction_ADD_D_16VALUE        ; 0xCC, 3 byte
+    dw Instruction_SUB_A_16VALUE        ; 0xCD, 3 byte
+    dw Instruction_SUB_B_16VALUE        ; 0xCE, 3 byte
+    dw Instruction_SUB_C_16VALUE        ; 0xCF, 3 byte
+    dw Instruction_SUB_D_16VALUE        ; 0xD0, 3 byte
+    dw Instruction_IF_A_EQUAL_16VALUE   ; 0xD1, 3 byte
+    dw Instruction_IF_B_EQUAL_16VALUE   ; 0xD2, 3 byte
+    dw Instruction_IF_C_EQUAL_16VALUE   ; 0xD3, 3 byte
+    dw Instruction_IF_D_EQUAL_16VALUE   ; 0xD4, 3 byte
+    dw Instruction_IF_A_NOTEQUAL_16VALUE; 0xD5, 3 byte
+    dw Instruction_IF_B_NOTEQUAL_16VALUE; 0xD6, 3 byte
+    dw Instruction_IF_C_NOTEQUAL_16VALUE; 0xD7, 3 byte
+    dw Instruction_IF_D_NOTEQUAL_16VALUE; 0xD8, 3 byte
+    dw Instruction_IF_A_GREATER_16VALUE ; 0xD9, 3 byte
+    dw Instruction_IF_B_GREATER_16VALUE ; 0xDA, 3 byte
+    dw Instruction_IF_C_GREATER_16VALUE ; 0xDB, 3 byte
+    dw Instruction_IF_D_GREATER_16VALUE ; 0xDC, 3 byte
+    dw Instruction_IF_A_LESSER_16VALUE  ; 0xDD, 3 byte
+    dw Instruction_IF_B_LESSER_16VALUE  ; 0xDE, 3 byte
+    dw Instruction_IF_C_LESSER_16VALUE  ; 0xDF, 3 byte
+    dw Instruction_IF_D_LESSER_16VALUE  ; 0xE0, 3 byte
 
 Instruction_RET:
     jp InstructionEnd
@@ -333,30 +335,30 @@ Instruction_SET_D_8VALUE:
     jp InstructionEnd
 
 Instruction_SET_A_16VALUE:
-    ld a, e
-    ld [wRegulationCustomLogicVariableA], a
     ld a, d
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, e
     ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
 
 Instruction_SET_B_16VALUE:
-    ld a, e
-    ld [wRegulationCustomLogicVariableB], a
     ld a, d
+    ld [wRegulationCustomLogicVariableB], a
+    ld a, e
     ld [wRegulationCustomLogicVariableB+1], a
     jp InstructionEnd
 
 Instruction_SET_C_16VALUE:
-    ld a, e
-    ld [wRegulationCustomLogicVariableC], a
     ld a, d
+    ld [wRegulationCustomLogicVariableC], a
+    ld a, e
     ld [wRegulationCustomLogicVariableC+1], a
     jp InstructionEnd
 
 Instruction_SET_D_16VALUE:
-    ld a, e
-    ld [wRegulationCustomLogicVariableD], a
     ld a, d
+    ld [wRegulationCustomLogicVariableD], a
+    ld a, e
     ld [wRegulationCustomLogicVariableD+1], a
     jp InstructionEnd
 
@@ -1726,3 +1728,41 @@ Instruction_IF_D_LESSER_B:
 Instruction_IF_D_LESSER_C:
 
     jp InstructionEnd
+
+Instruction_CALL_8VALUE:
+    jr :++                      ; jump to the end of safecall so that's where we end up once it's over
+:
+    ld [wSafeBankBackup], a     ; save a
+    ld a, h
+    ld [wSafeBankBackup+1], a   ; save h
+    ld a, l
+    ld [wSafeBankBackup+2], a   ; save l
+
+    ldh a, [hLoadedROMBank]     ; load what bank we are currently in
+    push af                     ; save bank for later
+
+    ld hl, SafeBankswitchReturn ; load address we will return to once this safecall is done
+    push hl                     ; push the address we will return to
+
+
+    ld hl, ExternalFunctions
+    add hl, de
+    add hl, de
+    add hl, de
+
+
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    push de
+
+    ld a, [hli]              ; load the bank we wanna go to
+    pop hl                   ; load the address we wanna go to
+
+    jp SafeBankswitch           ; jump to SafeBankSwitch which isn't stored in a bank itself
+:
+    call :--                     ; use a call to ensure this is where we return once we are done
+    jp InstructionEnd
+
+

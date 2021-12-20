@@ -179,4 +179,5 @@ CalcStat2::
     pop bc
     pop de
     pop hl
+    safecall RegulationTriggerCalcPokemonStats
     ret

@@ -19,13 +19,18 @@ TriggerTable:
     dw wRegulationTriggerTrainerBattlePokemonMove2
     dw wRegulationTriggerTrainerBattlePokemonMove3
     dw wRegulationTriggerTrainerBattlePokemonMove4
+    dw wRegulationTriggerTrainerBattleSentPokemon
     dw wRegulationTriggerWildBattlePokemon
     dw wRegulationTriggerWildBattlePokemonMove1
     dw wRegulationTriggerWildBattlePokemonMove2
     dw wRegulationTriggerWildBattlePokemonMove3
     dw wRegulationTriggerWildBattlePokemonMove4
+    dw wRegulationTriggerWildBattleSentPokemon
+    dw wRegulationTriggerTrainerBattleCalcPokemonStats
+    dw wRegulationTriggerWildBattleCalcPokemonStats
 
 CopyNewCustomLogicCode:
+
     ; Load the location of the trigger and set it to the custom logic program counter
     ld hl, wcf4b+1                          ; Find the address in the text buffer holding our trigger index
     ld a, [hl]                              ; Load the trigger index

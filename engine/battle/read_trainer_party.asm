@@ -121,6 +121,10 @@ ReadTrainer:
 	jr nz, .inner
 	jr .outer
 
+
+; HERE WE CAN SWITCH THE POINTER
+
+
 ; if the first byte of trainer data is FF,
 ; - each pokemon has a specific level
 ;      (as opposed to the whole team being of the same level)

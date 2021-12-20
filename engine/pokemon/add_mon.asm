@@ -230,7 +230,6 @@ _AddPartyMon::
 	xor a
 	ld [wLearningMovesFromDayCare], a
 	predef WriteMonMoves
-
     farcall RegulationTriggerTrainerBattlePokemonMoves
 
     ld a, [wAddedMonStarter]

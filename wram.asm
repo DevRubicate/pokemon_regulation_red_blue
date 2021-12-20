@@ -2771,7 +2771,7 @@ wRegulationTriggerPokemonEvolve::
 wRegulationTriggerTrainerBattlePokemon::
     ds 1
 
-REGULATION0:
+wRegulationTriggerTrainerBattleSentPokemon::
     ds 1
 
 wRegulationTriggerTrainerBattlePokemonMove1::
@@ -2978,7 +2978,7 @@ wSilphCo10FCurScript::
 wSilphCo11FCurScript::
 	ds 1
 
-REGULATION23::
+wRegulationTriggerWildBattleSentPokemon::
 	ds 1
 
 wFuchsiaGymCurScript::
@@ -2987,7 +2987,7 @@ wFuchsiaGymCurScript::
 wSaffronGymCurScript::
 	ds 1
 
-REGULATION24::
+wRegulationTriggerTrainerBattleCalcPokemonStats::
 	ds 1
 
 wCinnabarGymCurScript::
@@ -3010,7 +3010,7 @@ wRoute7GateCurScript::
 ; overload
 	ds 1
 
-REGULATION25::
+wRegulationTriggerWildBattleCalcPokemonStats::
 	ds 1
 
 wSSAnne2FCurScript::
@@ -3067,7 +3067,7 @@ wWalkBikeSurfState::
 ;           2: No battle items
 ;           3: No marts or vending machine
 ;           4: HMs are used directly
-;           5: TMs can't be taught
+;           5: TMs and HMs can't be taught
 ;           6: No moves from leveling up
 ;           7: No daycare
 ; byte 4
@@ -3075,9 +3075,9 @@ wWalkBikeSurfState::
 ;           1: Knocked out if not using starter
 ;           2: Pokemon deleted when fainted
 ;           3: Savefile deleted on blackout
-;           4: Oak aid gives Trade Stone
+;           4: Trade Stone
 ;           5: Can't run from wild battles
-;           6: Your move cannot be super effective
+;           6: No extra damage from super effective moves
 ;           7: Trainers reset on pokemon center or blackout
 ;
 ; byte 5 - Starter pokemon move 1

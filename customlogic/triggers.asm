@@ -1,7 +1,7 @@
 RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wMonDataLocation]
     cp ENEMY_PARTY_DATA
-    jp nz, .notEnemyPokemon
+    jp nz, .exit
 
     ; MOVE 1
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
@@ -72,7 +72,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 1st move
+    ld a, 0                                     ; Add 9 offset which takes us to the 2nd move
     ld d, a
     ld a, 9
     ld e, a
@@ -89,7 +89,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 2nd move
+    ld a, 0                                     ; Add 9 offset which takes us to the 2nd move
     ld d, a
     ld a, 9
     ld e, a
@@ -121,7 +121,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 1st move
+    ld a, 0                                     ; Add 10 offset which takes us to the 3rd move
     ld d, a
     ld a, 10
     ld e, a
@@ -138,7 +138,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 3rd move
+    ld a, 0                                     ; Add 10 offset which takes us to the 3rd move
     ld d, a
     ld a, 10
     ld e, a
@@ -170,7 +170,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 1st move
+    ld a, 0                                     ; Add 11 offset which takes us to the 4th move
     ld d, a
     ld a, 11
     ld e, a
@@ -187,7 +187,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld h, a
     ld a, [wNewlyMintedMonPointer+1]
     ld l, a
-    ld a, 0                                     ; Add 8 offset which takes us to the 4th move
+    ld a, 0                                     ; Add 11 offset which takes us to the 4th move
     ld d, a
     ld a, 11
     ld e, a
@@ -197,15 +197,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 
-.notEnemyPokemon
+.exit
     ret
 
 
 
 RegulationTriggerWildBattlePokemonMoves::
-    ld a, [wMonDataLocation]
-    cp ENEMY_PARTY_DATA
-    jp nz, .notEnemyPokemon
 
     ; MOVE 1
     RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
@@ -330,7 +327,6 @@ RegulationTriggerWildBattlePokemonMoves::
 
     RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 
-.notEnemyPokemon
     ret
 
 
@@ -357,4 +353,102 @@ RegulationTriggerFoundPokemon::
 
     RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
 
+    ret
+
+
+RegulationTriggerSentPokemon::
+
+    ld a, [wIsInBattle]
+    dec a           ; is it a trainer battle?
+    jp z, .continue
+
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wVariableA]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    call IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattleSentPokemon
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattleSentPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    ret
+
+.continue
+
+    RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wVariableA]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    call IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerWildBattleSentPokemon
+    RegulationTriggerEnd        wRegulationTriggerWildBattleSentPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+
+    ret
+
+RegulationTriggerCalcPokemonStats::
+
+    ld a, [wIsInBattle]
+    cp 2                ; Is this a trainer battle?
+    jp nz, .continue
+
+
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wVariableA]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    call IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattleCalcPokemonStats
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattleCalcPokemonStats, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+
+    ret
+
+.continue
+
+    ld a, [wIsInBattle]
+    cp 1                ; Is this a wild battle?
+    jp nz, .exit
+
+    RegulationTriggerStart      wRegulationTriggerWildBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wVariableA]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    ; Convert pokemon from index to pokedex No
+    ld a, [wcf91]
+    ld [wd11e], a
+    call IndexToPokedex
+    ld a, [wd11e]
+    ld [wVariableB+1], a
+
+    RegulationTriggerExecute    wRegulationTriggerWildBattleCalcPokemonStats
+    RegulationTriggerEnd        wRegulationTriggerWildBattleCalcPokemonStats, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+
+.exit
     ret
