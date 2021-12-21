@@ -83,7 +83,7 @@ TryDoWildEncounter:
 	ld [wcf91], a
 	ld [wEnemyMonSpecies2], a
 
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemon, NULL, wCurMap, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemon, NIL, wCurMap, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert pokemon from index to pokedex No
     ld a, [wcf91]
@@ -102,7 +102,7 @@ TryDoWildEncounter:
     ld [wcf91], a
     ld [wEnemyMonSpecies2], a
 
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
 	ld a, [wRepelRemainingSteps]
 	and a

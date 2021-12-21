@@ -57,7 +57,7 @@ RegulationBoostLevel:
 
 RegulationInitTrainer::
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattle, NULL, wTrainerNo, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattle, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
@@ -71,7 +71,7 @@ RegulationInitTrainer::
     add OPP_ID_OFFSET + 1
     ld [wCurOpponent], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattle, NULL, wTrainerNo, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattle, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
     ret
 
@@ -122,8 +122,6 @@ ReadTrainer:
 	jr .outer
 
 
-; HERE WE CAN SWITCH THE POINTER
-
 
 ; if the first byte of trainer data is FF,
 ; - each pokemon has a specific level
@@ -131,6 +129,7 @@ ReadTrainer:
 ; - if [wLoneAttackNo] != 0, one pokemon on the team has a special move
 ; else the first byte is the level of every pokemon on the team
 .IterateTrainer
+    safecall RegulationTriggerTrainerLoadData
 	ld a, [hli]
 	cp $FF ; is the trainer special?
 	jp z, .SpecialTrainer ; if so, check for special moves
@@ -145,7 +144,7 @@ ReadTrainer:
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NULL, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
@@ -168,7 +167,7 @@ ReadTrainer:
     ld a, [wd11e]
     ld [wcf91], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     call RegulationBoostLevel
 
@@ -190,7 +189,7 @@ ReadTrainer:
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NULL, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
@@ -213,7 +212,7 @@ ReadTrainer:
     ld a, [wd11e]
     ld [wcf91], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     call RegulationBoostLevel
 

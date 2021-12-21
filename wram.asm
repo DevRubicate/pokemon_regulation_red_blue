@@ -162,7 +162,6 @@ wSafeBankBackup::
     ds 3
 
     ds 2
-
 SECTION "Sprite State Data", WRAM0
 
 wSpriteDataStart::
@@ -392,7 +391,11 @@ wSerialExchangeNybbleReceiveData::
 wHMDirectly::
     ds 1
 
-	ds 2
+wVariableE::
+	ds 1
+
+wVariableF::
+    ds 1
 
 wSerialExchangeNybbleSendData::
 ; this nybble is sent when using Serial_SyncAndExchangeNybble or Serial_ExchangeNybble
@@ -3032,8 +3035,12 @@ wGameProgressFlagsEnd::
 wRegulationNuzlockeFlags::
     ds 6
 
+wRegulationTriggerTrainerLoadData::
+    ds 2
 
-	ds 128                      ; Free to be used
+
+
+	ds 126                      ; Free to be used
 
 
 wObtainedHiddenItemsFlags::

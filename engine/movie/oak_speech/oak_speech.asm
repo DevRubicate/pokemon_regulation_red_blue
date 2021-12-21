@@ -95,9 +95,9 @@ OakSpeech:
 	call ChooseRivalName
     farcall RegulationRandomizeTruly
 
-    RegulationTriggerStart      wRegulationTriggerNewGame, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerNewGame
-    RegulationTriggerEnd        wRegulationTriggerNewGame, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ld a, [wRegulationCode]
     ld hl, wRegulationCode+1

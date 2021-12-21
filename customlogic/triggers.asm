@@ -4,7 +4,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     jp nz, .exit
 
     ; MOVE 1
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -48,12 +48,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [hl], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove1, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 2
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove2, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove2, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -97,12 +97,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [hl], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove2, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 3
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove3, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove3, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -146,12 +146,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [hl], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove3, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 4
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove4, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove4, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -195,7 +195,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [hl], a
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove4, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 .exit
     ret
@@ -205,7 +205,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
 RegulationTriggerWildBattlePokemonMoves::
 
     ; MOVE 1
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -232,12 +232,12 @@ RegulationTriggerWildBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [wEnemyMonMoves+0], a
 
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove1, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 2
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove2, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove2, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -263,12 +263,12 @@ RegulationTriggerWildBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [wEnemyMonMoves+1], a
 
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove2, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 3
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove3, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove3, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -294,12 +294,12 @@ RegulationTriggerWildBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [wEnemyMonMoves+2], a
 
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove3, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
 
     ; MOVE 4
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove4, wCurOpponent, wTrainerNo, NULL, wcf91, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove4, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -325,7 +325,7 @@ RegulationTriggerWildBattlePokemonMoves::
     ld a, [wVariableD+1]
     ld [wEnemyMonMoves+3], a
 
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemonMove4, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ret
 
@@ -333,7 +333,7 @@ RegulationTriggerWildBattlePokemonMoves::
 RegulationTriggerFoundPokemon::
 
 
-    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert pokemon from index to pokedex No
     ld a, [wcf91]
@@ -351,7 +351,7 @@ RegulationTriggerFoundPokemon::
     ld a, [wd11e]
     ld [wcf91], a
 
-    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ret
 
@@ -362,7 +362,7 @@ RegulationTriggerSentPokemon::
     dec a           ; is it a trainer battle?
     jp z, .continue
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -377,12 +377,12 @@ RegulationTriggerSentPokemon::
     ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleSentPokemon
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattleSentPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattleSentPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
     ret
 
 .continue
 
-    RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -397,7 +397,7 @@ RegulationTriggerSentPokemon::
     ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerWildBattleSentPokemon
-    RegulationTriggerEnd        wRegulationTriggerWildBattleSentPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattleSentPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ret
 
@@ -408,7 +408,7 @@ RegulationTriggerCalcPokemonStats::
     jp nz, .continue
 
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -423,7 +423,7 @@ RegulationTriggerCalcPokemonStats::
     ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleCalcPokemonStats
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattleCalcPokemonStats, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattleCalcPokemonStats, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ret
 
@@ -433,7 +433,7 @@ RegulationTriggerCalcPokemonStats::
     cp 1                ; Is this a wild battle?
     jp nz, .exit
 
-    RegulationTriggerStart      wRegulationTriggerWildBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerWildBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
@@ -448,7 +448,36 @@ RegulationTriggerCalcPokemonStats::
     ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerWildBattleCalcPokemonStats
-    RegulationTriggerEnd        wRegulationTriggerWildBattleCalcPokemonStats, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerWildBattleCalcPokemonStats, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 .exit
+    ret
+
+RegulationTriggerTrainerLoadData::
+    ld a, h
+    ld [wVariableE], a
+    ld a, l
+    ld [wVariableF], a
+
+    RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, wVariableE, wVariableF, NIL, NIL, NIL, NIL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wCurOpponent]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerLoadData
+
+    ; Convert trainer class index from 0-46 to 201-247
+    ld a, [wVariableA]
+    add OPP_ID_OFFSET + 1
+    ld [wCurOpponent], a
+
+    RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, wVariableE, wVariableF, NIL, NIL, NIL, NIL
+
+    ld a, [wVariableE]
+    ld h, a
+    ld a, [wVariableF]
+    ld l, a
+
     ret

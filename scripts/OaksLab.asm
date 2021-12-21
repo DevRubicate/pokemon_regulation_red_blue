@@ -845,7 +845,7 @@ OaksLabScript_1d133:
     ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall of fame speech
 
 
-    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Convert pokemon from index to pokedex No
     ld a, [wRegulationPlayerTrueStarter]
@@ -863,7 +863,7 @@ OaksLabScript_1d133:
     ld a, [wd11e]
     ld [wRegulationPlayerTrueStarter], a
 
-    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
     ld a, [wRegulationPlayerTrueStarter]
