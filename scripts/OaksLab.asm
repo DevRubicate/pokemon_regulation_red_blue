@@ -832,40 +832,15 @@ OaksLabScript_1d133:
     ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
     jr z, .noRegulationStarter
-    ld [wd11e], a
-    callfar PokedexToIndex
-    ld a, [wd11e]
     jr .continue
 .noRegulationStarter
     ld a, [wPlayerStarter]  ; load the starter
 .continue
-
-
-
     ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall of fame speech
 
-
-    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wRegulationPlayerTrueStarter]
-    ld [wd11e], a
-    farcall IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerFoundPokemon
-
-    ; Convert pokemon from pokedex No to index
-    ld a, [wVariableB+1]
-    ld [wd11e], a
-    farcall PokedexToIndex
-    ld a, [wd11e]
-    ld [wRegulationPlayerTrueStarter], a
-
-    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
-
-
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL ; TODO: add support for the variable C to change what level this pokemon starts at
     ld a, [wRegulationPlayerTrueStarter]
 	ld [wcf91], a
 	ld [wd11e], a

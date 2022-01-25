@@ -81,29 +81,11 @@ TryDoWildEncounter:
 	ld [wCurEnemyLVL], a
 	ld a, [hl]
 	ld [wcf91], a
-	ld [wEnemyMonSpecies2], a
-
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemon, NIL, wCurMap, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    farcall IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemon, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerWildBattlePokemon
-
-    ; Convert pokemon from pokedex No to index
-    ld a, [wVariableB+1]
-    ld [wd11e], a
-    farcall PokedexToIndex
-    ld a, [wd11e]
-    ld [wcf91], a
+    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+    ld a, [wcf91]
     ld [wEnemyMonSpecies2], a
-
-    RegulationTriggerEnd        wRegulationTriggerWildBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
 	ld a, [wRepelRemainingSteps]
 	and a
 	jr z, .willEncounter

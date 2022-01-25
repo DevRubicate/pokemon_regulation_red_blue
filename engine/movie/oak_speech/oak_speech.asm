@@ -60,9 +60,6 @@ OakSpeech:
     ld a, [wRegulationCode]  ; Load out starting pokemon rule
     cp 0
     jr z, .nocustom
-    ld [wd11e], a
-    callfar PokedexToIndex
-    ld a, [wd11e]
     jr .displaycustom
 .nocustom
 	ld a, NIDORINO

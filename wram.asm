@@ -1342,7 +1342,7 @@ wSpriteIndex:: ds 1
 wCurSpriteMovement2::
 ; movement byte 2 of current sprite
 	ds 1
-
+wRegulationCustomLogicVariableS::
 	ds 2
 
 wNPCMovementScriptSpriteOffset::
@@ -1381,8 +1381,10 @@ wPartyMenuHPBarColors::
 
 wStatusScreenHPBarColor::
 	ds 1
+wRegulationCustomLogicVariableT::
+    ds 2
 
-	ds 7
+	ds 5
 
 wCopyingSGBTileData::
 

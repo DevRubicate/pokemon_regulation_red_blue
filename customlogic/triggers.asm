@@ -4,19 +4,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
     jp nz, .exit
 
     ; MOVE 1
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     ; Load the move and put it in variable D
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
@@ -33,7 +26,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, 0
     ld [wVariableD], a
 
-    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove1
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove1, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Save this new move in variable D into to the pokemon data
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
@@ -60,13 +53,6 @@ RegulationTriggerTrainerBattlePokemonMoves::
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
 
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
     ; Load the move and put it in variable D
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
     ld h, a
@@ -82,7 +68,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, 0
     ld [wVariableD], a
 
-    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove2
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove2, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Save this new move in variable D into to the pokemon data
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
@@ -109,13 +95,6 @@ RegulationTriggerTrainerBattlePokemonMoves::
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
 
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
     ; Load the move and put it in variable D
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
     ld h, a
@@ -131,7 +110,7 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, 0
     ld [wVariableD], a
 
-    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove3
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemonMove3, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Save this new move in variable D into to the pokemon data
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
@@ -157,13 +136,6 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     ; Load the move and put it in variable D
     ld a, [wNewlyMintedMonPointer]              ; Find the address for this new pokemon
@@ -205,20 +177,12 @@ RegulationTriggerTrainerBattlePokemonMoves::
 RegulationTriggerWildBattlePokemonMoves::
 
     ; MOVE 1
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
 
     ; Load the move and put it in variable D
     ld a, [wEnemyMonMoves+0]
@@ -237,19 +201,12 @@ RegulationTriggerWildBattlePokemonMoves::
 
 
     ; MOVE 2
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove2, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove2, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     ; Load the move and put it in variable D
     ld a, [wEnemyMonMoves+1]
@@ -268,19 +225,12 @@ RegulationTriggerWildBattlePokemonMoves::
 
 
     ; MOVE 3
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove3, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove3, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     ; Load the move and put it in variable D
     ld a, [wEnemyMonMoves+2]
@@ -299,19 +249,12 @@ RegulationTriggerWildBattlePokemonMoves::
 
 
     ; MOVE 4
-    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove4, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove4, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     ; Load the move and put it in variable D
     ld a, [wEnemyMonMoves+3]
@@ -331,28 +274,10 @@ RegulationTriggerWildBattlePokemonMoves::
 
 
 RegulationTriggerFoundPokemon::
-
-
-    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    farcall IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerFoundPokemon
-
-    ; Convert pokemon from pokedex No to index
-    ld a, [wVariableB+1]
-    ld [wd11e], a
-    farcall PokedexToIndex
-    ld a, [wd11e]
-    ld [wcf91], a
-
-    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
+    ; TODO: allow you to change what found pokemon
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     ret
 
 
@@ -362,19 +287,12 @@ RegulationTriggerSentPokemon::
     dec a           ; is it a trainer battle?
     jp z, .continue
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleSentPokemon
     RegulationTriggerEnd        wRegulationTriggerTrainerBattleSentPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
@@ -382,20 +300,7 @@ RegulationTriggerSentPokemon::
 
 .continue
 
-    RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
-    ; Convert trainer class index from 201-247 to 0-46
-    ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
-    ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
+    RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerWildBattleSentPokemon
     RegulationTriggerEnd        wRegulationTriggerWildBattleSentPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
@@ -408,19 +313,12 @@ RegulationTriggerCalcPokemonStats::
     jp nz, .continue
 
 
-    RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wVariableA]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleCalcPokemonStats
     RegulationTriggerEnd        wRegulationTriggerTrainerBattleCalcPokemonStats, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
@@ -433,20 +331,7 @@ RegulationTriggerCalcPokemonStats::
     cp 1                ; Is this a wild battle?
     jp nz, .exit
 
-    RegulationTriggerStart      wRegulationTriggerWildBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
-    ; Convert trainer class index from 201-247 to 0-46
-    ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
-    ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    call IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
+    RegulationTriggerStart      wRegulationTriggerWildBattleCalcPokemonStats, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerWildBattleCalcPokemonStats
     RegulationTriggerEnd        wRegulationTriggerWildBattleCalcPokemonStats, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
@@ -454,30 +339,25 @@ RegulationTriggerCalcPokemonStats::
     ret
 
 RegulationTriggerTrainerLoadData::
-    ld a, h
-    ld [wVariableE], a
-    ld a, l
-    ld [wVariableF], a
 
-    RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, wVariableE, wVariableF, NIL, NIL, NIL, NIL
+    ld a, h
+    ld [wVariableB], a
+    ld a, l
+    ld [wVariableB+1], a
+
+    RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
     RegulationTriggerExecute    wRegulationTriggerTrainerLoadData
 
-    ; Convert trainer class index from 0-46 to 201-247
-    ld a, [wVariableA]
-    add OPP_ID_OFFSET + 1
-    ld [wCurOpponent], a
+    RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
-    RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, wVariableE, wVariableF, NIL, NIL, NIL, NIL
-
-    ld a, [wVariableE]
+    ld a, [wVariableB]
     ld h, a
-    ld a, [wVariableF]
+    ld a, [wVariableB+1]
     ld l, a
 
     ret

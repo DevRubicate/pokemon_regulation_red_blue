@@ -143,34 +143,16 @@ ReadTrainer:
 	ld [wcf91], a ; write species somewhere (XXX why?)
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
-
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    farcall IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
     RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert pokemon from pokedex No to index
-    ld a, [wVariableB+1]
-    ld [wd11e], a
-    farcall PokedexToIndex
-    ld a, [wd11e]
-    ld [wcf91], a
-
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
+    ld a, [wcf91]
     call RegulationBoostLevel
-
 	push hl
 	call AddPartyMon
 	pop hl
@@ -188,34 +170,14 @@ ReadTrainer:
 	ld [wcf91], a              ; Pokemon species
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
-
-    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
+    RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     ; Convert trainer class index from 201-247 to 0-46
     ld a, [wCurOpponent]
     sub OPP_ID_OFFSET + 1
     ld [wVariableA], a
-
-    ; Convert pokemon from index to pokedex No
-    ld a, [wcf91]
-    ld [wd11e], a
-    farcall IndexToPokedex
-    ld a, [wd11e]
-    ld [wVariableB+1], a
-
     RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
-
-    ; Convert pokemon from pokedex No to index
-    ld a, [wVariableB+1]
-    ld [wd11e], a
-    farcall PokedexToIndex
-    ld a, [wd11e]
-    ld [wcf91], a
-
-    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, NIL, NIL, wCurEnemyLVL, NIL, NIL
-
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     call RegulationBoostLevel
-
 	push hl
 	call AddPartyMon
 	pop hl

@@ -6,7 +6,7 @@ RegulationRandomNumber::
     add a, b
     inc a
     rlc a
-    ld c, a
+    ld e, a
     ld [wRegulationRandomSeed], a
     ld b, a
     ld a, [wRegulationRandomSeed+1]

@@ -5,7 +5,6 @@ OakExplainRules:
     or a
     jr z, .noCustomStarter        ; skip text if there is no rule
     ld [wd11e], a
-    farcall PokedexToIndex
     farcall GetMonName
     ld hl, OakSpeechRuleCustomStarter
     call PrintText
