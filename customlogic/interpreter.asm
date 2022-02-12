@@ -72,7 +72,6 @@ InstructionEnd:
     ld l, a
     jp hl                                       ; Jump to custom code instruction
 
-
 InstructionPointerTable:
     dw Instruction_RET                          ; 0x00
     dw Instruction_SET_A_B                      ; 0x01
@@ -189,122 +188,111 @@ InstructionPointerTable:
     dw Instruction_SAVE16_S_T                   ; 0x70
     dw Instruction_GOTO_A                       ; 0x71
     dw Instruction_GOTO_S                       ; 0x72
-    dw Instruction_IFEQUAL_A_B                  ; 0x73
-    dw Instruction_IFEQUAL_A_C                  ; 0x74
-    dw Instruction_IFEQUAL_A_D                  ; 0x75
-    dw Instruction_IFEQUAL_S_T                  ; 0x76
-    dw Instruction_IFNOTEQUAL_A_B               ; 0x77
-    dw Instruction_IFNOTEQUAL_A_C               ; 0x78
-    dw Instruction_IFNOTEQUAL_A_D               ; 0x79
-    dw Instruction_IFNOTEQUAL_S_T               ; 0x7A
-    dw Instruction_IFGREATER_A_B                ; 0x7B
-    dw Instruction_IFGREATER_A_C                ; 0x7C
-    dw Instruction_IFGREATER_A_D                ; 0x7D
-    dw Instruction_IFGREATER_S_T                ; 0x7E
-    dw Instruction_IFGREATEREQUAL_A_B           ; 0x7F
-    dw Instruction_IFGREATEREQUAL_A_C           ; 0x80
-    dw Instruction_IFGREATEREQUAL_A_D           ; 0x81
-    dw Instruction_IFGREATEREQUAL_S_T           ; 0x82
-    dw Instruction_IFLESSER_A_B                 ; 0x83
-    dw Instruction_IFLESSER_A_C                 ; 0x84
-    dw Instruction_IFLESSER_A_D                 ; 0x85
-    dw Instruction_IFLESSER_S_T                 ; 0x86
-    dw Instruction_IFLESSEREQUAL_A_B            ; 0x87
-    dw Instruction_IFLESSEREQUAL_A_C            ; 0x88
-    dw Instruction_IFLESSEREQUAL_A_D            ; 0x89
-    dw Instruction_IFLESSEREQUAL_S_T            ; 0x8A
+    dw Instruction_COMPARE_A_B                  ; 0x73
+    dw Instruction_COMPARE_A_C                  ; 0x74
+    dw Instruction_COMPARE_A_D                  ; 0x75
+    dw Instruction_COMPARE_A_S                  ; 0x76
+    dw Instruction_COMPARE_A_Random             ; 0x77
+    dw Instruction_COMPARE_S_B                  ; 0x78
+    dw Instruction_COMPARE_S_C                  ; 0x79
+    dw Instruction_COMPARE_S_D                  ; 0x7A
+    dw Instruction_COMPARE_S_T                  ; 0x7B
+    dw Instruction_COMPARE_S_Random             ; 0x7C
 InstructionPointerTable_TwoByte:                ;
-    dw Instruction_SET_A_8VALUE                 ; 0x8B
-    dw Instruction_SET_B_8VALUE                 ; 0x8C
-    dw Instruction_SET_C_8VALUE                 ; 0x8D
-    dw Instruction_SET_D_8VALUE                 ; 0x8E
-    dw Instruction_AND_A_8VALUE                 ; 0x8F
-    dw Instruction_AND_S_8VALUE                 ; 0x90
-    dw Instruction_OR_A_8VALUE                  ; 0x91
-    dw Instruction_OR_S_8VALUE                  ; 0x92
-    dw Instruction_XOR_A_8VALUE                 ; 0x93
-    dw Instruction_XOR_S_8VALUE                 ; 0x94
-    dw Instruction_RSHIFT_A_8VALUE              ; 0x95
-    dw Instruction_RSHIFT_S_8VALUE              ; 0x96
-    dw Instruction_LSHIFT_A_8VALUE              ; 0x97
-    dw Instruction_LSHIFT_S_8VALUE              ; 0x98
-    dw Instruction_ADD_A_8VALUE                 ; 0x99
-    dw Instruction_ADD_S_8VALUE                 ; 0x9A
-    dw Instruction_SUB_A_8VALUE                 ; 0x9B
-    dw Instruction_SUB_S_8VALUE                 ; 0x9C
-    dw Instruction_MUL_A_8VALUE                 ; 0x9D
-    dw Instruction_MUL_S_8VALUE                 ; 0x9E
-    dw Instruction_DIV_A_8VALUE                 ; 0x9F
-    dw Instruction_DIV_S_8VALUE                 ; 0xA0
-    dw Instruction_MOD_A_8VALUE                 ; 0xA1
-    dw Instruction_MOD_S_8VALUE                 ; 0xA2
-    dw Instruction_LOAD8_A_8VALUE               ; 0xA3
-    dw Instruction_LOAD8_S_8VALUE               ; 0xA4
-    dw Instruction_LOAD16_A_8VALUE              ; 0xA5
-    dw Instruction_LOAD16_S_8VALUE              ; 0xA6
-    dw Instruction_SAVE8_A_8VALUE               ; 0xA7
-    dw Instruction_SAVE8_S_8VALUE               ; 0xA8
-    dw Instruction_SAVE16_A_8VALUE              ; 0xA9
-    dw Instruction_SAVE16_S_8VALUE              ; 0xAA
-    dw Instruction_GOTO_8VALUE                  ; 0xAB
-    dw Instruction_IFEQUAL_A_8VALUE             ; 0xAC
-    dw Instruction_IFEQUAL_S_8VALUE             ; 0xAD
-    dw Instruction_IFNOTEQUAL_A_8VALUE          ; 0xAE
-    dw Instruction_IFNOTEQUAL_S_8VALUE          ; 0xAF
-    dw Instruction_IFGREATER_A_8VALUE           ; 0xB0
-    dw Instruction_IFGREATER_S_8VALUE           ; 0xB1
-    dw Instruction_IFGREATEREQUAL_A_8VALUE      ; 0xB2
-    dw Instruction_IFGREATEREQUAL_S_8VALUE      ; 0xB3
-    dw Instruction_IFLESSER_A_8VALUE            ; 0xB4
-    dw Instruction_IFLESSER_S_8VALUE            ; 0xB5
-    dw Instruction_IFLESSEREQUAL_A_8VALUE       ; 0xB6
-    dw Instruction_IFLESSEREQUAL_S_8VALUE       ; 0xB7
-    dw Instruction_CALL_8VALUE                  ; 0xB8
+    dw Instruction_SET_A_8VALUE                 ; 0x7D
+    dw Instruction_SET_B_8VALUE                 ; 0x7E
+    dw Instruction_SET_C_8VALUE                 ; 0x7F
+    dw Instruction_SET_D_8VALUE                 ; 0x80
+    dw Instruction_AND_A_8VALUE                 ; 0x81
+    dw Instruction_AND_S_8VALUE                 ; 0x82
+    dw Instruction_OR_A_8VALUE                  ; 0x83
+    dw Instruction_OR_S_8VALUE                  ; 0x84
+    dw Instruction_XOR_A_8VALUE                 ; 0x85
+    dw Instruction_XOR_S_8VALUE                 ; 0x86
+    dw Instruction_RSHIFT_A_8VALUE              ; 0x87
+    dw Instruction_RSHIFT_S_8VALUE              ; 0x88
+    dw Instruction_LSHIFT_A_8VALUE              ; 0x89
+    dw Instruction_LSHIFT_S_8VALUE              ; 0x8A
+    dw Instruction_ADD_A_8VALUE                 ; 0x8B
+    dw Instruction_ADD_S_8VALUE                 ; 0x8C
+    dw Instruction_SUB_A_8VALUE                 ; 0x8D
+    dw Instruction_SUB_S_8VALUE                 ; 0x8E
+    dw Instruction_MUL_A_8VALUE                 ; 0x8F
+    dw Instruction_MUL_S_8VALUE                 ; 0x90
+    dw Instruction_DIV_A_8VALUE                 ; 0x91
+    dw Instruction_DIV_S_8VALUE                 ; 0x92
+    dw Instruction_MOD_A_8VALUE                 ; 0x93
+    dw Instruction_MOD_S_8VALUE                 ; 0x94
+    dw Instruction_LOAD8_A_8VALUE               ; 0x95
+    dw Instruction_LOAD8_S_8VALUE               ; 0x96
+    dw Instruction_LOAD16_A_8VALUE              ; 0x97
+    dw Instruction_LOAD16_S_8VALUE              ; 0x98
+    dw Instruction_SAVE8_A_8VALUE               ; 0x99
+    dw Instruction_SAVE8_S_8VALUE               ; 0x9A
+    dw Instruction_SAVE16_A_8VALUE              ; 0x9B
+    dw Instruction_SAVE16_S_8VALUE              ; 0x9C
+    dw Instruction_GOTO_8VALUE                  ; 0x9D
+    dw Instruction_CALL_8VALUE                  ; 0x9E
+    dw Instruction_COMPARE_A_8VALUE             ; 0x9F
+    dw Instruction_COMPARE_S_8VALUE             ; 0xA0
+    dw Instruction_COMPARE_ARGA_8VALUE          ; 0xA1
+    dw Instruction_COMPARE_ARGB_8VALUE          ; 0xA2
+    dw Instruction_COMPARE_ARGC_8VALUE          ; 0xA3
+    dw Instruction_COMPARE_ARGD_8VALUE          ; 0xA4
+    dw Instruction_IFEQUAL_8VALUE               ; 0xA5
+    dw Instruction_IFNOTEQUAL_8VALUE            ; 0xA6
+    dw Instruction_IFGREATER_8VALUE             ; 0xA7
+    dw Instruction_IFEQUALGREATER_8VALUE        ; 0xA8
+    dw Instruction_IFLESSER_8VALUE              ; 0xA9
+    dw Instruction_IFEQUALLESSER_8VALUE         ; 0xAA
 InstructionPointerTable_ThreeByte:              ;
-    dw Instruction_SET_A_16VALUE                ; 0xB9
-    dw Instruction_SET_B_16VALUE                ; 0xBA
-    dw Instruction_SET_C_16VALUE                ; 0xBB
-    dw Instruction_SET_D_16VALUE                ; 0xBC
-    dw Instruction_AND_A_16VALUE                ; 0xBD
-    dw Instruction_AND_S_16VALUE                ; 0xBE
-    dw Instruction_OR_A_16VALUE                 ; 0xBF
-    dw Instruction_OR_S_16VALUE                 ; 0xC0
-    dw Instruction_XOR_A_16VALUE                ; 0xC1
-    dw Instruction_XOR_S_16VALUE                ; 0xC2
-    dw Instruction_RSHIFT_A_16VALUE             ; 0xC3
-    dw Instruction_RSHIFT_S_16VALUE             ; 0xC4
-    dw Instruction_LSHIFT_A_16VALUE             ; 0xC5
-    dw Instruction_LSHIFT_S_16VALUE             ; 0xC6
-    dw Instruction_ADD_A_16VALUE                ; 0xC7
-    dw Instruction_ADD_S_16VALUE                ; 0xC8
-    dw Instruction_SUB_A_16VALUE                ; 0xC9
-    dw Instruction_SUB_S_16VALUE                ; 0xCA
-    dw Instruction_MUL_A_16VALUE                ; 0xCB
-    dw Instruction_MUL_S_16VALUE                ; 0xCC
-    dw Instruction_DIV_A_16VALUE                ; 0xCD
-    dw Instruction_DIV_S_16VALUE                ; 0xCE
-    dw Instruction_MOD_A_16VALUE                ; 0xCF
-    dw Instruction_MOD_S_16VALUE                ; 0xD0
-    dw Instruction_LOAD8_A_16VALUE              ; 0xD1
-    dw Instruction_LOAD8_S_16VALUE              ; 0xD2
-    dw Instruction_LOAD16_A_16VALUE             ; 0xD3
-    dw Instruction_LOAD16_S_16VALUE             ; 0xD4
-    dw Instruction_SAVE8_A_16VALUE              ; 0xD5
-    dw Instruction_SAVE8_S_16VALUE              ; 0xD6
-    dw Instruction_SAVE16_A_16VALUE             ; 0xD7
-    dw Instruction_SAVE16_S_16VALUE             ; 0xD8
-    dw Instruction_IFEQUAL_A_16VALUE            ; 0xD9
-    dw Instruction_IFEQUAL_S_16VALUE            ; 0xDA
-    dw Instruction_IFNOTEQUAL_A_16VALUE         ; 0xE0
-    dw Instruction_IFNOTEQUAL_S_16VALUE         ; 0xE1
-    dw Instruction_IFGREATER_A_16VALUE          ; 0xE2
-    dw Instruction_IFGREATER_S_16VALUE          ; 0xE3
-    dw Instruction_IFGREATEREQUAL_A_16VALUE     ; 0xE4
-    dw Instruction_IFGREATEREQUAL_S_16VALUE     ; 0xE5
-    dw Instruction_IFLESSER_A_16VALUE           ; 0xE6
-    dw Instruction_IFLESSER_S_16VALUE           ; 0xE7
-    dw Instruction_IFLESSEREQUAL_A_16VALUE      ; 0xE8
-    dw Instruction_IFLESSEREQUAL_S_16VALUE      ; 0xE9
+    dw Instruction_SET_A_16VALUE                ; 0xAB
+    dw Instruction_SET_B_16VALUE                ; 0xAC
+    dw Instruction_SET_C_16VALUE                ; 0xAD
+    dw Instruction_SET_D_16VALUE                ; 0xAE
+    dw Instruction_AND_A_16VALUE                ; 0xAF
+    dw Instruction_AND_S_16VALUE                ; 0xB0
+    dw Instruction_OR_A_16VALUE                 ; 0xB1
+    dw Instruction_OR_S_16VALUE                 ; 0xB2
+    dw Instruction_XOR_A_16VALUE                ; 0xB3
+    dw Instruction_XOR_S_16VALUE                ; 0xB4
+    dw Instruction_RSHIFT_A_16VALUE             ; 0xB5
+    dw Instruction_RSHIFT_S_16VALUE             ; 0xB6
+    dw Instruction_LSHIFT_A_16VALUE             ; 0xB7
+    dw Instruction_LSHIFT_S_16VALUE             ; 0xB8
+    dw Instruction_ADD_A_16VALUE                ; 0xB9
+    dw Instruction_ADD_S_16VALUE                ; 0xBA
+    dw Instruction_SUB_A_16VALUE                ; 0xBB
+    dw Instruction_SUB_S_16VALUE                ; 0xBC
+    dw Instruction_MUL_A_16VALUE                ; 0xBD
+    dw Instruction_MUL_S_16VALUE                ; 0xBE
+    dw Instruction_DIV_A_16VALUE                ; 0xBF
+    dw Instruction_DIV_S_16VALUE                ; 0xC0
+    dw Instruction_MOD_A_16VALUE                ; 0xC1
+    dw Instruction_MOD_S_16VALUE                ; 0xC2
+    dw Instruction_LOAD8_A_16VALUE              ; 0xC3
+    dw Instruction_LOAD8_S_16VALUE              ; 0xC4
+    dw Instruction_LOAD16_A_16VALUE             ; 0xC5
+    dw Instruction_LOAD16_S_16VALUE             ; 0xC6
+    dw Instruction_SAVE8_A_16VALUE              ; 0xC7
+    dw Instruction_SAVE8_S_16VALUE              ; 0xC8
+    dw Instruction_SAVE16_A_16VALUE             ; 0xC9
+    dw Instruction_SAVE16_S_16VALUE             ; 0xCA
+    dw Instruction_COMPARE_A_16VALUE            ; 0xCB
+    dw Instruction_COMPARE_S_16VALUE            ; 0xCC
+    dw Instruction_COMPARE_ARGA_16VALUE         ; 0xCD
+    dw Instruction_COMPARE_ARGB_16VALUE         ; 0xCE
+    dw Instruction_COMPARE_ARGC_16VALUE         ; 0xCF
+    dw Instruction_COMPARE_ARGD_16VALUE         ; 0xD0
+
+
+
+
+
+
+
+
+
 
 Instruction_RET:
     jp InstructionEnd
@@ -1786,101 +1774,271 @@ Instruction_GOTO_S:
     inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     jp InstructionEnd
-Instruction_IFEQUAL_A_B: ; todo
+Instruction_COMPARE_A_B:
+    ld a, [wRegulationCustomLogicVariableB]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_A_C: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_A_D: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableB+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_A: ; todo
+Instruction_COMPARE_A_C:
+    ld a, [wRegulationCustomLogicVariableC]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_B: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_C: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableC+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_D: ; todo
+Instruction_COMPARE_A_D:
+    ld a, [wRegulationCustomLogicVariableD]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_T: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_A_B: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableD+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_A_C: ; todo
+Instruction_COMPARE_A_S:
+    ld a, [wRegulationCustomLogicVariableS]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_A_D: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_A: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_B: ; todo
+Instruction_COMPARE_A_Random:
+    call RegulationRandomNumber
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_C: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_D: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_T: ; todo
+Instruction_COMPARE_S_B:
+    ld a, [wRegulationCustomLogicVariableB]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_A_B: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_A_C: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableB+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_A_D: ; todo
+Instruction_COMPARE_S_C:
+    ld a, [wRegulationCustomLogicVariableC]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_A: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_B: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableC+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_C: ; todo
     jp InstructionEnd
-Instruction_IFGREATER_S_D: ; todo
+Instruction_COMPARE_S_D:
+    ld a, [wRegulationCustomLogicVariableD]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_T: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_A_B: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableD+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_A_C: ; todo
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_A_D: ; todo
+Instruction_COMPARE_S_T:
+    ld a, [wRegulationCustomLogicVariableT]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, b
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_A: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_B: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, b
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_C: ; todo
+Instruction_COMPARE_S_Random:
+    call RegulationRandomNumber
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_D: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_T: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_A_B: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_A_C: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_A_D: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_S_A: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_S_B: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_S_C: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_S_D: ; todo
-    jp InstructionEnd
-Instruction_IFLESSER_S_T: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_A_B: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_A_C: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_A_D: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_A: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_B: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_C: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_D: ; todo
-    jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_T: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
 Instruction_SET_A_8VALUE:
     ld a, 0
@@ -1942,54 +2100,324 @@ Instruction_DIV_A_8VALUE: ; todo
     jp InstructionEnd
 Instruction_DIV_S_8VALUE: ; todo
     jp InstructionEnd
-Instruction_MOD_A_8VALUE: ; todo
+Instruction_MOD_A_8VALUE:
+    ; Our input value is 2 bytes long
+    ld a, 2
+    ld b, a
+
+    ; The 16 bit value to be divided
+    ld a, [wRegulationCustomLogicVariableA]
+    ld [hDividend], a
+    ld a, [wRegulationCustomLogicVariableA + 1]
+    ld [hDividend + 1], a
+
+    ; The 8 bit value to divide by
+    ld a, e
+    ld [hDivisor], a
+
+    ; Invoke the division
+    call Divide
+
+    ; Read out the 8 bit remainer which is the mod result
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, [hRemainder]
+    ld [wRegulationCustomLogicVariableA + 1], a
     jp InstructionEnd
-Instruction_MOD_S_8VALUE: ; todo
+Instruction_MOD_S_8VALUE:
+    ; Our input value is 2 bytes long
+    ld a, 2
+    ld b, a
+
+    ; The 16 bit value to be divided
+    ld a, [wRegulationCustomLogicVariableS]
+    ld [hDividend], a
+    ld a, [wRegulationCustomLogicVariableS + 1]
+    ld [hDividend + 1], a
+
+    ; The 8 bit value to divide by
+    ld a, e
+    ld [hDivisor], a
+
+    ; Invoke the division
+    call Divide
+
+    ; Read out the 8 bit remainer which is the mod result
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, [hRemainder]
+    ld [wRegulationCustomLogicVariableS + 1], a
     jp InstructionEnd
-Instruction_LOAD8_A_8VALUE: ; todo
+Instruction_LOAD8_A_8VALUE:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
-Instruction_LOAD8_S_8VALUE: ; todo
+Instruction_LOAD8_S_8VALUE:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
-Instruction_LOAD16_A_8VALUE: ; todo
+Instruction_LOAD16_A_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [hli]
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
-Instruction_LOAD16_S_8VALUE: ; todo
+Instruction_LOAD16_S_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [hli]
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
-Instruction_SAVE8_A_8VALUE: ; todo
+Instruction_SAVE8_A_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [hl], a
     jp InstructionEnd
-Instruction_SAVE8_S_8VALUE: ; todo
+Instruction_SAVE8_S_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld [hl], a
     jp InstructionEnd
-Instruction_SAVE16_A_8VALUE: ; todo
+Instruction_SAVE16_A_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [wRegulationCustomLogicVariableA]
+    ld [hli], a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [hl], a
     jp InstructionEnd
-Instruction_SAVE16_S_8VALUE: ; todo
+Instruction_SAVE16_S_8VALUE:
+    ld a, 0
+    ld d, a
+    ld hl, wRegulationCustomLogic
+    add hl, de
+    ld a, [wRegulationCustomLogicVariableS]
+    ld [hli], a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld [hl], a
     jp InstructionEnd
 Instruction_GOTO_8VALUE:
     ld a, e
     inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     jp InstructionEnd
-Instruction_IFEQUAL_A_8VALUE: ; todo
+Instruction_COMPARE_A_8VALUE:
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_8VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_A_8VALUE: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_8VALUE: ; todo
+Instruction_COMPARE_S_8VALUE:
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_A_8VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_8VALUE: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_A_8VALUE: ; todo
+Instruction_COMPARE_ARGA_8VALUE:
+    ld a, [wVariableA]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_8VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSER_A_8VALUE: ; todo
+    .continue
+    ld a, [wVariableA+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSER_S_8VALUE: ; todo
+Instruction_COMPARE_ARGB_8VALUE:
+    ld a, [wVariableB]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSEREQUAL_A_8VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_8VALUE: ; todo
+    .continue
+    ld a, [wVariableB+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_COMPARE_ARGC_8VALUE:
+    ld a, [wVariableC]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .continue
+    ld a, [wVariableC+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_COMPARE_ARGD_8VALUE:
+    ld a, [wVariableD]
+    cp a, 0
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .continue
+    ld a, [wVariableD+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_IFEQUAL_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    bit 0, a
+    jr z, .end                                      ; If the variable 0th flag bit isn't set that means it was not equal
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
+    jp InstructionEnd
+Instruction_IFNOTEQUAL_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    bit 0, a
+    jr nz, .end                                     ; If the variable 0th flag bit is that means it was equal
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
+    jp InstructionEnd
+Instruction_IFGREATER_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    bit 1, a
+    jr z, .end                                      ; If the variable 1st bit is that means it was not greater
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
+    jp InstructionEnd
+Instruction_IFEQUALGREATER_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    cp a, %00000011                                 ; Check if flag 0 or 1 is set
+    jr z, .end                                      ; If neither is set then goto .end
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
+    jp InstructionEnd
+Instruction_IFLESSER_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    bit 1, a
+    jr nz, .end                                     ; If the variable 1st bit is that means it was not lesser
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
+    jp InstructionEnd
+Instruction_IFEQUALLESSER_8VALUE:
+    ld a, [wRegulationCustomLogicVariableFlags]
+    cp a, %00000101                                 ; Check if flag 0 or 2 is set
+    jr z, .end                                      ; If neither is set then goto .end
+    ld a, e
+    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
+    .end
     jp InstructionEnd
 Instruction_CALL_8VALUE:
     jr :++                      ; jump to the end of safecall so that's where we end up once it's over
@@ -2088,13 +2516,37 @@ Instruction_MOD_A_16VALUE: ; todo
     jp InstructionEnd
 Instruction_MOD_S_16VALUE: ; todo
     jp InstructionEnd
-Instruction_LOAD8_A_16VALUE: ; todo
+Instruction_LOAD8_A_16VALUE:
+    ld h, d
+    ld l, e
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableA+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
     jp InstructionEnd
-Instruction_LOAD8_S_16VALUE: ; todo
+Instruction_LOAD8_S_16VALUE:
+    ld h, d
+    ld l, e
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
     jp InstructionEnd
-Instruction_LOAD16_A_16VALUE: ; todo
+Instruction_LOAD16_A_16VALUE:
+    ld h, d
+    ld l, e
+    ld a, [hli]
+    ld [wRegulationCustomLogicVariableA+1], a
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableA], a
     jp InstructionEnd
-Instruction_LOAD16_S_16VALUE: ; todo
+Instruction_LOAD16_S_16VALUE:
+    ld h, d
+    ld l, e
+    ld a, [hli]
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, [hl]
+    ld [wRegulationCustomLogicVariableS], a
     jp InstructionEnd
 Instruction_SAVE8_A_16VALUE:
     ld h, d
@@ -2124,27 +2576,141 @@ Instruction_SAVE16_S_16VALUE:
     ld a, [wRegulationCustomLogicVariableS+1]
     ld [hl], a
     jp InstructionEnd
-Instruction_IFEQUAL_A_16VALUE: ; todo
+Instruction_COMPARE_A_16VALUE:
+    ld a, [wRegulationCustomLogicVariableA]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFEQUAL_S_16VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_A_16VALUE: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFNOTEQUAL_S_16VALUE: ; todo
+Instruction_COMPARE_S_16VALUE:
+    ld a, [wRegulationCustomLogicVariableS]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_A_16VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATER_S_16VALUE: ; todo
+    .continue
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_A_16VALUE: ; todo
+Instruction_COMPARE_ARGA_16VALUE:
+    ld a, [wVariableA]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFGREATEREQUAL_S_16VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSER_A_16VALUE: ; todo
+    .continue
+    ld a, [wVariableA+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSER_S_16VALUE: ; todo
+Instruction_COMPARE_ARGB_16VALUE:
+    ld a, [wVariableB]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSEREQUAL_A_16VALUE: ; todo
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_IFLESSEREQUAL_S_16VALUE: ; todo
+    .continue
+    ld a, [wVariableB+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_COMPARE_ARGC_16VALUE:
+    ld a, [wVariableC]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .continue
+    ld a, [wVariableC+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_COMPARE_ARGD_16VALUE:
+    ld a, [wVariableD]
+    cp a, d
+    jp z, .continue
+    jp c, .greater
+    .lesser
+    ld a, %00000010
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .greater
+    ld a, %00000100
+    ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+    .continue
+    ld a, [wVariableD+1]
+    cp a, e
+    jp z, .equal
+    jp c, .greater
+    jp .lesser
+    .equal
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd

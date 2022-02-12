@@ -21,6 +21,81 @@ ExternalFunctions::
     bankpointer RegulationPokemonNoToIndex      ; 14
     bankpointer RegulationPokemonIndexToNo      ; 15
     bankpointer RegulationRandomizeTruly        ; 16
+    bankpointer DebugABC                        ; 17
+    bankpointer DebugDST                        ; 18
+
+
+
+
+
+
+
+
+
+
+
+DebugABC::
+    ld a, [wRegulationCustomLogicVariableC]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableC+1]
+    ld c, a
+
+    ld a, [wRegulationCustomLogicVariableB]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableB+1]
+    ld e, a
+
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+
+    debug
+
+    ret
+
+DebugDST::
+    ld a, [wRegulationCustomLogicVariableD]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableD+1]
+    ld c, a
+
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+
+    ld a, [wRegulationCustomLogicVariableT]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ld l, a
+
+    debug
+
+    ret
+
+
+
+
+
+
+_DisplayBoxText::
+    text "Test! Test! I"
+    line "remember now! His"
+    prompt
+
+DisplayBoxText:
+    text_far _DisplayBoxText
+    text_end
+
+DisplayBox::
+    ld hl, DisplayBoxText
+    jp PrintText
+    ret
+
+
+
+
 
 RegulationHideObject::
     ld hl, wMissableObjectFlags
@@ -41,7 +116,6 @@ RegulationShowObject::
     ret
 
 RegulationPokemonNoToIndex::
-    ; converts the Pokédex number at wd11e to an index
     ld a, [wRegulationCustomLogicVariableA+1]
     ld b, a
     ld c, 0

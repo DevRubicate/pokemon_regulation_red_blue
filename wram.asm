@@ -1167,7 +1167,9 @@ wRegulationCustomLogicVariableC::
 wRegulationCustomLogicVariableD::
     ds 2
 
+wRegulationCustomLogicVariableFlags::
 	ds 1
+
 wActionResultOrTookBattleTurn::
 ; This has overlapping related uses.
 ; When the player tries to use an item or use certain field moves, 0 is stored
