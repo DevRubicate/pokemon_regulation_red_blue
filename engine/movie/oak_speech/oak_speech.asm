@@ -62,7 +62,10 @@ OakSpeech:
     safecall LoadRegulationCode
 .continue
 
-
+    farcall RegulationRandomizeTruly
+    RegulationTriggerStart      wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+    RegulationTriggerExecute    wRegulationTriggerNewGame
+    RegulationTriggerEnd        wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 	ld de, ProfOakPic
 	lb bc, BANK(ProfOakPic), $00
@@ -105,11 +108,6 @@ OakSpeech:
 	ld hl, IntroduceRivalText
 	call PrintText
 	call ChooseRivalName
-    farcall RegulationRandomizeTruly
-
-    RegulationTriggerStart      wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
-    RegulationTriggerExecute    wRegulationTriggerNewGame
-    RegulationTriggerEnd        wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ld a, [wRegulationCode]
     ld hl, wRegulationCode+1

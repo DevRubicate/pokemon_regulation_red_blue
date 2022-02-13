@@ -176,156 +176,6 @@ NewGameRegulationMenu::
 .exit
     farjp DisplayTitleScreen
 
-
-
-NewGameRegulationMenuTextPageLength:
-    db 4
-    db 7
-    db 7
-    db 4
-    db 3
-
-NewGameRegulationMenu_BackTable:
-    db $FF
-    db 0
-    db 1
-    db 0
-    db 0
-
-NewGameRegulationMenuPage_Text_Index:
-    dw NewGameRegulationMenuPage0_Text
-    dw NewGameRegulationMenuPage1_Text
-    dw NewGameRegulationMenuPage2_Text
-    dw NewGameRegulationMenuPage3_Text
-    dw NewGameRegulationMenuPage4_Text
-
-NewGameRegulationMenuPage_Action_Index:
-    dw NewGameRegulationMenuPage0_Action
-    dw NewGameRegulationMenuPage1_Action
-    dw NewGameRegulationMenuPage2_Action
-    dw NewGameRegulationMenuPage3_Action
-    dw NewGameRegulationMenuPage4_Action
-
-
-NewGameRegulationMenuPage0_Text:
-    db "VANILLA GAME"
-    next "CUSTOM CODE"
-    next "MONOTYPE"
-    next "CHALLENGE"
-    next "PUZZLE@"
-
-NewGameRegulationMenuPage0_Action:
-    db 0
-    dw 0
-
-    db 1
-    dw 0
-
-    db 3
-    dw 1
-
-    db 3
-    dw 3
-
-    db 3
-    dw 4
-
-
-
-
-NewGameRegulationMenuPage1_Text:
-    db "NORMAL"
-    next "FIGHTING"
-    next "FLYING"
-    next "POISON"
-    next "GROUND"
-    next "ROCK"
-    next "BUG"
-    next "NEXT PAGE@"
-
-NewGameRegulationMenuPage1_Action:
-    db 2
-    dw NewGameRegulationMenuMonoNormal
-    db 2
-    dw NewGameRegulationMenuMonoFighting
-    db 2
-    dw NewGameRegulationMenuMonoFlying
-    db 2
-    dw NewGameRegulationMenuMonoPoison
-    db 2
-    dw NewGameRegulationMenuMonoGround
-    db 2
-    dw NewGameRegulationMenuMonoRock
-    db 2
-    dw NewGameRegulationMenuMonoBug
-    db 3
-    dw 2
-
-
-NewGameRegulationMenuPage2_Text:
-    db "GHOST"
-    next "FIRE"
-    next "WATER"
-    next "GRASS"
-    next "ELECTRIC"
-    next "PSYCHIC"
-    next "ICE"
-    next "DRAGON@"
-
-NewGameRegulationMenuPage2_Action:
-    db 2
-    dw NewGameRegulationMenuMonoGhost
-    db 2
-    dw NewGameRegulationMenuMonoFire
-    db 2
-    dw NewGameRegulationMenuMonoWater
-    db 2
-    dw NewGameRegulationMenuMonoGrass
-    db 2
-    dw NewGameRegulationMenuMonoElectric
-    db 2
-    dw NewGameRegulationMenuMonoPsychic
-    db 2
-    dw NewGameRegulationMenuMonoIce
-    db 2
-    dw NewGameRegulationMenuMonoDragon
-
-NewGameRegulationMenuPage3_Text:
-    db "DISCOUNT DITTO"
-    next "TEAM ROCKET"
-    next "NO EXP"
-    next "ROGUELIKE"
-    next "RIP AND TEAR@"
-
-NewGameRegulationMenuPage3_Action:
-    db 2
-    dw NewGameRegulationMenuMonoDiscountDitto
-    db 2
-    dw NewGameRegulationMenuMonoTeamRocket
-    db 2
-    dw NewGameRegulationMenuMonoNoExp
-    db 2
-    dw NewGameRegulationMenuMonoRoguelike
-    db 2
-    dw NewGameRegulationMenuMonoRipAndTear
-
-
-NewGameRegulationMenuPage4_Text:
-    db "CREEPYPASTA"
-    next "CLIPPED WINGS"
-    next "THUNDERFISH"
-    next "PAY2WIN@"
-
-NewGameRegulationMenuPage4_Action:
-    db 2
-    dw NewGameRegulationMenuMonoCreepypasta
-    db 2
-    dw NewGameRegulationMenuMonoClippedWings
-    db 2
-    dw NewGameRegulationMenuMonoThunderfish
-    db 2
-    dw NewGameRegulationMenuMonoPay2Win
-
 LoadRegulationCode:
     ld a, [wVariableD]
     ld h, a
@@ -339,6 +189,7 @@ LoadRegulationCode:
     jr .break
 
 .continue
+
     ld a, [wVariableD]
     ld h, a
     ld a, [wVariableD+1]
@@ -404,6 +255,9 @@ ProcessCodeLine:
     ; Call the multi-line parsing code. The difference is that this ones knows not to expect any events in the start
     farcall CopyContinuedCustomLogicCode
 
+    ld a, 1
+    or a
+
     ret     ; Ask for more codes
 
 
@@ -427,25 +281,24 @@ ProcessCodeLine:
     ret     ; Ask for more codes
 
 .notNewCustomLogicCode  ; It's not custom logic, that means this is the option/attribute line, the very last line allowed
-
     ld hl, wcf4b
     ld de, wRegulationCode
     ld bc, 10
     call CopyData
 
     ld a, [wRegulationCode]
+    or a
+    jr z, .skip
+
     ld [wRegulationCustomLogicVariableA+1], a
     safecall RegulationPokemonNoToIndex
     ld a, [wRegulationCustomLogicVariableA+1]
     ld [wRegulationCode], a
-
+.skip
     ld a, 0
     or a
 
     ret     ; Do not ask for more codes
-
-
-
 
 
 ProcessCodeLineByte:
@@ -485,6 +338,212 @@ ProcessCodeLineByte:
     or a
 
     ret
+
+
+
+
+
+
+NewGameRegulationMenuTextPageLength:
+    db 5
+    db 7
+    db 7
+    db 2
+    db 7
+    db 1
+    db 4
+
+NewGameRegulationMenu_BackTable:
+    db $FF
+    db 0
+    db 1
+    db 0
+    db 0
+    db 4
+    db 0
+
+NewGameRegulationMenuPage_Text_Index:
+    dw NewGameRegulationMenuPage0_Text
+    dw NewGameRegulationMenuPage1_Text
+    dw NewGameRegulationMenuPage2_Text
+    dw NewGameRegulationMenuPage3_Text
+    dw NewGameRegulationMenuPage4_Text
+    dw NewGameRegulationMenuPage5_Text
+    dw NewGameRegulationMenuPage6_Text
+
+NewGameRegulationMenuPage_Action_Index:
+    dw NewGameRegulationMenuPage0_Action
+    dw NewGameRegulationMenuPage1_Action
+    dw NewGameRegulationMenuPage2_Action
+    dw NewGameRegulationMenuPage3_Action
+    dw NewGameRegulationMenuPage4_Action
+    dw NewGameRegulationMenuPage5_Action
+    dw NewGameRegulationMenuPage6_Action
+
+NewGameRegulationMenuPage0_Text:
+    db "VANILLA GAME"
+    next "CUSTOM CODE"
+    next "MONOTYPE"
+    next "RANDOMIZED"
+    next "CHALLENGE"
+    next "PUZZLE@"
+
+NewGameRegulationMenuPage0_Action:
+    db 0
+    dw 0
+
+    db 1
+    dw 0
+
+    db 3
+    dw 1
+
+    db 3
+    dw 3
+
+    db 3
+    dw 4
+
+    db 3
+    dw 6
+
+
+NewGameRegulationMenuPage1_Text:
+    db "NORMAL"
+    next "FIGHTING"
+    next "FLYING"
+    next "POISON"
+    next "GROUND"
+    next "ROCK"
+    next "BUG"
+    next "NEXT PAGE@"
+
+NewGameRegulationMenuPage1_Action:
+    db 2
+    dw NewGameRegulationMenuMonoNormal
+    db 2
+    dw NewGameRegulationMenuMonoFighting
+    db 2
+    dw NewGameRegulationMenuMonoFlying
+    db 2
+    dw NewGameRegulationMenuMonoPoison
+    db 2
+    dw NewGameRegulationMenuMonoGround
+    db 2
+    dw NewGameRegulationMenuMonoRock
+    db 2
+    dw NewGameRegulationMenuMonoBug
+    db 3
+    dw 2
+
+
+NewGameRegulationMenuPage2_Text:
+    db "GHOST"
+    next "FIRE"
+    next "WATER"
+    next "GRASS"
+    next "ELECTRIC"
+    next "PSYCHIC"
+    next "ICE"
+    next "DRAGON@"
+
+NewGameRegulationMenuPage2_Action:
+    db 2
+    dw NewGameRegulationMenuMonoGhost
+    db 2
+    dw NewGameRegulationMenuMonoFire
+    db 2
+    dw NewGameRegulationMenuMonoWater
+    db 2
+    dw NewGameRegulationMenuMonoGrass
+    db 2
+    dw NewGameRegulationMenuMonoElectric
+    db 2
+    dw NewGameRegulationMenuMonoPsychic
+    db 2
+    dw NewGameRegulationMenuMonoIce
+    db 2
+    dw NewGameRegulationMenuMonoDragon
+
+NewGameRegulationMenuPage3_Text:
+    db "RANDOM #MON"
+    next "TEAM ROCKET@"
+
+
+NewGameRegulationMenuPage3_Action:
+    db 2
+    dw NewGameRegulationMenuRandomPokemon
+    db 2
+    dw NewGameRegulationMenuRandomPokemon
+
+
+NewGameRegulationMenuPage4_Text:
+    db "DISCOUNT DITTO"
+    next "TEAM ROCKET"
+    next "NO EXP"
+    next "ROGUELIKE"
+    next "RIP AND TEAR"
+    next "NUZLOCKE"
+    next "THE OUTCAST"
+    next "NEXT PAGE@"
+
+NewGameRegulationMenuPage4_Action:
+    db 2
+    dw NewGameRegulationMenuDiscountDitto
+    db 2
+    dw NewGameRegulationMenuTeamRocket
+    db 2
+    dw NewGameRegulationMenuNoExp
+    db 2
+    dw NewGameRegulationMenuRoguelike
+    db 2
+    dw NewGameRegulationMenuRipAndTear
+    db 2
+    dw NewGameRegulationMenuNuzlocke
+    db 2
+    dw NewGameRegulationMenuTheOutcast
+    db 3
+    dw 4
+
+NewGameRegulationMenuPage5_Text:
+    db "WONDERGUARD"
+    next "TECHNIQUE FATIGUE@"
+
+NewGameRegulationMenuPage5_Action:
+    db 2
+    dw NewGameRegulationMenuWonderguard
+    db 2
+    dw NewGameRegulationMenuTechniqueFatigue
+
+
+
+
+
+NewGameRegulationMenuPage6_Text:
+    db "CREEPYPASTA"
+    next "CLIPPED WINGS"
+    next "THUNDERFISH"
+    next "PAY2WIN"
+    next "SNAKES N' LADDERS@"
+
+NewGameRegulationMenuPage6_Action:
+    db 2
+    dw NewGameRegulationMenuCreepypasta
+    db 2
+    dw NewGameRegulationMenuClippedWings
+    db 2
+    dw NewGameRegulationMenuThunderfish
+    db 2
+    dw NewGameRegulationMenuPay2Win
+    db 2
+    dw NewGameRegulationMenuSnakesNLadders
+
+
+
+
+
+
+
 
 PUSHC
 SETCHARMAP RegulationCode
@@ -534,32 +593,50 @@ NewGameRegulationMenuMonoIce:
 NewGameRegulationMenuMonoDragon:
     db "930F0010100000000000"
 
-NewGameRegulationMenuMonoDiscountDitto:
+NewGameRegulationMenuRandomPokemon:
+    db "99019E10149B26171493968B019E0EC7D7010000990F4B98264E171493968B019E0E27000000000098159D1100000000000098069D1100000000000000000000000000000000"
+
+NewGameRegulationMenuDiscountDitto:
     db "84000010026666666600"
 
-NewGameRegulationMenuMonoTeamRocket:
+NewGameRegulationMenuTeamRocket:
     db "3400D000010000060000"
 
-NewGameRegulationMenuMonoNoExp:
+NewGameRegulationMenuNoExp:
     db "00000680000000000000"
 
-NewGameRegulationMenuMonoRoguelike:
+NewGameRegulationMenuRoguelike:
     db "001000810C0000000000"
 
-NewGameRegulationMenuMonoRipAndTear:
+NewGameRegulationMenuRipAndTear:
     db "81C02090307800000000"
 
-NewGameRegulationMenuMonoCreepypasta:
+NewGameRegulationMenuNuzlocke:
+    db "8400401514210000001"
+
+NewGameRegulationMenuTheOutcast:
+    db "0000000800000000000E"
+
+NewGameRegulationMenuWonderguard:
+    db "00000000400000000020"
+
+NewGameRegulationMenuTechniqueFatigue:
+    db "00002070000000000000"
+
+NewGameRegulationMenuCreepypasta:
     db "5C000840040C78FF0000"
 
-NewGameRegulationMenuMonoClippedWings:
+NewGameRegulationMenuClippedWings:
     db "1000060900A5FF000000"
 
-NewGameRegulationMenuMonoThunderfish:
+NewGameRegulationMenuThunderfish:
     db "810A0000015499000000"
 
-NewGameRegulationMenuMonoPay2Win:
+NewGameRegulationMenuPay2Win:
     db "89000440060606060600"
+
+NewGameRegulationMenuSnakesNLadders:
+    db "98017D099E0C0000000098149E05000000000000991B7D01C9CFFAAB012CC9CFF6C9CFF4C9CFE60098107D9929000000000098119D1A00000000000098129D1A00000000000098139D1A0000000000009A1DCD2101A630ABD4622700FF0CA91827243130223C62485A000000000017000608000F00000001"
 
 POPC
 

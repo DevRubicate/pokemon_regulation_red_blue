@@ -37,7 +37,7 @@ CopyNewCustomLogicCode:
     ld a, [hl]                              ; Load the trigger index
     or a
     jr z, .triggerLess                      ; If the trigger index is 0, it means no trigger
-    ld bc, 0
+    ld b, 0
     ld c, a                                 ; bc now holds the trigger index
     ld hl, TriggerTable                     ; Load the base address of the TriggerTable
     add hl, bc
@@ -60,7 +60,7 @@ CopyNewCustomLogicCode:
 
     ; Destination
     ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
-    ld de, 0
+    ld d, 0
     ld a, [wRegulationCustomLogicLength]
     ld e, a
     add hl, de                              ; But we want to add an offset equal to how much we already copied there earlier

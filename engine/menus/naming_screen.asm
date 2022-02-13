@@ -612,10 +612,15 @@ CopyFinalCode:
     call CopyData
 
     ld a, [wRegulationCode]
+    or a
+    jr z, .skip
+
     ld [wRegulationCustomLogicVariableA+1], a
     safecall RegulationPokemonNoToIndex
     ld a, [wRegulationCustomLogicVariableA+1]
     ld [wRegulationCode], a
+
+.skip
 
     ret
 
