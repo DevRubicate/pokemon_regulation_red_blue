@@ -47,8 +47,23 @@ OakSpeech:
 	call SpecialWarpIn
 	xor a
 	ldh [hTileAnimations], a
-	ld a, [wd732]
+
+
+
+	ld a, [wVariableE]
+    or a
+    jr z, .continue
+    ld a, [wVariableE]
+    dec a
+    jr nz, .loadCode
     call ChooseCode
+    jr .continue
+.loadCode
+    safecall LoadRegulationCode
+.continue
+
+
+
 	ld de, ProfOakPic
 	lb bc, BANK(ProfOakPic), $00
 	call IntroDisplayPicCenteredOrUpperRight

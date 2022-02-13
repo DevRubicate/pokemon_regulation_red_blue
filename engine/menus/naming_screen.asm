@@ -610,6 +610,13 @@ CopyFinalCode:
     ld de, wRegulationCode
     ld bc, 10
     call CopyData
+
+    ld a, [wRegulationCode]
+    ld [wRegulationCustomLogicVariableA+1], a
+    safecall RegulationPokemonNoToIndex
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [wRegulationCode], a
+
     ret
 
 

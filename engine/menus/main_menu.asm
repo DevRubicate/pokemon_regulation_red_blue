@@ -83,7 +83,9 @@ MainMenu:
 	and a
 	jr z, .choseContinue
 	cp 1
-	jp z, StartNewGame
+	jp nz, .continue
+    jpfar NewGameRegulationMenu
+.continue
 	call DisplayOptionMenu
 	ld a, 1
 	ld [wOptionsInitialized], a
@@ -305,7 +307,7 @@ LinkCanceledText:
 	text_far _LinkCanceledText
 	text_end
 
-StartNewGame:
+StartNewGame::
 	ld hl, wd732
 	res 1, [hl]
 	callfar OakSpeech
@@ -713,3 +715,5 @@ CheckForPlayerNameInSRAM:
 	ld [MBC1SRamBankingMode], a
 	scf
 	ret
+
+

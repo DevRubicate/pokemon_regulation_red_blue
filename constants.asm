@@ -1,4 +1,6 @@
+
 INCLUDE "charmap.asm"
+INCLUDE "regulation_charmap.asm"
 
 INCLUDE "macros.asm"
 
