@@ -2039,6 +2039,13 @@ _OakSpeechOnlySuperEffectiveDealDamage::
     cont "moves."
     prompt
 
+_OakSpeechWarpPokecenterOnLoad::
+    text "You warp back to"
+    line "a #MON CENTER"
+    cont "when loading"
+    cont "your adventure."
+    prompt
+
 _RefuseToTrade::
     text "Oak told me not"
     line "to trade #MON"

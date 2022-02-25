@@ -70,6 +70,7 @@ InstructionEnd:
     ld a, [hli]
     ld h, [hl]
     ld l, a
+    debug
     jp hl                                       ; Jump to custom code instruction
 
 InstructionPointerTable:
@@ -192,98 +193,118 @@ InstructionPointerTable:
     dw Instruction_COMPARE_A_C                  ; 0x74
     dw Instruction_COMPARE_A_D                  ; 0x75
     dw Instruction_COMPARE_A_S                  ; 0x76
-    dw Instruction_COMPARE_A_Random             ; 0x77
+    dw Instruction_COMPARE_A_RANDOM             ; 0x77
     dw Instruction_COMPARE_S_B                  ; 0x78
     dw Instruction_COMPARE_S_C                  ; 0x79
     dw Instruction_COMPARE_S_D                  ; 0x7A
     dw Instruction_COMPARE_S_T                  ; 0x7B
-    dw Instruction_COMPARE_S_Random             ; 0x7C
+    dw Instruction_COMPARE_S_RANDOM             ; 0x7C
+    dw Instruction_CALL_A                       ; 0x7D
+    dw Instruction_CALL_S                       ; 0x7E
 InstructionPointerTable_TwoByte:                ;
-    dw Instruction_SET_A_8VALUE                 ; 0x7D
-    dw Instruction_SET_B_8VALUE                 ; 0x7E
-    dw Instruction_SET_C_8VALUE                 ; 0x7F
-    dw Instruction_SET_D_8VALUE                 ; 0x80
-    dw Instruction_AND_A_8VALUE                 ; 0x81
-    dw Instruction_AND_S_8VALUE                 ; 0x82
-    dw Instruction_OR_A_8VALUE                  ; 0x83
-    dw Instruction_OR_S_8VALUE                  ; 0x84
-    dw Instruction_XOR_A_8VALUE                 ; 0x85
-    dw Instruction_XOR_S_8VALUE                 ; 0x86
-    dw Instruction_RSHIFT_A_8VALUE              ; 0x87
-    dw Instruction_RSHIFT_S_8VALUE              ; 0x88
-    dw Instruction_LSHIFT_A_8VALUE              ; 0x89
-    dw Instruction_LSHIFT_S_8VALUE              ; 0x8A
-    dw Instruction_ADD_A_8VALUE                 ; 0x8B
-    dw Instruction_ADD_S_8VALUE                 ; 0x8C
-    dw Instruction_SUB_A_8VALUE                 ; 0x8D
-    dw Instruction_SUB_S_8VALUE                 ; 0x8E
-    dw Instruction_MUL_A_8VALUE                 ; 0x8F
-    dw Instruction_MUL_S_8VALUE                 ; 0x90
-    dw Instruction_DIV_A_8VALUE                 ; 0x91
-    dw Instruction_DIV_S_8VALUE                 ; 0x92
-    dw Instruction_MOD_A_8VALUE                 ; 0x93
-    dw Instruction_MOD_S_8VALUE                 ; 0x94
-    dw Instruction_LOAD8_A_8VALUE               ; 0x95
-    dw Instruction_LOAD8_S_8VALUE               ; 0x96
-    dw Instruction_LOAD16_A_8VALUE              ; 0x97
-    dw Instruction_LOAD16_S_8VALUE              ; 0x98
-    dw Instruction_SAVE8_A_8VALUE               ; 0x99
-    dw Instruction_SAVE8_S_8VALUE               ; 0x9A
-    dw Instruction_SAVE16_A_8VALUE              ; 0x9B
-    dw Instruction_SAVE16_S_8VALUE              ; 0x9C
-    dw Instruction_GOTO_8VALUE                  ; 0x9D
-    dw Instruction_CALL_8VALUE                  ; 0x9E
-    dw Instruction_COMPARE_A_8VALUE             ; 0x9F
-    dw Instruction_COMPARE_S_8VALUE             ; 0xA0
-    dw Instruction_COMPARE_ARGA_8VALUE          ; 0xA1
-    dw Instruction_COMPARE_ARGB_8VALUE          ; 0xA2
-    dw Instruction_COMPARE_ARGC_8VALUE          ; 0xA3
-    dw Instruction_COMPARE_ARGD_8VALUE          ; 0xA4
-    dw Instruction_IFEQUAL_8VALUE               ; 0xA5
-    dw Instruction_IFNOTEQUAL_8VALUE            ; 0xA6
-    dw Instruction_IFGREATER_8VALUE             ; 0xA7
-    dw Instruction_IFEQUALGREATER_8VALUE        ; 0xA8
-    dw Instruction_IFLESSER_8VALUE              ; 0xA9
-    dw Instruction_IFEQUALLESSER_8VALUE         ; 0xAA
+    dw Instruction_SET_A_8VALUE                 ; 0x7F
+    dw Instruction_SET_B_8VALUE                 ; 0x80
+    dw Instruction_SET_C_8VALUE                 ; 0x81
+    dw Instruction_SET_D_8VALUE                 ; 0x82
+    dw Instruction_AND_A_8VALUE                 ; 0x83
+    dw Instruction_AND_S_8VALUE                 ; 0x84
+    dw Instruction_OR_A_8VALUE                  ; 0x85
+    dw Instruction_OR_S_8VALUE                  ; 0x86
+    dw Instruction_XOR_A_8VALUE                 ; 0x87
+    dw Instruction_XOR_S_8VALUE                 ; 0x88
+    dw Instruction_RSHIFT_A_8VALUE              ; 0x89
+    dw Instruction_RSHIFT_S_8VALUE              ; 0x8A
+    dw Instruction_LSHIFT_A_8VALUE              ; 0x8B
+    dw Instruction_LSHIFT_S_8VALUE              ; 0x8C
+    dw Instruction_ADD_A_8VALUE                 ; 0x8D
+    dw Instruction_ADD_S_8VALUE                 ; 0x8E
+    dw Instruction_SUB_A_8VALUE                 ; 0x8F
+    dw Instruction_SUB_S_8VALUE                 ; 0x90
+    dw Instruction_MUL_A_8VALUE                 ; 0x91
+    dw Instruction_MUL_S_8VALUE                 ; 0x92
+    dw Instruction_DIV_A_8VALUE                 ; 0x93
+    dw Instruction_DIV_S_8VALUE                 ; 0x94
+    dw Instruction_MOD_A_8VALUE                 ; 0x95
+    dw Instruction_MOD_S_8VALUE                 ; 0x96
+    dw Instruction_LOAD8_A_8VALUE               ; 0x97
+    dw Instruction_LOAD8_S_8VALUE               ; 0x98
+    dw Instruction_LOAD16_A_8VALUE              ; 0x99
+    dw Instruction_LOAD16_S_8VALUE              ; 0x9A
+    dw Instruction_SAVE8_A_8VALUE               ; 0x9B
+    dw Instruction_SAVE8_S_8VALUE               ; 0x9C
+    dw Instruction_SAVE16_A_8VALUE              ; 0x9D
+    dw Instruction_SAVE16_S_8VALUE              ; 0x9E
+    dw Instruction_LOAD8_A_8VALUE_S             ; 0x9F
+    dw Instruction_LOAD8_S_8VALUE_A             ; 0xA0
+    dw Instruction_LOAD8_S_8VALUE_T             ; 0xA1
+    dw Instruction_LOAD16_A_8VALUE_S            ; 0xA2
+    dw Instruction_LOAD16_S_8VALUE_A            ; 0xA3
+    dw Instruction_LOAD16_S_8VALUE_T            ; 0xA4
+    dw Instruction_SAVE8_A_8VALUE_S             ; 0xA5
+    dw Instruction_SAVE8_S_8VALUE_A             ; 0xA6
+    dw Instruction_SAVE8_S_8VALUE_T             ; 0xA7
+    dw Instruction_SAVE16_A_8VALUE_S            ; 0xA8
+    dw Instruction_SAVE16_S_8VALUE_A            ; 0xA9
+    dw Instruction_SAVE16_S_8VALUE_T            ; 0xAA
+    dw Instruction_GOTO_8VALUE                  ; 0xAB
+    dw Instruction_CALL_8VALUE                  ; 0xAC
+    dw Instruction_SEEK8_A_S_8VALUE             ; 0xAD
+    dw Instruction_SEEK8_S_A_8VALUE             ; 0xAE
+    dw Instruction_SEEK8_S_T_8VALUE             ; 0xAF
+    dw Instruction_SEEK16_A_S_8VALUE            ; 0xB0
+    dw Instruction_SEEK16_S_A_8VALUE            ; 0xB1
+    dw Instruction_SEEK16_S_T_8VALUE            ; 0xB2
+    dw Instruction_COMPARE_A_8VALUE             ; 0xB3
+    dw Instruction_COMPARE_S_8VALUE             ; 0xB4
+    dw Instruction_COMPARE_ARGA_8VALUE          ; 0xB5
+    dw Instruction_COMPARE_ARGB_8VALUE          ; 0xB6
+    dw Instruction_COMPARE_ARGC_8VALUE          ; 0xB7
+    dw Instruction_COMPARE_ARGD_8VALUE          ; 0xB8
+    dw Instruction_IFEQUAL_8VALUE               ; 0xB9
+    dw Instruction_IFNOTEQUAL_8VALUE            ; 0xBA
+    dw Instruction_IFGREATER_8VALUE             ; 0xBB
+    dw Instruction_IFEQUALGREATER_8VALUE        ; 0xBC
+    dw Instruction_IFLESSER_8VALUE              ; 0xBD
+    dw Instruction_IFEQUALLESSER_8VALUE         ; 0xBE
 InstructionPointerTable_ThreeByte:              ;
-    dw Instruction_SET_A_16VALUE                ; 0xAB
-    dw Instruction_SET_B_16VALUE                ; 0xAC
-    dw Instruction_SET_C_16VALUE                ; 0xAD
-    dw Instruction_SET_D_16VALUE                ; 0xAE
-    dw Instruction_AND_A_16VALUE                ; 0xAF
-    dw Instruction_AND_S_16VALUE                ; 0xB0
-    dw Instruction_OR_A_16VALUE                 ; 0xB1
-    dw Instruction_OR_S_16VALUE                 ; 0xB2
-    dw Instruction_XOR_A_16VALUE                ; 0xB3
-    dw Instruction_XOR_S_16VALUE                ; 0xB4
-    dw Instruction_RSHIFT_A_16VALUE             ; 0xB5
-    dw Instruction_RSHIFT_S_16VALUE             ; 0xB6
-    dw Instruction_LSHIFT_A_16VALUE             ; 0xB7
-    dw Instruction_LSHIFT_S_16VALUE             ; 0xB8
-    dw Instruction_ADD_A_16VALUE                ; 0xB9
-    dw Instruction_ADD_S_16VALUE                ; 0xBA
-    dw Instruction_SUB_A_16VALUE                ; 0xBB
-    dw Instruction_SUB_S_16VALUE                ; 0xBC
-    dw Instruction_MUL_A_16VALUE                ; 0xBD
-    dw Instruction_MUL_S_16VALUE                ; 0xBE
-    dw Instruction_DIV_A_16VALUE                ; 0xBF
-    dw Instruction_DIV_S_16VALUE                ; 0xC0
-    dw Instruction_MOD_A_16VALUE                ; 0xC1
-    dw Instruction_MOD_S_16VALUE                ; 0xC2
-    dw Instruction_LOAD8_A_16VALUE              ; 0xC3
-    dw Instruction_LOAD8_S_16VALUE              ; 0xC4
-    dw Instruction_LOAD16_A_16VALUE             ; 0xC5
-    dw Instruction_LOAD16_S_16VALUE             ; 0xC6
-    dw Instruction_SAVE8_A_16VALUE              ; 0xC7
-    dw Instruction_SAVE8_S_16VALUE              ; 0xC8
-    dw Instruction_SAVE16_A_16VALUE             ; 0xC9
-    dw Instruction_SAVE16_S_16VALUE             ; 0xCA
-    dw Instruction_COMPARE_A_16VALUE            ; 0xCB
-    dw Instruction_COMPARE_S_16VALUE            ; 0xCC
-    dw Instruction_COMPARE_ARGA_16VALUE         ; 0xCD
-    dw Instruction_COMPARE_ARGB_16VALUE         ; 0xCE
-    dw Instruction_COMPARE_ARGC_16VALUE         ; 0xCF
-    dw Instruction_COMPARE_ARGD_16VALUE         ; 0xD0
+    dw Instruction_SET_A_16VALUE                ; 0xBF
+    dw Instruction_SET_B_16VALUE                ; 0xC0
+    dw Instruction_SET_C_16VALUE                ; 0xC1
+    dw Instruction_SET_D_16VALUE                ; 0xC2
+    dw Instruction_AND_A_16VALUE                ; 0xC3
+    dw Instruction_AND_S_16VALUE                ; 0xC4
+    dw Instruction_OR_A_16VALUE                 ; 0xC5
+    dw Instruction_OR_S_16VALUE                 ; 0xC6
+    dw Instruction_XOR_A_16VALUE                ; 0xC7
+    dw Instruction_XOR_S_16VALUE                ; 0xC8
+    dw Instruction_RSHIFT_A_16VALUE             ; 0xC9
+    dw Instruction_RSHIFT_S_16VALUE             ; 0xCA
+    dw Instruction_LSHIFT_A_16VALUE             ; 0xCB
+    dw Instruction_LSHIFT_S_16VALUE             ; 0xCC
+    dw Instruction_ADD_A_16VALUE                ; 0xCD
+    dw Instruction_ADD_S_16VALUE                ; 0xCE
+    dw Instruction_SUB_A_16VALUE                ; 0xCF
+    dw Instruction_SUB_S_16VALUE                ; 0xD0
+    dw Instruction_MUL_A_16VALUE                ; 0xD1
+    dw Instruction_MUL_S_16VALUE                ; 0xD2
+    dw Instruction_DIV_A_16VALUE                ; 0xD3
+    dw Instruction_DIV_S_16VALUE                ; 0xD4
+    dw Instruction_MOD_A_16VALUE                ; 0xD5
+    dw Instruction_MOD_S_16VALUE                ; 0xD6
+    dw Instruction_LOAD8_A_16VALUE              ; 0xD7
+    dw Instruction_LOAD8_S_16VALUE              ; 0xD8
+    dw Instruction_LOAD16_A_16VALUE             ; 0xD9
+    dw Instruction_LOAD16_S_16VALUE             ; 0xDA
+    dw Instruction_SAVE8_A_16VALUE              ; 0xDB
+    dw Instruction_SAVE8_S_16VALUE              ; 0xDC
+    dw Instruction_SAVE16_A_16VALUE             ; 0xDD
+    dw Instruction_SAVE16_S_16VALUE             ; 0xDE
+    dw Instruction_COMPARE_A_16VALUE            ; 0xDF
+    dw Instruction_COMPARE_S_16VALUE            ; 0xE0
+    dw Instruction_COMPARE_ARGA_16VALUE         ; 0xE1
+    dw Instruction_COMPARE_ARGB_16VALUE         ; 0xE2
+    dw Instruction_COMPARE_ARGC_16VALUE         ; 0xE3
+    dw Instruction_COMPARE_ARGD_16VALUE         ; 0xE4
 
 
 
@@ -1882,7 +1903,7 @@ Instruction_COMPARE_A_S:
     ld a, %00000001
     ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_COMPARE_A_Random:
+Instruction_COMPARE_A_RANDOM:
     call RegulationRandomNumber
     ld a, [wRegulationCustomLogicVariableA]
     cp a, d
@@ -2016,7 +2037,7 @@ Instruction_COMPARE_S_T:
     ld a, %00000001
     ld [wRegulationCustomLogicVariableFlags], a
     jp InstructionEnd
-Instruction_COMPARE_S_Random:
+Instruction_COMPARE_S_RANDOM:
     call RegulationRandomNumber
     ld a, [wRegulationCustomLogicVariableS]
     cp a, d
@@ -2039,6 +2060,80 @@ Instruction_COMPARE_S_Random:
     .equal
     ld a, %00000001
     ld [wRegulationCustomLogicVariableFlags], a
+    jp InstructionEnd
+Instruction_CALL_A:
+    jr :++                      ; jump to the end of safecall so that's where we end up once it's over
+    :
+    ld [wSafeBankBackup], a     ; save a
+    ld a, h
+    ld [wSafeBankBackup+1], a   ; save h
+    ld a, l
+    ld [wSafeBankBackup+2], a   ; save l
+
+    ldh a, [hLoadedROMBank]     ; load what bank we are currently in
+    push af                     ; save bank for later
+
+    ld hl, SafeBankswitchReturn ; load address we will return to once this safecall is done
+    push hl                     ; push the address we will return to
+
+    ld d, 0
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld e, a
+
+    ld hl, ExternalFunctions
+    add hl, de
+    add hl, de
+    add hl, de
+
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    push de
+
+    ld a, [hli]              ; load the bank we wanna go to
+    pop hl                   ; load the address we wanna go to
+
+    jp SafeBankswitch           ; jump to SafeBankSwitch which isn't stored in a bank itself
+    :
+    call :--                     ; use a call to ensure this is where we return once we are done
+    jp InstructionEnd
+Instruction_CALL_S:
+    jr :++                      ; jump to the end of safecall so that's where we end up once it's over
+    :
+    ld [wSafeBankBackup], a     ; save a
+    ld a, h
+    ld [wSafeBankBackup+1], a   ; save h
+    ld a, l
+    ld [wSafeBankBackup+2], a   ; save l
+
+    ldh a, [hLoadedROMBank]     ; load what bank we are currently in
+    push af                     ; save bank for later
+
+    ld hl, SafeBankswitchReturn ; load address we will return to once this safecall is done
+    push hl                     ; push the address we will return to
+
+    ld d, 0
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+
+    ld hl, ExternalFunctions
+    add hl, de
+    add hl, de
+    add hl, de
+
+    ld a, [hli]
+    ld e, a
+    ld a, [hli]
+    ld d, a
+    push de
+
+    ld a, [hli]              ; load the bank we wanna go to
+    pop hl                   ; load the address we wanna go to
+
+    jp SafeBankswitch           ; jump to SafeBankSwitch which isn't stored in a bank itself
+    :
+    call :--                     ; use a call to ensure this is where we return once we are done
     jp InstructionEnd
 Instruction_SET_A_8VALUE:
     ld a, 0
@@ -2221,6 +2316,246 @@ Instruction_SAVE16_S_8VALUE:
     ld [hli], a
     ld a, [wRegulationCustomLogicVariableS+1]
     ld [hl], a
+    jp InstructionEnd
+Instruction_LOAD8_A_8VALUE_S:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+    add hl, de
+    ; Load the data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableA+1], a
+    jp InstructionEnd
+Instruction_LOAD8_S_8VALUE_A:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableA]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld e, a
+    add hl, de
+    ; Load the data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    jp InstructionEnd
+Instruction_LOAD8_S_8VALUE_T:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableT]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ld e, a
+    add hl, de
+    ; Load the data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    jp InstructionEnd
+Instruction_LOAD16_A_8VALUE_S:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+    add hl, de
+    ; Load the first byte of data
+    ld a, [hli]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableA], a
+    ; Load the second byte of data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableA+1], a
+    jp InstructionEnd
+Instruction_LOAD16_S_8VALUE_A:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableA]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld e, a
+    add hl, de
+    ; Load the first byte of data
+    ld a, [hli]
+    ; Save it in S
+    ld [wRegulationCustomLogicVariableS], a
+    ; Load the second byte of data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    jp InstructionEnd
+Instruction_LOAD16_S_8VALUE_T:
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    ld d, a
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableT]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ld e, a
+    add hl, de
+    ; Load the first byte of data
+    ld a, [hli]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableS], a
+    ; Load the second byte of data
+    ld a, [hl]
+    ; Save it in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    jp InstructionEnd
+Instruction_SAVE8_A_8VALUE_S:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+    add hl, de
+    ; Load the lower byte in A
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ; Save the data
+    ld [hl], a
+    jp InstructionEnd
+Instruction_SAVE8_S_8VALUE_A:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableA]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld e, a
+    add hl, de
+    ; Load the lower byte in A
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ; Save the data
+    ld [hl], a
+    jp InstructionEnd
+Instruction_SAVE8_S_8VALUE_T:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+    add hl, de
+    ; Load the low byte
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ; Save the data
+    ld [hl], a
+    jp InstructionEnd
+Instruction_SAVE16_A_8VALUE_S:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableS]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld e, a
+    add hl, de
+    ; Load the high byte
+    ld a, [wRegulationCustomLogicVariableA]
+    ; Save the data
+    ld [hli], a
+    ; Load the low byte
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ; Save the data
+    ld [hli], a
+    jp InstructionEnd
+Instruction_SAVE16_S_8VALUE_A:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableA]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld e, a
+    add hl, de
+    ; Load the high byte
+    ld a, [wRegulationCustomLogicVariableS]
+    ; Save the data
+    ld [hli], a
+    ; Load the low byte
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ; Save the data
+    ld [hli], a
+    jp InstructionEnd
+Instruction_SAVE16_S_8VALUE_T:
+    ld d, 0
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    add hl, de
+    ; We add the S offset
+    ld a, [wRegulationCustomLogicVariableT]
+    ld d, a
+    ld a, [wRegulationCustomLogicVariableT+1]
+    ld e, a
+    add hl, de
+    ; Load the high byte
+    ld a, [wRegulationCustomLogicVariableS]
+    ; Save the data
+    ld [hli], a
+    ; Load the low byte
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ; Save the data
+    ld [hli], a
     jp InstructionEnd
 Instruction_GOTO_8VALUE:
     ld a, e
@@ -2451,6 +2786,219 @@ Instruction_CALL_8VALUE:
     jp SafeBankswitch           ; jump to SafeBankSwitch which isn't stored in a bank itself
     :
     call :--                     ; use a call to ensure this is where we return once we are done
+    jp InstructionEnd
+Instruction_SEEK8_A_S_8VALUE:
+    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
+    ld a, [wRegulationCustomLogicVariableS+1]
+    or a
+    jr nz, .abort
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare byte
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableA+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    .abort
+    jp InstructionEnd
+Instruction_SEEK8_S_A_8VALUE:
+    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
+    ld a, [wRegulationCustomLogicVariableA+1]
+    or a
+    jr nz, .abort
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare byte
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    .abort
+    jp InstructionEnd
+Instruction_SEEK8_S_T_8VALUE:
+    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
+    ld a, [wRegulationCustomLogicVariableT+1]
+    or a
+    jr nz, .abort
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare byte
+    ld a, [wRegulationCustomLogicVariableT+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    .abort
+    jp InstructionEnd
+Instruction_SEEK16_A_S_8VALUE:
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the first byte of data
+    ld a, [hli]
+    ld d, a
+    ; Load the second byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare high byte
+    ld a, [wRegulationCustomLogicVariableS]
+    cp d
+    jr nz, .loop
+    ; Compare low byte
+    ld a, [wRegulationCustomLogicVariableS+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableA+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+    .abort
+    jp InstructionEnd
+Instruction_SEEK16_S_A_8VALUE:
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the first byte of data
+    ld a, [hli]
+    ld d, a
+    ; Load the second byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare high byte
+    ld a, [wRegulationCustomLogicVariableA]
+    cp d
+    jr nz, .loop
+    ; Compare low byte
+    ld a, [wRegulationCustomLogicVariableA+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    .abort
+    jp InstructionEnd
+Instruction_SEEK16_S_T_8VALUE:
+    ; We start at wRegulationCustomLogic
+    ld hl, wRegulationCustomLogic
+    ; We add the 8VALUE offset
+    ld d, 0
+    add hl, de
+    ; Start b at 0
+    ld b, 0
+    ; Loop to seek out the correct value
+    .loop
+    ; Increment b by 1
+    inc b
+    ; If b overflows back to 0 then we abort
+    jr z, .abort
+    ; Load the first byte of data
+    ld a, [hli]
+    ld d, a
+    ; Load the second byte of data
+    ld a, [hli]
+    ld e, a
+    ; Compare high byte
+    ld a, [wRegulationCustomLogicVariableT]
+    cp d
+    jr nz, .loop
+    ; Compare low byte
+    ld a, [wRegulationCustomLogicVariableT+1]
+    cp e
+    jr nz, .loop
+    ; Decrement a by 1 to get the proper 0 based index
+    ld a, b
+    dec a
+    ; Save the seek value in A
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+    .abort
     jp InstructionEnd
 Instruction_SET_A_16VALUE:
     ld a, d

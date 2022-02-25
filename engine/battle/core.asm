@@ -410,7 +410,7 @@ MainInBattleLoop:
 .playerDidNotUseCounter
 	ld a, [wEnemySelectedMove]
 	cp COUNTER
-	jr z, .playerMovesFirst ; if enemy used Counter and player didn't
+	jp z, .playerMovesFirst ; if enemy used Counter and player didn't
 .compareSpeed
 	ld de, wBattleMonSpeed ; player speed value
 	ld hl, wEnemyMonSpeed ; enemy speed value
@@ -435,6 +435,7 @@ MainInBattleLoop:
 .enemyMovesFirst
 	ld a, $1
 	ldh [hWhoseTurn], a
+    safecall RegulationTriggerTrainerBattleTurn
 	callfar TrainerAI
 	jr c, .AIActionUsedEnemyFirst
 	call ExecuteEnemyMove
@@ -473,6 +474,7 @@ MainInBattleLoop:
 	call DrawHUDsAndHPBars
 	ld a, $1
 	ldh [hWhoseTurn], a
+    safecall RegulationTriggerTrainerBattleTurn
 	callfar TrainerAI
 	jr c, .AIActionUsedPlayerFirst
 	call ExecuteEnemyMove

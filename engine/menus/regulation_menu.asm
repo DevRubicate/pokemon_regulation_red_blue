@@ -345,12 +345,12 @@ ProcessCodeLineByte:
 
 
 NewGameRegulationMenuTextPageLength:
-    db 5
+    db 6
     db 7
     db 7
-    db 2
+    db 0
     db 7
-    db 1
+    db 0
     db 4
 
 NewGameRegulationMenu_BackTable:
@@ -361,6 +361,7 @@ NewGameRegulationMenu_BackTable:
     db 0
     db 4
     db 0
+    db 0
 
 NewGameRegulationMenuPage_Text_Index:
     dw NewGameRegulationMenuPage0_Text
@@ -370,6 +371,7 @@ NewGameRegulationMenuPage_Text_Index:
     dw NewGameRegulationMenuPage4_Text
     dw NewGameRegulationMenuPage5_Text
     dw NewGameRegulationMenuPage6_Text
+    dw NewGameRegulationMenuPage7_Text
 
 NewGameRegulationMenuPage_Action_Index:
     dw NewGameRegulationMenuPage0_Action
@@ -379,6 +381,7 @@ NewGameRegulationMenuPage_Action_Index:
     dw NewGameRegulationMenuPage4_Action
     dw NewGameRegulationMenuPage5_Action
     dw NewGameRegulationMenuPage6_Action
+    dw NewGameRegulationMenuPage7_Action
 
 NewGameRegulationMenuPage0_Text:
     db "VANILLA GAME"
@@ -386,7 +389,8 @@ NewGameRegulationMenuPage0_Text:
     next "MONOTYPE"
     next "RANDOMIZED"
     next "CHALLENGE"
-    next "PUZZLE@"
+    next "PUZZLE"
+    next "NIGHTMARE@"
 
 NewGameRegulationMenuPage0_Action:
     db 0
@@ -406,6 +410,9 @@ NewGameRegulationMenuPage0_Action:
 
     db 3
     dw 6
+
+    db 3
+    dw 7
 
 
 NewGameRegulationMenuPage1_Text:
@@ -466,8 +473,8 @@ NewGameRegulationMenuPage2_Action:
     dw NewGameRegulationMenuMonoDragon
 
 NewGameRegulationMenuPage3_Text:
-    db "RANDOM #MON"
-    next "TEAM ROCKET@"
+    db "RANDOM #MON@"
+
 
 
 NewGameRegulationMenuPage3_Action:
@@ -482,7 +489,7 @@ NewGameRegulationMenuPage4_Text:
     next "TEAM ROCKET"
     next "NO EXP"
     next "ROGUELIKE"
-    next "RIP AND TEAR"
+    next "WONDERGUARD"
     next "NUZLOCKE"
     next "THE OUTCAST"
     next "NEXT PAGE@"
@@ -497,7 +504,7 @@ NewGameRegulationMenuPage4_Action:
     db 2
     dw NewGameRegulationMenuRoguelike
     db 2
-    dw NewGameRegulationMenuRipAndTear
+    dw NewGameRegulationMenuWonderguard
     db 2
     dw NewGameRegulationMenuNuzlocke
     db 2
@@ -506,17 +513,11 @@ NewGameRegulationMenuPage4_Action:
     dw 4
 
 NewGameRegulationMenuPage5_Text:
-    db "WONDERGUARD"
-    next "TECHNIQUE FATIGUE@"
+    db "TECHNIQUE FATIGUE@"
 
 NewGameRegulationMenuPage5_Action:
     db 2
-    dw NewGameRegulationMenuWonderguard
-    db 2
     dw NewGameRegulationMenuTechniqueFatigue
-
-
-
 
 
 NewGameRegulationMenuPage6_Text:
@@ -538,6 +539,17 @@ NewGameRegulationMenuPage6_Action:
     db 2
     dw NewGameRegulationMenuSnakesNLadders
 
+
+NewGameRegulationMenuPage7_Text:
+    db "RIP AND TEAR"
+    next "BALLS OF STEEL@"
+
+
+NewGameRegulationMenuPage7_Action:
+    db 2
+    dw NewGameRegulationMenuRipAndTear
+    db 2
+    dw NewGameRegulationMenuBallsOfSteel
 
 
 
@@ -622,6 +634,12 @@ NewGameRegulationMenuWonderguard:
 
 NewGameRegulationMenuTechniqueFatigue:
     db "00002070000000000000"
+
+NewGameRegulationMenuBallsOfSteel2:
+    db "981E7F041596074E7D00A01DCF2101A811ADD4829F4FCF2201A81BADD4829F4FCF2301A825ADD4829F4FCF2401A82FADD4829F4FCF2501A839ADD4829F4FCF2601A843ADD4829F4FCF2701A84DADD4829F4F002700FF0CA91827243130223C62485A000000A00080900000000041"
+
+NewGameRegulationMenuBallsOfSteel:
+    db "9C1D1B22B209A2172700210122012301240125012601270100000000000000FF0CA91827243130223C62485A00000000000000000000000000000000"
 
 NewGameRegulationMenuCreepypasta:
     db "5C000840040C78FF0000"

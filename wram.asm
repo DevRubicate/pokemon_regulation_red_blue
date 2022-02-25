@@ -2739,6 +2739,7 @@ wMtMoon1FCurScript::
 
 wMtMoonB2FCurScript::
 	ds 1
+
 wSSAnne1FRoomsCurScript::
 	ds 1
 
@@ -2910,7 +2911,7 @@ wVictoryRoad2FCurScript::
 wVictoryRoad3FCurScript::
 	ds 1
 
-UNUSED:
+wRegulationTriggerTrainerBattleTurn::
 	ds 1
 
 wFightingDojoCurScript::
@@ -3102,7 +3103,7 @@ wWalkBikeSurfState::
 ;           3: Sent to title screen on blacking out
 ;           4: Can only capture pokemon on first encounter in each area
 ;           5: Only your super effective moves have an effect
-;           6:
+;           6: Return to the last Pokecenter when you save
 ;           7:
 wRegulationCode::
 	ds 10

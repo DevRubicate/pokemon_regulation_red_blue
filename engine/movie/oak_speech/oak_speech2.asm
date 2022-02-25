@@ -286,6 +286,12 @@ OakExplainRules:
     ld hl, OakSpeechOnlySuperEffectiveDealDamage
     call PrintText
 :
+    ld a, [wRegulationCode+9]    ; load the return to the last Pokecenter when you load rule
+    bit 6, a
+    jr z, :+                     ; skip text if there is no rule
+    ld hl, OakSpeechWarpPokecenterOnLoad
+    call PrintText
+:
 
 
 .noCustomRules
@@ -412,4 +418,7 @@ OakSpeechRuleOnlyCatchFirstEncounter:
     text_end
 OakSpeechOnlySuperEffectiveDealDamage:
     text_far _OakSpeechOnlySuperEffectiveDealDamage
+    text_end
+OakSpeechWarpPokecenterOnLoad:
+    text_far _OakSpeechWarpPokecenterOnLoad
     text_end

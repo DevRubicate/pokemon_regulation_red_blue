@@ -29,6 +29,7 @@ TriggerTable:
     dw wRegulationTriggerTrainerBattleCalcPokemonStats
     dw wRegulationTriggerWildBattleCalcPokemonStats
     dw wRegulationTriggerTrainerLoadData
+    dw wRegulationTriggerTrainerBattleTurn
 
 CopyNewCustomLogicCode:
 

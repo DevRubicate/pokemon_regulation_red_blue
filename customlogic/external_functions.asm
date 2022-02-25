@@ -4,18 +4,18 @@ bankpointer: MACRO
 ENDM
 
 ExternalFunctions::
-    bankpointer AIUseFullRestore                ; 0
-    bankpointer AIUsePotion                     ; 1
-    bankpointer AIUseSuperPotion                ; 2
-    bankpointer AIUseHyperPotion                ; 3
-    bankpointer AIUseFullHeal                   ; 4
-    bankpointer AIUseXAccuracy                  ; 5
-    bankpointer AIUseGuardSpec                  ; 6
-    bankpointer AIUseDireHit                    ; 7
-    bankpointer AIUseXAttack                    ; 8
-    bankpointer AIUseXDefend                    ; 9
-    bankpointer AIUseXSpeed                     ; 10
-    bankpointer AIUseXSpecial                   ; 11
+    bankpointer RegulationAIUseFullRestore      ; 0
+    bankpointer RegulationAIUsePotion           ; 1
+    bankpointer RegulationAIUseSuperPotion      ; 2
+    bankpointer RegulationAIUseHyperPotion      ; 3
+    bankpointer RegulationAIUseFullHeal         ; 4
+    bankpointer RegulationAIUseXAccuracy        ; 5
+    bankpointer RegulationAIUseGuardSpec        ; 6
+    bankpointer RegulationAIUseXAttack          ; 7
+    bankpointer RegulationAIUseXDefend          ; 8
+    bankpointer RegulationAIUseXSpeed           ; 9
+    bankpointer RegulationAIUseXSpecial         ; 10
+    bankpointer RegulationAIUseDireHit          ; 11
     bankpointer RegulationHideObject            ; 12
     bankpointer RegulationShowObject            ; 13
     bankpointer RegulationPokemonNoToIndex      ; 14
@@ -31,6 +31,288 @@ ExternalFunctions::
 
 
 
+RegulationAIPlayRestoringSFX:
+    ld a, SFX_HEAL_AILMENT
+    jp PlaySoundWaitForCurrent
+
+RegulationAIUseFullRestore:
+    call RegulationAICureStatus
+    ld a, FULL_RESTORE
+    ld [wAIItem], a
+    ld de, wHPBarOldHP
+    ld hl, wEnemyMonHP + 1
+    ld a, [hld]
+    ld [de], a
+    inc de
+    ld a, [hl]
+    ld [de], a
+    inc de
+    ld hl, wEnemyMonMaxHP + 1
+    ld a, [hld]
+    ld [de], a
+    inc de
+    ld [wHPBarMaxHP], a
+    ld [wEnemyMonHP + 1], a
+    ld a, [hl]
+    ld [de], a
+    ld [wHPBarMaxHP+1], a
+    ld [wEnemyMonHP], a
+    jr RegulationAIPrintItemUseAndUpdateHPBar
+
+RegulationAIUsePotion:
+    ld a, POTION
+    ld b, 20
+    jr RegulationAIRecoverHP
+
+RegulationAIUseSuperPotion:
+    ld a, SUPER_POTION
+    ld b, 50
+    jr RegulationAIRecoverHP
+
+RegulationAIUseHyperPotion:
+    ld a, HYPER_POTION
+    ld b, 200
+    ; fallthrough
+
+RegulationAIRecoverHP:
+; heal b HP and print "trainer used $(a) on pokemon!"
+    ld [wAIItem], a
+    ld hl, wEnemyMonHP + 1
+    ld a, [hl]
+    ld [wHPBarOldHP], a
+    add b
+    ld [hld], a
+    ld [wHPBarNewHP], a
+    ld a, [hl]
+    ld [wHPBarOldHP+1], a
+    ld [wHPBarNewHP+1], a
+    jr nc, .next
+    inc a
+    ld [hl], a
+    ld [wHPBarNewHP+1], a
+.next
+    inc hl
+    ld a, [hld]
+    ld b, a
+    ld de, wEnemyMonMaxHP + 1
+    ld a, [de]
+    dec de
+    ld [wHPBarMaxHP], a
+    sub b
+    ld a, [hli]
+    ld b, a
+    ld a, [de]
+    ld [wHPBarMaxHP+1], a
+    sbc b
+    jr nc, RegulationAIPrintItemUseAndUpdateHPBar
+    inc de
+    ld a, [de]
+    dec de
+    ld [hld], a
+    ld [wHPBarNewHP], a
+    ld a, [de]
+    ld [hl], a
+    ld [wHPBarNewHP+1], a
+    ; fallthrough
+
+RegulationAIPrintItemUseAndUpdateHPBar:
+    call AIPrintItemUse_
+    hlcoord 2, 2
+    xor a
+    ld [wHPBarType], a
+    predef UpdateHPBar2
+    ret
+
+RegulationAISwitchIfEnoughMons:
+; enemy trainer switches if there are 2 or more unfainted mons in party
+    ld a, [wEnemyPartyCount]
+    ld c, a
+    ld hl, wEnemyMon1HP
+
+    ld d, 0 ; keep count of unfainted monsters
+
+    ; count how many monsters haven't fainted yet
+.loop
+    ld a, [hli]
+    ld b, a
+    ld a, [hld]
+    or b
+    jr z, .Fainted ; has monster fainted?
+    inc d
+.Fainted
+    push bc
+    ld bc, wEnemyMon2 - wEnemyMon1
+    add hl, bc
+    pop bc
+    dec c
+    jr nz, .loop
+
+    ld a, d ; how many available monsters are there?
+    cp 2    ; don't bother if only 1
+    jp nc, RegulationSwitchEnemyMon
+    and a
+    ret
+
+RegulationSwitchEnemyMon:
+
+; prepare to withdraw the active monster: copy hp, number, and status to roster
+
+    ld a, [wEnemyMonPartyPos]
+    ld hl, wEnemyMon1HP
+    ld bc, wEnemyMon2 - wEnemyMon1
+    call AddNTimes
+    ld d, h
+    ld e, l
+    ld hl, wEnemyMonHP
+    ld bc, 4
+    call CopyData
+
+    ld hl, AIBattleWithdrawText
+    call PrintText
+
+    ; This wFirstMonsNotOutYet variable is abused to prevent the player from
+    ; switching in a new mon in response to this switch.
+    ld a, 1
+    ld [wFirstMonsNotOutYet], a
+    callfar EnemySendOut
+    xor a
+    ld [wFirstMonsNotOutYet], a
+
+    ld a, [wLinkState]
+    cp LINK_STATE_BATTLING
+    ret z
+    scf
+    ret
+
+RegulationAIBattleWithdrawText:
+    text_far _AIBattleWithdrawText
+    text_end
+
+RegulationAIUseFullHeal:
+    call RegulationAIPlayRestoringSFX
+    call RegulationAICureStatus
+    ld a, FULL_HEAL
+    jp RegulationAIPrintItemUse
+
+RegulationAICureStatus:
+; cures the status of enemy's active pokemon
+    ld a, [wEnemyMonPartyPos]
+    ld hl, wEnemyMon1Status
+    ld bc, wEnemyMon2 - wEnemyMon1
+    call AddNTimes
+    xor a
+    ld [hl], a ; clear status in enemy team roster
+    ld [wEnemyMonStatus], a ; clear status of active enemy
+    ld hl, wEnemyBattleStatus3
+    res 0, [hl]
+    ret
+
+RegulationAIUseXAccuracy: ; unused
+    call RegulationAIPlayRestoringSFX
+    ld hl, wEnemyBattleStatus2
+    set 0, [hl]
+    ld a, X_ACCURACY
+    jp RegulationAIPrintItemUse
+
+RegulationAIUseGuardSpec:
+    call RegulationAIPlayRestoringSFX
+    ld hl, wEnemyBattleStatus2
+    set 1, [hl]
+    ld a, GUARD_SPEC
+    jp RegulationAIPrintItemUse
+
+RegulationAIUseDireHit: ; unused
+    call RegulationAIPlayRestoringSFX
+    ld hl, wEnemyBattleStatus2
+    set 2, [hl]
+    ld a, DIRE_HIT
+    jp RegulationAIPrintItemUse
+
+RegulationAICheckIfHPBelowFraction:
+; return carry if enemy trainer's current HP is below 1 / a of the maximum
+    ldh [hDivisor], a
+    ld hl, wEnemyMonMaxHP
+    ld a, [hli]
+    ldh [hDividend], a
+    ld a, [hl]
+    ldh [hDividend + 1], a
+    ld b, 2
+    call Divide
+    ldh a, [hQuotient + 3]
+    ld c, a
+    ldh a, [hQuotient + 2]
+    ld b, a
+    ld hl, wEnemyMonHP + 1
+    ld a, [hld]
+    ld e, a
+    ld a, [hl]
+    ld d, a
+    ld a, d
+    sub b
+    ret nz
+    ld a, e
+    sub c
+    ret
+
+RegulationAIUseXAttack:
+
+    ld b, $A
+    ld a, X_ATTACK
+    jr RegulationAIIncreaseStat
+
+RegulationAIUseXDefend:
+    ld b, $B
+    ld a, X_DEFEND
+    jr RegulationAIIncreaseStat
+
+RegulationAIUseXSpeed:
+    ld b, $C
+    ld a, X_SPEED
+    jr RegulationAIIncreaseStat
+
+RegulationAIUseXSpecial:
+    ld b, $D
+    ld a, X_SPECIAL
+    ; fallthrough
+
+RegulationAIIncreaseStat:
+    ld [wAIItem], a
+    push bc
+    call RegulationAIPrintItemUse_
+    pop bc
+    ld hl, wEnemyMoveEffect
+    ld a, [hld]
+    push af
+    ld a, [hl]
+    push af
+    push hl
+    ld a, ANIM_AF
+    ld [hli], a
+    ld [hl], b
+    callfar StatModifierUpEffect
+    pop hl
+    pop af
+    ld [hli], a
+    pop af
+    ld [hl], a
+    ret
+
+RegulationAIPrintItemUse:
+    ld [wAIItem], a
+    call RegulationAIPrintItemUse_
+    ret
+
+RegulationAIPrintItemUse_:
+; print "x used [wAIItem] on z!"
+    ld a, [wAIItem]
+    ld [wd11e], a
+    call GetItemName
+    ld hl, RegulationAIBattleUseItemText
+    jp PrintText
+
+RegulationAIBattleUseItemText:
+    text_far _AIBattleUseItemText
+    text_end
 
 
 

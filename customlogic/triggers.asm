@@ -361,3 +361,19 @@ RegulationTriggerTrainerLoadData::
     ld l, a
 
     ret
+
+
+RegulationTriggerTrainerBattleTurn::
+
+    RegulationTriggerStart      wRegulationTriggerTrainerBattleTurn, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
+
+    ; Convert trainer class index from 201-247 to 0-46
+    ld a, [wCurOpponent]
+    sub OPP_ID_OFFSET + 1
+    ld [wVariableA], a
+
+    RegulationTriggerExecute    wRegulationTriggerTrainerBattleTurn
+    RegulationTriggerEnd        wRegulationTriggerTrainerBattleTurn, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+
+
+    ret

@@ -116,15 +116,17 @@ MainMenu:
 	call DelayFrames
 	ld a, [wNumHoFTeams]
 	and a
-	jp z, SpecialEnterMap
+	jp z, .next
 	ld a, [wCurMap] ; map ID
 	cp HALL_OF_FAME
-	jp nz, SpecialEnterMap
+	jp nz, .next
 	xor a
 	ld [wDestinationMap], a
 	ld hl, wd732
 	set 2, [hl] ; fly warp or dungeon warp
 	call SpecialWarpIn
+.next
+    farcall CheckWarpPokecenterOnLoadRule
 	jp SpecialEnterMap
 
 InitOptions:

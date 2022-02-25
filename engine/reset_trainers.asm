@@ -520,6 +520,9 @@ ResetTrainers::
     call ResetMissableObject
 
     ; Rival on Route 22, first or second encounter, or neither.
+    CheckEvent EVENT_OAK_GOT_PARCEL
+    jr z, .noFirstRival
+
     ld a, [wObtainedBadges]
     cp $FF                  ; If the player has all the badges
     jp nz, .noSecondRival
