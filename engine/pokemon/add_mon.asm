@@ -1,14 +1,5 @@
 _AddPartyMon::
 
-    ; TODO: rethink this
-
-    ;RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NULL, wTrainerNo, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
-    ;RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
-    ;RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NULL, NULL, NULL, NULL, NULL, wCurEnemyLVL, NULL, NULL
-
-
-
-
 ; Adds a new mon to the player's or enemy's party.
 ; [wMonDataLocation] is used in an unusual way in this function.
 ; If the lower nybble is 0, the mon is added to the player's party, else the enemy's.

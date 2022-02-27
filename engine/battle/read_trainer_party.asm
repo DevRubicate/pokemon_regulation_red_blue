@@ -42,9 +42,10 @@ RegulationBoostLevel:
     ld b, e                         ; difficulty modifier
 .loop2
     adc c
-    jr c, .maxLevel                ; if we have a carry, it means we went past max level
+    jr c, .maxLevel                 ; if we have a carry, it means we went past max level
     dec b                           ; decrease number of modifier steps left
     jr nz, .loop2                   ; if b != 0 then goto loop2
+    ld [wCurEnemyLVL], a
     ret
 .noModifier
     ld a, d                         ; restore pokemon's level
@@ -155,8 +156,8 @@ ReadTrainer:
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ld a, [wcf91]
     call RegulationBoostLevel
+    ld a, [wcf91]
 	push hl
 	call AddPartyMon
 	pop hl

@@ -760,7 +760,7 @@ HandleBlackOut::
     jp Init
 .continue
 
-    ld a, [wRegulationCode+9]    ; load out savefile deleted on blackout
+    ld a, [wRegulationCode+9]    ; load the sent to title screen on blackout rule
     bit 3, a
     jr z, .continue2                 ; skip ending to title screen
     jp Init
