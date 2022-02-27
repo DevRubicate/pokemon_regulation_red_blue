@@ -59,16 +59,16 @@ RegulationInitTrainer::
 
     RegulationTriggerStart      wRegulationTriggerTrainerBattle, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattle
 
-    ; Convert trainer class index from 0-46 to 201-247
+    ; Convert trainer class index from 1-47 to 201-247
     ld a, [wVariableA]
-    add OPP_ID_OFFSET + 1
+    add OPP_ID_OFFSET
     ld [wCurOpponent], a
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattle, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
@@ -143,12 +143,16 @@ ReadTrainer:
 	ld [wcf91], a ; write species somewhere (XXX why?)
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
+
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
-    ; Convert trainer class index from 201-247 to 0-46
+
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
+
     RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
+
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
     ld a, [wcf91]
@@ -170,13 +174,18 @@ ReadTrainer:
 	ld [wcf91], a              ; Pokemon species
 	ld a, ENEMY_PARTY_DATA
 	ld [wMonDataLocation], a
+
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemon, NIL, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
-    ; Convert trainer class index from 201-247 to 0-46
+
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
+
     RegulationTriggerExecute    wRegulationTriggerTrainerBattlePokemon
+
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+
     call RegulationBoostLevel
 	push hl
 	call AddPartyMon

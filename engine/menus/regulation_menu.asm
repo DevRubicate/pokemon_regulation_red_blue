@@ -182,13 +182,21 @@ LoadRegulationCode:
     ld a, [wVariableD+1]
     ld l, a
 
-.loop
+    .loop
+
     call ProcessCodeLine
 
-    jr nz, .continue
-    jr .break
+    jr z, .break
 
-.continue
+    ld a, [wVariableB]
+    or a
+    jr nz, .noRewind
+
+    call RewindWaste
+
+    .noRewind
+
+    ; Advance our LoadRegulationCode pointer by 10
 
     ld a, [wVariableD]
     ld h, a
@@ -196,15 +204,16 @@ LoadRegulationCode:
     ld l, a
 
     ld de, 10
-
     add hl, de
 
     ld a, h
     ld [wVariableD], a
     ld a, l
     ld [wVariableD+1], a
+
     jr .loop
-.break
+
+    .break
 
     ret
 
@@ -223,20 +232,21 @@ ProcessCodeLine:
     call ProcessCodeLineByte
     call ProcessCodeLineByte
 
-    ld a, 0
-    ld [wcf4b+10], a    ; Make sure the code terminates with a 0
+    ;ld a, 0
+    ;ld [wcf4b+10], a    ; Make sure the code terminates with a 0
 
     ; Count how long the length is
-    ld a, 11
-    ld b, a
-    ld hl, wcf4b+10
-.loop
-    dec b
-    dec hl
-    ld a, [hl]
-    cp 0
-    jr z, .loop
-    ld a, b
+    ;ld a, 11
+    ;ld b, a
+    ;ld hl, wcf4b+10
+    ;.loop
+    ;dec b
+    ;dec hl
+    ;ld a, [hl]
+    ;cp 0
+    ;jr z, .loop
+    ;ld a, b
+    ld a, 10
     ld [wVariableA], a  ; Save the length of the code in VariableA
 
     ; VariableB keeps track of how many multi-lines there are left. This is used by events that have code
@@ -340,7 +350,43 @@ ProcessCodeLineByte:
     ret
 
 
+RewindWaste:
 
+    ; This routine will rewind the wRegulationCustomLogicLength pointer to avoid excessive waste with 00 values
+
+    ld a, [wRegulationCustomLogicLength]
+    ld e, a
+    ld d, 0
+
+    ld hl, wRegulationCustomLogic
+    add hl, de
+
+    ; The idea behind this loop is to go backwards until we find the first non-zero byte
+
+    .loop
+
+    ; decrement hl and e by 1 each
+    dec hl
+    dec e
+
+    ; Load the byte we are now looking at
+    ld a, [hl]
+    or a
+
+    ; If the byte is zero keep looping
+    jr z, .loop
+
+    ; Loop is over
+
+    ; Increment e by 2, so the pointer will be 2 bytes removed from the last non-zero byte
+    inc e
+    inc e
+
+    ; Save the new pointer
+    ld a, e
+    ld [wRegulationCustomLogicLength], a
+
+    ret
 
 
 
@@ -639,7 +685,7 @@ NewGameRegulationMenuBallsOfSteel2:
     db "981E7F041596074E7D00A01DCF2101A811ADD4829F4FCF2201A81BADD4829F4FCF2301A825ADD4829F4FCF2401A82FADD4829F4FCF2501A839ADD4829F4FCF2601A843ADD4829F4FCF2701A84DADD4829F4F002700FF0CA91827243130223C62485A000000A00080900000000041"
 
 NewGameRegulationMenuBallsOfSteel:
-    db "9C1D1B22B209A2172700210122012301240125012601270100000000000000FF0CA91827243130223C62485A00000000000000000000000000000000"
+    db "9C1DB108BA079F16270021012201230124012501260127011D1D1D1D1D1D1DFF0CA91827243130223C62485A00000000000000A00080900000000041"
 
 NewGameRegulationMenuCreepypasta:
     db "5C000840040C78FF0000"

@@ -6,9 +6,9 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ; MOVE 1
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove1, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -48,9 +48,9 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ; MOVE 2
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove2, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -90,9 +90,9 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ; MOVE 3
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove3, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -132,9 +132,9 @@ RegulationTriggerTrainerBattlePokemonMoves::
     ; MOVE 4
     RegulationTriggerStart      wRegulationTriggerTrainerBattlePokemonMove4, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -179,9 +179,9 @@ RegulationTriggerWildBattlePokemonMoves::
     ; MOVE 1
     RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove1, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -203,9 +203,9 @@ RegulationTriggerWildBattlePokemonMoves::
     ; MOVE 2
     RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove2, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -227,9 +227,9 @@ RegulationTriggerWildBattlePokemonMoves::
     ; MOVE 3
     RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove3, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -251,9 +251,9 @@ RegulationTriggerWildBattlePokemonMoves::
     ; MOVE 4
     RegulationTriggerStart      wRegulationTriggerWildBattlePokemonMove4, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     ; Load the move and put it in variable D
@@ -289,9 +289,9 @@ RegulationTriggerSentPokemon::
 
     RegulationTriggerStart      wRegulationTriggerTrainerBattleSentPokemon, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleSentPokemon
@@ -315,9 +315,9 @@ RegulationTriggerCalcPokemonStats::
 
     RegulationTriggerStart      wRegulationTriggerTrainerBattleCalcPokemonStats, wCurOpponent, wTrainerNo, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wVariableA]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleCalcPokemonStats
@@ -340,6 +340,9 @@ RegulationTriggerCalcPokemonStats::
 
 RegulationTriggerTrainerLoadData::
 
+    ld de, (wRegulationCustomLogic ^ $FFFF) + 1
+    add hl, de
+
     ld a, h
     ld [wVariableB], a
     ld a, l
@@ -347,10 +350,11 @@ RegulationTriggerTrainerLoadData::
 
     RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
+
     RegulationTriggerExecute    wRegulationTriggerTrainerLoadData
 
     RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
@@ -360,6 +364,11 @@ RegulationTriggerTrainerLoadData::
     ld a, [wVariableB+1]
     ld l, a
 
+
+    ld de, wRegulationCustomLogic
+    add hl, de
+
+
     ret
 
 
@@ -367,9 +376,9 @@ RegulationTriggerTrainerBattleTurn::
 
     RegulationTriggerStart      wRegulationTriggerTrainerBattleTurn, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
-    ; Convert trainer class index from 201-247 to 0-46
+    ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
-    sub OPP_ID_OFFSET + 1
+    sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerBattleTurn

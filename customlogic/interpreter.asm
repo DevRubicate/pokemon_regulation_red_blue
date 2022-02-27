@@ -22,11 +22,10 @@ CustomLogicInterpreter::
     ld [wRegulationCustomLogicVariableD+1], a
 
 InstructionEnd:
-    ld a, 0
-    ld b, a                                     ; Make sure b is 0
+    ld b, 0                                     ; Make sure b is 0
     ld a, [WRegulationCustomLogicProgramCounter]; Load the current program counter
     ld c, a                                     ; Set program counter in c
-    ld hl, wRegulationCustomLogic-1             ; Load the start of the custom logic instructions, minus 1 to account for 0 being "no trigger"
+    ld hl, wRegulationCustomLogic-1             ; Load the start of the custom logic instructions, minus 1 to account for 0 being used as a "no trigger" value
     add hl, bc                                  ; Add the current program counter offset
     ld a, [hli]                                 ; Load the custom code instruction index
     or a
@@ -70,7 +69,6 @@ InstructionEnd:
     ld a, [hli]
     ld h, [hl]
     ld l, a
-    debug
     jp hl                                       ; Jump to custom code instruction
 
 InstructionPointerTable:
@@ -305,14 +303,6 @@ InstructionPointerTable_ThreeByte:              ;
     dw Instruction_COMPARE_ARGB_16VALUE         ; 0xE2
     dw Instruction_COMPARE_ARGC_16VALUE         ; 0xE3
     dw Instruction_COMPARE_ARGD_16VALUE         ; 0xE4
-
-
-
-
-
-
-
-
 
 
 Instruction_RET:
@@ -2788,217 +2778,349 @@ Instruction_CALL_8VALUE:
     call :--                     ; use a call to ensure this is where we return once we are done
     jp InstructionEnd
 Instruction_SEEK8_A_S_8VALUE:
-    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
-    ld a, [wRegulationCustomLogicVariableS+1]
-    or a
-    jr nz, .abort
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the byte of data
     ld a, [hli]
-    ld e, a
+    ld d, a
+
+    ; We treat $00 as the terminator, so if d is zero we abort
+    or d
+    jr z, .abort
+
     ; Compare byte
-    ld a, [wRegulationCustomLogicVariableS+1]
-    cp e
+    ld a, [wRegulationCustomLogicVariableS]
+    cp d
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableA+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableA], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SEEK8_S_A_8VALUE:
-    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
-    ld a, [wRegulationCustomLogicVariableA+1]
-    or a
-    jr nz, .abort
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the byte of data
     ld a, [hli]
-    ld e, a
+    ld d, a
+
+    ; We treat $00 as the terminator, so if d is zero we abort
+    or d
+    jr z, .abort
+
     ; Compare byte
-    ld a, [wRegulationCustomLogicVariableA+1]
-    cp e
+    ld a, [wRegulationCustomLogicVariableA]
+    cp d
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableS+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableS], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SEEK8_S_T_8VALUE:
-    ; If the high byte of the value we are seeking isn't 0 then we can't find it among 8bit value
-    ld a, [wRegulationCustomLogicVariableT+1]
-    or a
-    jr nz, .abort
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the byte of data
     ld a, [hli]
-    ld e, a
+    ld d, a
+
+    ; We treat $00 as the terminator, so if d is zero we abort
+    or d
+    jr z, .abort
+
     ; Compare byte
-    ld a, [wRegulationCustomLogicVariableT+1]
-    cp e
+    ld a, [wRegulationCustomLogicVariableT]
+    cp d
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableS+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableS], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SEEK16_A_S_8VALUE:
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the first byte of data
     ld a, [hli]
     ld d, a
+
     ; Load the second byte of data
     ld a, [hli]
     ld e, a
+
+    ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    or d
+    jr nz, .continue
+    or e
+    jr nz, .continue
+    jr .abort
+    .continue
+
     ; Compare high byte
     ld a, [wRegulationCustomLogicVariableS]
     cp d
     jr nz, .loop
+
     ; Compare low byte
     ld a, [wRegulationCustomLogicVariableS+1]
     cp e
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableA+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableA], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SEEK16_S_A_8VALUE:
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the first byte of data
     ld a, [hli]
     ld d, a
+
     ; Load the second byte of data
     ld a, [hli]
     ld e, a
+
+    ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    or d
+    jr nz, .continue
+    or e
+    jr nz, .continue
+    jr .abort
+    .continue
+
     ; Compare high byte
     ld a, [wRegulationCustomLogicVariableA]
     cp d
     jr nz, .loop
+
     ; Compare low byte
     ld a, [wRegulationCustomLogicVariableA+1]
     cp e
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableS+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableS], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SEEK16_S_T_8VALUE:
     ; We start at wRegulationCustomLogic
     ld hl, wRegulationCustomLogic
+
     ; We add the 8VALUE offset
     ld d, 0
     add hl, de
-    ; Start b at 0
-    ld b, 0
-    ; Loop to seek out the correct value
+
+    ; Start b at $FF, the first iteration will overflow it to 0
+    ld b, $FF
+
+    ; Start a loop here to do the seeking
     .loop
+
     ; Increment b by 1
     inc b
-    ; If b overflows back to 0 then we abort
-    jr z, .abort
+
     ; Load the first byte of data
     ld a, [hli]
     ld d, a
+
     ; Load the second byte of data
     ld a, [hli]
     ld e, a
+
+    ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    or d
+    jr nz, .continue
+    or e
+    jr nz, .continue
+    jr .abort
+    .continue
+
     ; Compare high byte
     ld a, [wRegulationCustomLogicVariableT]
     cp d
     jr nz, .loop
+
     ; Compare low byte
     ld a, [wRegulationCustomLogicVariableT+1]
     cp e
     jr nz, .loop
-    ; Decrement a by 1 to get the proper 0 based index
-    ld a, b
-    dec a
+
+    ; The loop is over
+
     ; Save the seek value in A
+    ld a, b
     ld [wRegulationCustomLogicVariableS+1], a
     ld a, 0
     ld [wRegulationCustomLogicVariableS], a
+
+    ; Set the EQUAL flag
+    ld a, %00000001
+    ld [wRegulationCustomLogicVariableFlags], a
+
+    jp InstructionEnd
+
     .abort
+
+    ; Clear the EQUAL flag
+    ld a, %00000000
+    ld [wRegulationCustomLogicVariableFlags], a
+
     jp InstructionEnd
 Instruction_SET_A_16VALUE:
     ld a, d
