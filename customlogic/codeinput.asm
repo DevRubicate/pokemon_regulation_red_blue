@@ -75,6 +75,7 @@ CopyNewCustomLogicCode::
     ; Record the new length of the total custom logic
     ld a, [wRegulationCustomLogicLength]    ; Load the old length
     add a, 9
+    jr c, CodeOverflow
     ld [wRegulationCustomLogicLength], a    ; Record the new length
 
     ret
@@ -82,7 +83,7 @@ CopyNewCustomLogicCode::
 CopyContinuedCustomLogicCode::
 
     ; Length
-    ld bc, 9
+    ld bc, 10
 
     ; Destination
     ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
@@ -103,10 +104,20 @@ CopyContinuedCustomLogicCode::
     ; Record the new length of the total custom logic
     ld a, [wRegulationCustomLogicLength]    ; Load the old length
     add a, 10
+    jr c, CodeOverflow
     ld [wRegulationCustomLogicLength], a    ; Record the new length
 
     ret
 
+CodeOverflow::
+    ld hl, CodeOverflowText
+    call PrintText
+    jp Init
+
+
+CodeOverflowText:
+    text_far _CodeOverflowText
+    text_end
 
 
 RewindWaste::

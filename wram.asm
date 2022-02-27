@@ -2511,12 +2511,6 @@ wSpriteSetID::
 wObjectDataPointerTemp::
 	ds 2
 
-wRegulationTriggerRanAway::
-    ds 1
-
-wRegulationTriggerPartyHealed::
-	ds 1
-
 wMapBackgroundTile::
 ; the tile shown outside the boundaries of the map
 	ds 1
@@ -2533,79 +2527,15 @@ wDestinationWarpID::
 ; if $ff, the player's coordinates are not updated when entering the map
 	ds 1
 
-wRegulationCustomLogic_MinusOne::
-    ds 1
-
 wRegulationCustomLogic::
-	ds 127
-
-wNumSigns::
-; number of signs in the current map (up to 16)
-	ds 1
-
-wSignCoords::
-; 2 bytes each
-; Y, X
-	ds 32
-
-wSignTextIDs::
-	ds 16
-
-wNumSprites::
-; number of sprites on the current map
-	ds 1
-
-; these two variables track the X and Y offset in blocks from the last special warp used
-; they don't seem to be used for anything
-wYOffsetSinceLastSpecialWarp::
-	ds 1
-wXOffsetSinceLastSpecialWarp::
-	ds 1
-
-wMapSpriteData::
-; two bytes per sprite (movement byte 2, text ID)
-	ds 32
-
-wMapSpriteExtraData::
-; two bytes per sprite (trainer class/item ID, trainer set ID)
-	ds 32
-
-wCurrentMapHeight2::
-; map height in 2x2 meta-tiles
-	ds 1
-
-wCurrentMapWidth2::
-; map width in 2x2 meta-tiles
-	ds 1
-
-wMapViewVRAMPointer::
-; the address of the upper left corner of the visible portion of the BG tile map in VRAM
-	ds 2
-
-; In the comments for the player direction variables below, "moving" refers to
-; both walking and changing facing direction without taking a step.
-
-wPlayerMovingDirection::
-; if the player is moving, the current direction
-; if the player is not moving, zero
-; map scripts write to this in order to change the player's facing direction
-	ds 1
-
-wPlayerLastStopDirection::
-; the direction in which the player was moving before the player last stopped
-	ds 1
-
-wPlayerDirection::
-; if the player is moving, the current direction
-; if the player is not moving, the last the direction in which the player moved
-	ds 1
+	ds 256
 
 wTilesetBank::
-	ds 1
+    ds 1
 
 wTilesetBlocksPtr::
 ; maps blocks (4x4 tiles) to tiles
-	ds 2
+    ds 2
 
 wTilesetGfxPtr::
 	ds 2
@@ -2618,13 +2548,10 @@ wTilesetTalkingOverTiles::
 	ds 3
 
 wGrassTile::
-	ds 1
-
-wRegulationTotalExp::
-	ds 3
-
-wRegulationGlitch::
     ds 1
+
+
+	ds 2
 
 wNumBoxItems::
 	ds 1
@@ -2641,9 +2568,6 @@ wCurrentBoxNum::
 
 wNumHoFTeams::
 ; number of HOF teams
-	ds 1
-
-wRegulationGlitchFirstTime::
 	ds 1
 
 wPlayerCoins::
@@ -3043,10 +2967,75 @@ wRegulationNuzlockeFlags::
 wRegulationTriggerTrainerLoadData::
     ds 2
 
+wNumSigns::
+; number of signs in the current map (up to 16)
+    ds 1
 
+wSignCoords::
+; 2 bytes each
+; Y, X
+    ds 32
 
-	ds 126                      ; Free to be used
+wSignTextIDs::
+    ds 16
 
+wNumSprites::
+; number of sprites on the current map
+    ds 1
+
+; these two variables track the X and Y offset in blocks from the last special warp used
+; they don't seem to be used for anything
+wYOffsetSinceLastSpecialWarp::
+    ds 1
+wXOffsetSinceLastSpecialWarp::
+    ds 1
+
+wMapSpriteData::
+; two bytes per sprite (movement byte 2, text ID)
+    ds 32
+
+wMapSpriteExtraData::
+; two bytes per sprite (trainer class/item ID, trainer set ID)
+    ds 32
+
+wCurrentMapHeight2::
+; map height in 2x2 meta-tiles
+    ds 1
+
+wCurrentMapWidth2::
+; map width in 2x2 meta-tiles
+    ds 1
+
+wMapViewVRAMPointer::
+; the address of the upper left corner of the visible portion of the BG tile map in VRAM
+    ds 2
+
+; In the comments for the player direction variables below, "moving" refers to
+; both walking and changing facing direction without taking a step.
+
+wPlayerMovingDirection::
+; if the player is moving, the current direction
+; if the player is not moving, zero
+; map scripts write to this in order to change the player's facing direction
+    ds 1
+
+wPlayerLastStopDirection::
+; the direction in which the player was moving before the player last stopped
+    ds 1
+
+wPlayerDirection::
+; if the player is moving, the current direction
+; if the player is not moving, the last the direction in which the player moved
+    ds 1
+
+wRegulationTriggerPartyHealed::
+    ds 1
+
+wRegulationTriggerRanAway::
+    ds 1
+
+wRegulationGlitch::
+	ds 1
 
 wObtainedHiddenItemsFlags::
 	ds 14
@@ -3152,7 +3141,7 @@ wDestinationMap::
 ; destination map (for certain types of special warps, not ordinary walking)
 	ds 1
 
-wUnusedD71B::
+wRegulationGlitchFirstTime::
 	ds 1
 
 wTileInFrontOfBoulderAndBoulderCollisionResult::
@@ -3170,6 +3159,7 @@ wWhichDungeonWarp::
 
 wUnusedD71F::
     ds 1
+
 wRegulationTotalDamageTaken::
     ds 3
 
@@ -3188,6 +3178,7 @@ wd728::
 ; bit 6: gave one of the Saffron guards a drink
 ; bit 7: set by ItemUseCardKey, which is leftover code from a previous implementation of the Card Key
 	ds 1
+
 
 	ds 1
 
@@ -3371,7 +3362,10 @@ ENDU
 wTrainerHeaderPtr::
 	ds 2
 
-	ds 6
+wRegulationTotalExp::
+    ds 3
+
+	ds 3
 
 wOpponentAfterWrongAnswer::
 ; the trainer the player must face after getting a wrong answer in the Cinnabar

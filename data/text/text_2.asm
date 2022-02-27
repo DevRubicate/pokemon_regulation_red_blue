@@ -2090,6 +2090,12 @@ _CodeCompletedShowChecksum::
     text " "
     prompt
 
+_CodeOverflowText::
+    text "Error! Regulation"
+    line "Code is too long!"
+    prompt
+
+
 _WillBeTradedText::
 	text_ram wNameOfPlayerMonToBeTraded
 	text " and"
