@@ -192,7 +192,7 @@ LoadRegulationCode:
     or a
     jr nz, .noRewind
 
-    call RewindWaste
+    farcall RewindWaste
 
     .noRewind
 
@@ -231,23 +231,6 @@ ProcessCodeLine:
     call ProcessCodeLineByte
     call ProcessCodeLineByte
     call ProcessCodeLineByte
-
-    ;ld a, 0
-    ;ld [wcf4b+10], a    ; Make sure the code terminates with a 0
-
-    ; Count how long the length is
-    ;ld a, 11
-    ;ld b, a
-    ;ld hl, wcf4b+10
-    ;.loop
-    ;dec b
-    ;dec hl
-    ;ld a, [hl]
-    ;cp 0
-    ;jr z, .loop
-    ;ld a, b
-    ld a, 10
-    ld [wVariableA], a  ; Save the length of the code in VariableA
 
     ; VariableB keeps track of how many multi-lines there are left. This is used by events that have code
     ; that runs longer than one "line" of code.
@@ -350,43 +333,7 @@ ProcessCodeLineByte:
     ret
 
 
-RewindWaste:
 
-    ; This routine will rewind the wRegulationCustomLogicLength pointer to avoid excessive waste with 00 values
-
-    ld a, [wRegulationCustomLogicLength]
-    ld e, a
-    ld d, 0
-
-    ld hl, wRegulationCustomLogic
-    add hl, de
-
-    ; The idea behind this loop is to go backwards until we find the first non-zero byte
-
-    .loop
-
-    ; decrement hl and e by 1 each
-    dec hl
-    dec e
-
-    ; Load the byte we are now looking at
-    ld a, [hl]
-    or a
-
-    ; If the byte is zero keep looping
-    jr z, .loop
-
-    ; Loop is over
-
-    ; Increment e by 2, so the pointer will be 2 bytes removed from the last non-zero byte
-    inc e
-    inc e
-
-    ; Save the new pointer
-    ld a, e
-    ld [wRegulationCustomLogicLength], a
-
-    ret
 
 
 

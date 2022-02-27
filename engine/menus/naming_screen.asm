@@ -206,6 +206,14 @@ DisplayNamingScreen:
     call SaveCode
     jr nz, .doneInputtingCodeSegments
 
+    ld a, [wVariableB]
+    or a
+    jr nz, .noRewind
+
+    farcall RewindWaste
+
+    .noRewind
+
     ; clear out the text buffer
     ld a, 0
     ld [wcf4b+ 0], a
@@ -231,7 +239,8 @@ DisplayNamingScreen:
 
     jp DisplayNamingScreen              ; Player gets to write another segment
 
-.doneInputtingCodeSegments
+    .doneInputtingCodeSegments
+
     call GBPalWhiteOutWithDelay3
     call ClearScreen
     call ClearSprites
@@ -412,97 +421,12 @@ ProcessCode:
     call ProcessCodeByte
     call ProcessCodeByte
     call ProcessCodeByte
-
-    ld a, 0
-    ld [wcf4b+10], a    ; Make sure the code terminates with a 0
-
-    ; Count how long the length is
-    ld a, 11
-    ld b, a
-    ld hl, wcf4b+10
-.loop
-    dec b
-    dec hl
-    ld a, [hl]
-    cp 0
-    jr z, .loop
-    ld a, b
-    ld [wVariableA], a  ; Save the length of the code in VariableA
-
     ret
 
 
 ProcessCodeByte:
-    ld a, [hli]
-    cp $50
-    jr z, .zero
-    cp $0
-    jr z, .zero
-.continue
-    cp $f0
-    jr nc, .number
-    sbc $75
-    jr .save
-.number
-    sbc $f6
-.save
-    ld b, a
-    sla b
-    sla b
-    sla b
-    sla b
-    ld a, [hli]
-    cp $50
-    jr z, .zero2
-    cp $0
-    jr z, .zero2
-.continue2
-    cp $f0
-    jr nc, .number2
-    sbc $75
-    jr .save2
-.number2
-    sbc $f6
-.save2
-    adc b
-    ld [de], a
-    inc de
-
-    ld c, a
-
-    ; Checksum calculations
-
-    ; Load the first byte of the checksum
-    ; Add the input byte
-    ; Store it back into the first byte of the checksum
-    ld a, [wRegulationChecksum+0]
-    adc c
-    ld [wRegulationChecksum+0], a
-
-    ; Load the second byte of the checksum
-    ; Subtract the first byte of the checksum
-    ; Xor the input byte
-    ; Store it back into the second byte of the checksum
-    ld b, a
-    ld a, [wRegulationChecksum+1]
-    sub b
-    xor c
-    ld [wRegulationChecksum+1], a
-
-    ; Load the third byte of the checksum
-    ; Increment by one
-    ; Store it back into the third byte of the checksum
-    ld a, [wRegulationChecksum+2]
-    inc a
-    ld [wRegulationChecksum+2], a
-
+    safecall ProcessManuallyInputByte
     ret
-.zero
-    ld a, $f6
-    jr .continue
-.zero2
-    ld a, $f6
-    jr .continue2
 
 SaveCode:
 
@@ -529,8 +453,8 @@ SaveCode:
     xor a
     ret     ; Ask for more codes
 
+    .normalParsing    ; Normal parsing, meaning this is a brand new line with the potential to be anything
 
-.normalParsing    ; Normal parsing, meaning this is a brand new line with the potential to be anything
     ld hl, wcf4b
     ld a, [hl]
     cp 152                          ; Is the first number above 151 (Mew)?
@@ -551,7 +475,8 @@ SaveCode:
     xor a
     ret     ; Ask for more codes
 
-.notNewCustomLogicCode  ; It's not custom logic, that means this is the option/attribute line, the very last line allowed
+    .notNewCustomLogicCode  ; It's not custom logic, that means this is the option/attribute line, the very last line allowed
+
     call CopyFinalCode
 
     call PrepareChecksumPrint

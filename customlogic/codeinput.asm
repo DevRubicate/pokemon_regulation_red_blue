@@ -31,7 +31,7 @@ TriggerTable:
     dw wRegulationTriggerTrainerLoadData
     dw wRegulationTriggerTrainerBattleTurn
 
-CopyNewCustomLogicCode:
+CopyNewCustomLogicCode::
 
     ; Load the location of the trigger and set it to the custom logic program counter
     ld hl, wcf4b+1                          ; Find the address in the text buffer holding our trigger index
@@ -51,13 +51,11 @@ CopyNewCustomLogicCode:
     ld a, [wRegulationCustomLogicLength]    ; Load the entry point for the new custom logic entry
     add 1                                   ; Add 1 as $00 means that the trigger is inactive, so the entry point uses a 1-based index
     ld [hl], a                              ; Save this entry point as the trigger value
-.triggerLess
+
+    .triggerLess
 
     ; Length
-    ld bc, 0
-    ld a, [wVariableA]
-    sub 1
-    ld c, a                                 ; bc should now be the between 1 to 9
+    ld bc, 8
 
     ; Destination
     ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
@@ -75,21 +73,16 @@ CopyNewCustomLogicCode:
     call CopyData
 
     ; Record the new length of the total custom logic
-    ld a, [wVariableA]                      ; Load the length of this new custom logic (2 to 10)
-    sub 1                                   ; Subtract 2 (skipping the initial $FF and the trigger code), but add 1 to include an automatic $00 terminator at the end
-    ld hl, wRegulationCustomLogicLength     ; Load the address of the existing length from previous custom logic
-    add a, [hl]                             ; Add the two lengths together
+    ld a, [wRegulationCustomLogicLength]    ; Load the old length
+    add a, 9
     ld [wRegulationCustomLogicLength], a    ; Record the new length
 
     ret
 
-CopyContinuedCustomLogicCode:
+CopyContinuedCustomLogicCode::
 
     ; Length
-    ld bc, 0
-    ld a, [wVariableA]                      ; Load the length
-    inc a                                   ; Increase by 1 because we want to include an extra $00 terminator at the end
-    ld c, a                                 ; bc should now be the between 1 to 9
+    ld bc, 9
 
     ; Destination
     ld hl, wRegulationCustomLogic           ; The destination for the copy is wRegulationCustomLogic
@@ -108,10 +101,139 @@ CopyContinuedCustomLogicCode:
     call CopyData
 
     ; Record the new length of the total custom logic
-    ld a, [wVariableA]                      ; Load the length of this new custom logic (2 to 10)
-    ld hl, wRegulationCustomLogicLength     ; Load the address of the existing length from previous custom logic
-    add a, [hl]                             ; Add the two lengths together
+    ld a, [wRegulationCustomLogicLength]    ; Load the old length
+    add a, 10
     ld [wRegulationCustomLogicLength], a    ; Record the new length
 
     ret
 
+
+
+RewindWaste::
+
+    ; This routine will rewind the wRegulationCustomLogicLength pointer to avoid excessive waste with 00 values
+
+    ld a, [wRegulationCustomLogicLength]
+    ld e, a
+    ld d, 0
+
+    ld hl, wRegulationCustomLogic
+    add hl, de
+
+    ; The idea behind this loop is to go backwards until we find the first non-zero byte
+
+    .loop
+
+    ; decrement hl and e by 1 each
+    dec hl
+    dec e
+
+    ; Load the byte we are now looking at
+    ld a, [hl]
+    or a
+
+    ; If the byte is zero keep looping
+    jr z, .loop
+
+    ; Loop is over
+
+    ; Increment e by 2, so the pointer will be 2 bytes removed from the last non-zero byte
+    inc e
+    inc e
+
+    ; Save the new pointer
+    ld a, e
+    ld [wRegulationCustomLogicLength], a
+
+    ret
+
+ProcessManuallyInputByte::
+
+    ld a, [hli]
+    cp $50
+    jr z, .zero
+    cp $0
+    jr z, .zero
+
+    .continue
+
+    cp $f0
+    jr nc, .number
+    sbc $75
+    jr .save
+
+    .number
+
+    sbc $f6
+
+    .save
+
+    ld b, a
+    sla b
+    sla b
+    sla b
+    sla b
+    ld a, [hli]
+    cp $50
+    jr z, .zero2
+    cp $0
+    jr z, .zero2
+
+    .continue2
+
+    cp $f0
+    jr nc, .number2
+    sbc $75
+    jr .save2
+
+    .number2
+
+    sbc $f6
+
+    .save2
+
+    adc b
+    ld [de], a
+    inc de
+
+    ld c, a
+
+    ; Checksum calculations
+
+    ; Load the first byte of the checksum
+    ; Add the input byte
+    ; Store it back into the first byte of the checksum
+    ld a, [wRegulationChecksum+0]
+    adc c
+    ld [wRegulationChecksum+0], a
+
+    ; Load the second byte of the checksum
+    ; Subtract the first byte of the checksum
+    ; Xor the input byte
+    ; Store it back into the second byte of the checksum
+    ld b, a
+    ld a, [wRegulationChecksum+1]
+    sub b
+    xor c
+    ld [wRegulationChecksum+1], a
+
+    ; Load the third byte of the checksum
+    ; Increment by one
+    ; Store it back into the third byte of the checksum
+    ld a, [wRegulationChecksum+2]
+    inc a
+    ld [wRegulationChecksum+2], a
+
+    ret
+
+    .zero
+
+    ld a, $f6
+    jr .continue
+
+    .zero2
+
+    ld a, $f6
+    jr .continue2
+
+    ret
