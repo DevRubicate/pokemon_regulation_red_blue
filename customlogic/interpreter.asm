@@ -25,11 +25,9 @@ InstructionEnd:
     ld b, 0                                     ; Make sure b is 0
     ld a, [WRegulationCustomLogicProgramCounter]; Load the current program counter
     ld c, a                                     ; Set program counter in c
-    ld hl, wRegulationCustomLogic-1             ; Load the start of the custom logic instructions, minus 1 to account for 0 being used as a "no trigger" value
+    ld hl, wRegulationCustomLogic               ; Load the start of the custom logic instructions, minus 1 to account for 0 being used as a "no trigger" value
     add hl, bc                                  ; Add the current program counter offset
     ld a, [hli]                                 ; Load the custom code instruction index
-    or a
-    ret z                                       ; exit if the custom code is $00
     ld c, a                                     ; Set custom code instruction in c
 
     cp ((InstructionPointerTable_TwoByte - InstructionPointerTable) / 2)
@@ -72,7 +70,7 @@ InstructionEnd:
     jp hl                                       ; Jump to custom code instruction
 
 InstructionPointerTable:
-    dw Instruction_RET                          ; 0x00
+    dw Instruction_NOP                          ; 0x00
     dw Instruction_SET_A_B                      ; 0x01
     dw Instruction_SET_A_C                      ; 0x02
     dw Instruction_SET_A_D                      ; 0x03
@@ -275,38 +273,66 @@ InstructionPointerTable_ThreeByte:              ;
     dw Instruction_OR_S_16VALUE                 ; 0xC6
     dw Instruction_XOR_A_16VALUE                ; 0xC7
     dw Instruction_XOR_S_16VALUE                ; 0xC8
-    dw Instruction_RSHIFT_A_16VALUE             ; 0xC9
-    dw Instruction_RSHIFT_S_16VALUE             ; 0xCA
-    dw Instruction_LSHIFT_A_16VALUE             ; 0xCB
-    dw Instruction_LSHIFT_S_16VALUE             ; 0xCC
-    dw Instruction_ADD_A_16VALUE                ; 0xCD
-    dw Instruction_ADD_S_16VALUE                ; 0xCE
-    dw Instruction_SUB_A_16VALUE                ; 0xCF
-    dw Instruction_SUB_S_16VALUE                ; 0xD0
-    dw Instruction_MUL_A_16VALUE                ; 0xD1
-    dw Instruction_MUL_S_16VALUE                ; 0xD2
-    dw Instruction_DIV_A_16VALUE                ; 0xD3
-    dw Instruction_DIV_S_16VALUE                ; 0xD4
-    dw Instruction_MOD_A_16VALUE                ; 0xD5
-    dw Instruction_MOD_S_16VALUE                ; 0xD6
-    dw Instruction_LOAD8_A_16VALUE              ; 0xD7
-    dw Instruction_LOAD8_S_16VALUE              ; 0xD8
-    dw Instruction_LOAD16_A_16VALUE             ; 0xD9
-    dw Instruction_LOAD16_S_16VALUE             ; 0xDA
-    dw Instruction_SAVE8_A_16VALUE              ; 0xDB
-    dw Instruction_SAVE8_S_16VALUE              ; 0xDC
-    dw Instruction_SAVE16_A_16VALUE             ; 0xDD
-    dw Instruction_SAVE16_S_16VALUE             ; 0xDE
-    dw Instruction_COMPARE_A_16VALUE            ; 0xDF
-    dw Instruction_COMPARE_S_16VALUE            ; 0xE0
-    dw Instruction_COMPARE_ARGA_16VALUE         ; 0xE1
-    dw Instruction_COMPARE_ARGB_16VALUE         ; 0xE2
-    dw Instruction_COMPARE_ARGC_16VALUE         ; 0xE3
-    dw Instruction_COMPARE_ARGD_16VALUE         ; 0xE4
+    dw Instruction_ADD_A_16VALUE                ; 0xC9
+    dw Instruction_ADD_S_16VALUE                ; 0xCA
+    dw Instruction_SUB_A_16VALUE                ; 0xCB
+    dw Instruction_SUB_S_16VALUE                ; 0xCC
+    dw Instruction_MUL_A_16VALUE                ; 0xCD
+    dw Instruction_MUL_S_16VALUE                ; 0xCE
+    dw Instruction_DIV_A_16VALUE                ; 0xCF
+    dw Instruction_DIV_S_16VALUE                ; 0xD0
+    dw Instruction_MOD_A_16VALUE                ; 0xD1
+    dw Instruction_MOD_S_16VALUE                ; 0xD2
+    dw Instruction_LOAD8_A_16VALUE              ; 0xD3
+    dw Instruction_LOAD8_S_16VALUE              ; 0xD4
+    dw Instruction_LOAD16_A_16VALUE             ; 0xD5
+    dw Instruction_LOAD16_S_16VALUE             ; 0xD6
+    dw Instruction_SAVE8_A_16VALUE              ; 0xD7
+    dw Instruction_SAVE8_S_16VALUE              ; 0xD8
+    dw Instruction_SAVE16_A_16VALUE             ; 0xD9
+    dw Instruction_SAVE16_S_16VALUE             ; 0xDA
+    dw Instruction_COMPARE_A_16VALUE            ; 0xDB
+    dw Instruction_COMPARE_S_16VALUE            ; 0xDC
+    dw Instruction_COMPARE_ARGA_16VALUE         ; 0xDD
+    dw Instruction_COMPARE_ARGB_16VALUE         ; 0xDE
+    dw Instruction_COMPARE_ARGC_16VALUE         ; 0xDF
+    dw Instruction_COMPARE_ARGD_16VALUE         ; 0xE0
+    dw Instruction_NOP                          ; 0xE1
+    dw Instruction_NOP                          ; 0xE2
+    dw Instruction_NOP                          ; 0xE3
+    dw Instruction_NOP                          ; 0xE4
+    dw Instruction_NOP                          ; 0xE5
+    dw Instruction_NOP                          ; 0xE6
+    dw Instruction_NOP                          ; 0xE7
+    dw Instruction_NOP                          ; 0xE8
+    dw Instruction_NOP                          ; 0xE9
+    dw Instruction_NOP                          ; 0xEA
+    dw Instruction_NOP                          ; 0xEB
+    dw Instruction_NOP                          ; 0xEC
+    dw Instruction_NOP                          ; 0xED
+    dw Instruction_NOP                          ; 0xEE
+    dw Instruction_NOP                          ; 0xEF
+    dw Instruction_NOP                          ; 0xF0
+    dw Instruction_NOP                          ; 0xF1
+    dw Instruction_NOP                          ; 0xF2
+    dw Instruction_NOP                          ; 0xF3
+    dw Instruction_NOP                          ; 0xF4
+    dw Instruction_NOP                          ; 0xF5
+    dw Instruction_NOP                          ; 0xF6
+    dw Instruction_NOP                          ; 0xF7
+    dw Instruction_NOP                          ; 0xF8
+    dw Instruction_NOP                          ; 0xF9
+    dw Instruction_NOP                          ; 0xFA
+    dw Instruction_NOP                          ; 0xFB
+    dw Instruction_NOP                          ; 0xFC
+    dw Instruction_NOP                          ; 0xFD
+    dw Instruction_NOP                          ; 0xFE
+    dw Instruction_RET                          ; 0xFF
 
-
-Instruction_RET:
+Instruction_NOP:
     jp InstructionEnd
+Instruction_RET:
+    ret
 Instruction_SET_A_B:
     ld a, [wRegulationCustomLogicVariableB]
     ld [wRegulationCustomLogicVariableA], a
@@ -1445,7 +1471,28 @@ Instruction_SUB_S_RANDOM:
     ld a, l
     ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
-Instruction_MUL_A_A: ; todo
+Instruction_MUL_A_A: ; TEST THIS
+
+    ; Load variable A
+    ld a, 0
+    ld [hMultiplicand+2], a
+    ld a, [wRegulationCustomLogicVariableA]
+    ld [hMultiplicand+1], a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [hMultiplicand+0], a
+
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [hMultiplier], a
+
+    call Multiply
+
+    ; Store the result in variable A
+    ld a, [hProduct+4]
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, [hProduct+3]
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
 Instruction_MUL_A_B: ; todo
     jp InstructionEnd
@@ -1777,12 +1824,10 @@ Instruction_SAVE16_S_T:
     jp InstructionEnd
 Instruction_GOTO_A:
     ld a, [wRegulationCustomLogicVariableA + 1]
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     jp InstructionEnd
 Instruction_GOTO_S:
     ld a, [wRegulationCustomLogicVariableS + 1]
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     jp InstructionEnd
 Instruction_COMPARE_A_B:
@@ -2149,33 +2194,241 @@ Instruction_SET_D_8VALUE:
     ld a, e
     ld [wRegulationCustomLogicVariableD+1], a
     jp InstructionEnd
-Instruction_AND_A_8VALUE: ; todo
+Instruction_AND_A_8VALUE:
+
+    ; upper byte
+    ld a, 0
+    ld [wRegulationCustomLogicVariableA], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    and b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_AND_S_8VALUE: ; todo
+Instruction_AND_S_8VALUE:
+
+    ; upper byte
+    ld a, 0
+    ld [wRegulationCustomLogicVariableS], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    and b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_OR_A_8VALUE: ; todo
+Instruction_OR_A_8VALUE:
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    or b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_OR_S_8VALUE: ; todo
+Instruction_OR_S_8VALUE:
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    or b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_XOR_A_8VALUE: ; todo
+Instruction_XOR_A_8VALUE:
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    xor b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_XOR_S_8VALUE: ; todo
+Instruction_XOR_S_8VALUE:
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    xor b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_RSHIFT_A_8VALUE: ; todo
+Instruction_RSHIFT_A_8VALUE:
+    ld a, e
+    and a
+    jr z, .end  ; If we are shifting zero times, just end right away
+    ld c, a
+    ; Load the variable being rightshifted
+    ld a, [wRegulationCustomLogicVariableA]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+ .loop
+    or a            ; clear carry
+    rr b            ; rotate b to the right, pushing rightmost bit into the carry
+    rr a            ; rotate a to the right, pushing carry into leftmost bit
+    dec c           ; decrement loop
+    jr nz, .loop    ; loop as long as there are iterations left
+ .end
+
+    ; Save the variable being rightshifted
+    ld [wRegulationCustomLogicVariableA+1], a
+    ld a, b
+    ld [wRegulationCustomLogicVariableA], a
+
     jp InstructionEnd
-Instruction_RSHIFT_S_8VALUE: ; todo
+Instruction_RSHIFT_S_8VALUE:
+    ld a, e
+    and a
+    jr z, .end  ; If we are shifting zero times, just end right away
+    ld c, a
+    ; Load the variable being rightshifted
+    ld a, [wRegulationCustomLogicVariableS]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+ .loop
+    or a            ; clear carry
+    rr b            ; rotate b to the right, pushing rightmost bit into the carry
+    rr a            ; rotate a to the right, pushing carry into leftmost bit
+    dec c           ; decrement loop
+    jr nz, .loop    ; loop as long as there are iterations left
+ .end
+
+    ; Save the variable being rightshifted
+    ld [wRegulationCustomLogicVariableS+1], a
+    ld a, b
+    ld [wRegulationCustomLogicVariableS], a
+
     jp InstructionEnd
-Instruction_LSHIFT_A_8VALUE: ; todo
+Instruction_LSHIFT_A_8VALUE:
+    ld a, e
+    and a
+    jr z, .end  ; If we are shifting zero times, just end right away
+    ld c, a
+    ; Load the variable being leftshifted
+    ld a, [wRegulationCustomLogicVariableA]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+ .loop
+    or a            ; clear carry
+    rl a            ; rotate b to the left, pushing leftmopst bit into the carry
+    rl b            ; rotate a to the left, pushing carry into rightmost bit
+    dec c           ; decrement loop
+    jr nz, .loop    ; loop as long as there are iterations left
+ .end
+    ; save the variable being leftshifted
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableA]
+
     jp InstructionEnd
-Instruction_LSHIFT_S_8VALUE: ; todo
+Instruction_LSHIFT_S_8VALUE:
+    ld a, e
+    and a
+    jr z, .end  ; If we are shifting zero times, just end right away
+    ld c, a
+    ; Load the variable being leftshifted
+    ld a, [wRegulationCustomLogicVariableS]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+ .loop
+    or a            ; clear carry
+    rl a            ; rotate b to the left, pushing leftmopst bit into the carry
+    rl b            ; rotate a to the left, pushing carry into rightmost bit
+    dec c           ; decrement loop
+    jr nz, .loop    ; loop as long as there are iterations left
+ .end
+    ; save the variable being leftshifted
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld b, a
+    ld a, [wRegulationCustomLogicVariableS]
+
     jp InstructionEnd
-Instruction_ADD_A_8VALUE: ; todo
+Instruction_ADD_A_8VALUE:
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
-Instruction_ADD_S_8VALUE: ; todo
+Instruction_ADD_S_8VALUE:
+    ; Load variable S
+    ld a, [wRegulationCustomLogicVariableS]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld l, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable S
+    ld a, h
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
-Instruction_SUB_A_8VALUE: ; todo
+Instruction_SUB_A_8VALUE:
+    ; This instruction normally subtracts, however there is no
+    ; "sub hl, de" opcode, so we are using a trick to get the
+    ; same result. In 16 bit math A - B can be expressed as
+    ; (A + (B ^ 0xFFFF) + 1) & 0xFFFF.
+
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+
+    ld a, 0
+    xor $ff
+    ld d, a
+    ld a, e
+    xor $ff
+    ld e, a
+
+    ; Do our trick
+    add hl, de
+    inc hl
+
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
-Instruction_SUB_S_8VALUE: ; todo
+Instruction_SUB_S_8VALUE:
+    ; This instruction normally subtracts, however there is no
+    ; "sub hl, de" opcode, so we are using a trick to get the
+    ; same result. In 16 bit math A - B can be expressed as
+    ; (A + (B ^ 0xFFFF) + 1) & 0xFFFF.
+
+    ; Load variable S
+    ld a, [wRegulationCustomLogicVariableS]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld l, a
+
+    ld a, 0
+    xor $ff
+    ld d, a
+    ld a, e
+    xor $ff
+    ld e, a
+
+    ; Do our trick
+    add hl, de
+    inc hl
+
+    ; Store the result in variable S
+    ld a, h
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
 Instruction_MUL_A_8VALUE: ; todo
     jp InstructionEnd
@@ -2549,7 +2802,6 @@ Instruction_SAVE16_S_8VALUE_T:
     jp InstructionEnd
 Instruction_GOTO_8VALUE:
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     jp InstructionEnd
 Instruction_COMPARE_A_8VALUE:
@@ -2695,7 +2947,6 @@ Instruction_IFEQUAL_8VALUE:
     bit 0, a
     jr z, .end                                      ; If the variable 0th flag bit isn't set that means it was not equal
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -2704,7 +2955,6 @@ Instruction_IFNOTEQUAL_8VALUE:
     bit 0, a
     jr nz, .end                                     ; If the variable 0th flag bit is that means it was equal
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -2713,7 +2963,6 @@ Instruction_IFGREATER_8VALUE:
     bit 1, a
     jr z, .end                                      ; If the variable 1st bit is that means it was not greater
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -2722,7 +2971,6 @@ Instruction_IFEQUALGREATER_8VALUE:
     cp a, %00000011                                 ; Check if flag 0 or 1 is set
     jr z, .end                                      ; If neither is set then goto .end
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -2731,7 +2979,6 @@ Instruction_IFLESSER_8VALUE:
     bit 1, a
     jr nz, .end                                     ; If the variable 1st bit is that means it was not lesser
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -2740,7 +2987,6 @@ Instruction_IFEQUALLESSER_8VALUE:
     cp a, %00000101                                 ; Check if flag 0 or 2 is set
     jr z, .end                                      ; If neither is set then goto .end
     ld a, e
-    inc a                                           ; Increment by 1 since we use a 1-based index in the interpreter
     ld [WRegulationCustomLogicProgramCounter], a    ; Set the PC to this new value
     .end
     jp InstructionEnd
@@ -3146,33 +3392,183 @@ Instruction_SET_D_16VALUE:
     ld a, e
     ld [wRegulationCustomLogicVariableD+1], a
     jp InstructionEnd
-Instruction_AND_A_16VALUE: ; todo
+Instruction_AND_A_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableA]
+    and b
+    ld [wRegulationCustomLogicVariableA], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    and b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_AND_S_16VALUE: ; todo
+Instruction_AND_S_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableS]
+    and b
+    ld [wRegulationCustomLogicVariableS], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    and b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_OR_A_16VALUE: ; todo
+Instruction_OR_A_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableA]
+    or b
+    ld [wRegulationCustomLogicVariableA], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    or b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_OR_S_16VALUE: ; todo
+Instruction_OR_S_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableS]
+    or b
+    ld [wRegulationCustomLogicVariableS], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    or b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_XOR_A_16VALUE: ; todo
+Instruction_XOR_A_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableA]
+    xor b
+    ld [wRegulationCustomLogicVariableA], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableA+1]
+    xor b
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_XOR_S_16VALUE: ; todo
+Instruction_XOR_S_16VALUE:
+
+    ; upper byte
+    ld b, d
+    ld a, [wRegulationCustomLogicVariableS]
+    xor b
+    ld [wRegulationCustomLogicVariableS], a
+
+    ; lower byte
+    ld b, e
+    ld a, [wRegulationCustomLogicVariableS+1]
+    xor b
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
-Instruction_RSHIFT_A_16VALUE: ; todo
+Instruction_ADD_A_16VALUE:
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
     jp InstructionEnd
-Instruction_RSHIFT_S_16VALUE: ; todo
+Instruction_ADD_S_16VALUE:
+    ; Load variable S
+    ld a, [wRegulationCustomLogicVariableS]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld l, a
+    ; Add them together
+    add hl, de
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableS+1], a
     jp InstructionEnd
-Instruction_LSHIFT_A_16VALUE: ; todo
+Instruction_SUB_A_16VALUE:
+    ; This instruction normally subtracts, however there is no
+    ; "sub hl, de" opcode, so we are using a trick to get the
+    ; same result. In 16 bit math A - B can be expressed as
+    ; (A + (B ^ 0xFFFF) + 1) & 0xFFFF.
+
+    ; Load variable A
+    ld a, [wRegulationCustomLogicVariableA]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld l, a
+
+    ld a, d
+    xor $ff
+    ld d, a
+    ld a, e
+    xor $ff
+    ld e, a
+
+    ; Do our trick
+    add hl, de
+    inc hl
+
+    ; Store the result in variable A
+    ld a, h
+    ld [wRegulationCustomLogicVariableA], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableA+1], a
+
     jp InstructionEnd
-Instruction_LSHIFT_S_16VALUE: ; todo
-    jp InstructionEnd
-Instruction_ADD_A_16VALUE: ; todo
-    jp InstructionEnd
-Instruction_ADD_S_16VALUE: ; todo
-    jp InstructionEnd
-Instruction_SUB_A_16VALUE: ; todo
-    jp InstructionEnd
-Instruction_SUB_S_16VALUE: ; todo
+Instruction_SUB_S_16VALUE:
+    ; This instruction normally subtracts, however there is no
+    ; "sub hl, de" opcode, so we are using a trick to get the
+    ; same result. In 16 bit math A - B can be expressed as
+    ; (A + (B ^ 0xFFFF) + 1) & 0xFFFF.
+
+    ; Load variable S
+    ld a, [wRegulationCustomLogicVariableS]
+    ld h, a
+    ld a, [wRegulationCustomLogicVariableS+1]
+    ld l, a
+
+    ld a, d
+    xor $ff
+    ld d, a
+    ld a, e
+    xor $ff
+    ld e, a
+
+    ; Do our trick
+    add hl, de
+    inc hl
+
+    ; Store the result in variable S
+    ld a, h
+    ld [wRegulationCustomLogicVariableS], a
+    ld a, l
+    ld [wRegulationCustomLogicVariableS+1], a
+
     jp InstructionEnd
 Instruction_MUL_A_16VALUE: ; todo
     jp InstructionEnd

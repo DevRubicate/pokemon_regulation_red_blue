@@ -109,27 +109,18 @@ OakSpeech:
 	call PrintText
 	call ChooseRivalName
 
-    ld a, [wRegulationCode]
-    ld hl, wRegulationCode+1
-    or [hl]
-    ld hl, wRegulationCode+2
-    or [hl]
-    ld hl, wRegulationCode+3
-    or [hl]
-    ld hl, wRegulationCode+4
-    or [hl]
-    ld hl, wRegulationCode+5
-    or [hl]
-    ld hl, wRegulationCode+6
-    or [hl]
-    ld hl, wRegulationCode+7
-    or [hl]
-    ld hl, wRegulationCode+8
-    or [hl]
-    ld hl, wRegulationCode+9
-    or [hl]
-    jp z, .noCustomRules            ; skip rules dialog if every rule is 0
+    ld a, [wRegulationChecksum]
+    cp $00
+    jp nz, .oakSpeechRules
+    ld a, [wRegulationChecksum+1]
+    cp $00
+    jp nz, .oakSpeechRules
+    ld a, [wRegulationChecksum+2]
+    cp $0A
+    jp nz, .oakSpeechRules
+    jp .noCustomRules            ; skip rules dialog if checksum is $00000A
 
+.oakSpeechRules
     call GBFadeOutToWhite
     call ClearScreen
     ld de, ProfOakPic

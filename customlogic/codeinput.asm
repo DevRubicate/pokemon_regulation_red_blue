@@ -121,18 +121,20 @@ CodeOverflowText:
 
 
 RewindWaste::
-
-    ; This routine will rewind the wRegulationCustomLogicLength pointer to avoid excessive waste with 00 values
+    ; This routine will rewind the wRegulationCustomLogicLength pointer to avoid excessive waste with $00 values
 
     ld a, [wRegulationCustomLogicLength]
     ld e, a
     ld d, 0
 
+    ; Set hl to be the newest byte in sequence
     ld hl, wRegulationCustomLogic
     add hl, de
 
-    ; The idea behind this loop is to go backwards until we find the first non-zero byte
+    ; Increment e by 1, make sure the pointer ends up unchanged if the loop never repeats
+    inc e
 
+    ; The idea behind this loop is to go backwards until we find the first non-zero byte
     .loop
 
     ; decrement hl and e by 1 each
@@ -147,10 +149,6 @@ RewindWaste::
     jr z, .loop
 
     ; Loop is over
-
-    ; Increment e by 2, so the pointer will be 2 bytes removed from the last non-zero byte
-    inc e
-    inc e
 
     ; Save the new pointer
     ld a, e

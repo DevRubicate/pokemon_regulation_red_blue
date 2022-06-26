@@ -79,7 +79,8 @@ ENDM
 
 RegulationTriggerExecute: MACRO
     ld a, [\1]
-    ld [WRegulationCustomLogicProgramCounter], a ; Set the current program counter to be where this trigger points in the custom logic instructions
+    dec a                                           ; Decrement the program counter value by 1 as all triggers treat 0 as void
+    ld [WRegulationCustomLogicProgramCounter], a    ; Set the current program counter to be where this trigger points in the custom logic instructions
     farcall CustomLogicInterpreter
 ENDM
 

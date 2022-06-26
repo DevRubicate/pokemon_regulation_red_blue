@@ -3179,7 +3179,6 @@ wd728::
 ; bit 7: set by ItemUseCardKey, which is leftover code from a previous implementation of the Card Key
 	ds 1
 
-
 	ds 1
 
 wBeatGymFlags::

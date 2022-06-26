@@ -1801,6 +1801,74 @@ _OakSpeechRuleStart::
     line "these rules:"
     prompt
 
+_OakSpeechRuleUnknownCustomLogic::
+    text "Custom logic which"
+    line "I cannot explain"
+    cont "is applied."
+    prompt
+
+
+_OakSpeechRuleRandomizer::
+    text "#MON throughout"
+    line "the world is"
+    cont "randomized."
+    prompt
+
+_OakSpeechRuleSnakesAndLadders::
+    text "Travel the world"
+    line "with your Ekans,"
+    cont "and find a way to"
+    cont "defeat Brock."
+    para "Beware though for"
+    line "all trainers will"
+    cont "try to stop you"
+    cont "with explosions!"
+    para "Perhaps that can"
+    line "be turned against"
+    cont "them?"
+    prompt
+
+_OakSpeechRuleCreepypasta::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "before you"
+    line "succumb to your"
+    cont "own power."
+    prompt
+
+_OakSpeechRuleClippedWings::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "despite your"
+    line "perplexing"
+    cont "situation."
+    prompt
+
+_OakSpeechRuleThunderfish::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "starting with"
+    line "a special edition"
+    cont "Magikarp."
+    prompt
+
+_OakSpeechRulePay2Win::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "using the power"
+    line "of capitalism."
+    prompt
+
+_OakSpeechRuleRipAndTear::
+    text "Rip and tear"
+    line "until it is done."
+    prompt
+
+_OakSpeechRuleBallsOfSteel::
+    text "Mess with the best"
+    line "die like the rest"
+    prompt
+
 _OakSpeechRuleCustomStarter::
     text "Starter #MON"
     line "is @"
@@ -1839,7 +1907,6 @@ _OakSpeechRuleCustomMove4::
     text_ram wcd6d
     text "."
     prompt
-
 
 _OakSpeechRuleDifficulty::
     text "Trainer #MON"

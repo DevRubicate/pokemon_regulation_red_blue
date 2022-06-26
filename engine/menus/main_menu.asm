@@ -50,6 +50,7 @@ MainMenu:
 	ld de, NewGameText
 	call PlaceString
 .next2
+    safecall DrawTitleScreen
 	ld hl, wd730
 	res 6, [hl]
 	call UpdateSprites
