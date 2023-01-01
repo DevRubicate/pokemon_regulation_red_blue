@@ -5638,10 +5638,10 @@ AdjustDamageForMoveType:
 	jp .loop
 .done
 
-    ; The following regulation rule prevents you from doing damage
+    ; The following regulation rule prevents your move from having an effect
     ; if you aren't super effective against the enemy
 
-    ld a, [wRegulationCode+9] ; Load out the rule not doing damage if you don't have super effective moves
+    ld a, [wRegulationCode+9] ; Load out the rule not having an effect if you don't have super effective moves
     bit 5, a
     ret z
 

@@ -30,6 +30,11 @@ TriggerTable:
     dw wRegulationTriggerWildBattleCalcPokemonStats
     dw wRegulationTriggerTrainerLoadData
     dw wRegulationTriggerTrainerBattleTurn
+    dw wRegulationTriggerLearnMove
+    dw wRegulationTriggerFoundPokemonMove1
+    dw wRegulationTriggerFoundPokemonMove2
+    dw wRegulationTriggerFoundPokemonMove3
+    dw wRegulationTriggerFoundPokemonMove4
 
 CopyNewCustomLogicCode::
 
@@ -206,32 +211,7 @@ ProcessManuallyInputByte::
     inc de
 
     ld c, a
-
-    ; Checksum calculations
-
-    ; Load the first byte of the checksum
-    ; Add the input byte
-    ; Store it back into the first byte of the checksum
-    ld a, [wRegulationChecksum+0]
-    adc c
-    ld [wRegulationChecksum+0], a
-
-    ; Load the second byte of the checksum
-    ; Subtract the first byte of the checksum
-    ; Xor the input byte
-    ; Store it back into the second byte of the checksum
-    ld b, a
-    ld a, [wRegulationChecksum+1]
-    sub b
-    xor c
-    ld [wRegulationChecksum+1], a
-
-    ; Load the third byte of the checksum
-    ; Increment by one
-    ; Store it back into the third byte of the checksum
-    ld a, [wRegulationChecksum+2]
-    inc a
-    ld [wRegulationChecksum+2], a
+    safecall RegulationProgressChecksum
 
     ret
 

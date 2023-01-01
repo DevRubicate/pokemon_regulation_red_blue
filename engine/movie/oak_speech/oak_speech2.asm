@@ -7,37 +7,52 @@ OakExplainRules:
 ; CUSTOM LOGIC
 ;;;;;;;;;;;;;;;;;;
 
-; RANDOMIZED POKEMON - 792B46
+; RANDOMIZED POKEMON - Checksum BF164B
     ld a, [wRegulationChecksum]
-    cp $79
+    cp $BF
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $2B
+    cp $16
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $46
+    cp $4B
     jr nz, :+
-    ld hl, OakSpeechRuleRandomizer
+    ld hl, OakSpeechRuleRandomPokemon
     call PrintText
     jp .gameOptions
     :
 
-; SNAKES AND LADDERS - 5D7778
+; RANDOMIZED MOVES - Checksum 5FD566
     ld a, [wRegulationChecksum]
-    cp $5D
+    cp $5F
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $77
+    cp $D5
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $78
+    cp $66
+    jr nz, :+
+    ld hl, OakSpeechRuleRandomMoves
+    call PrintText
+    jp .gameOptions
+    :
+
+; SNAKES AND LADDERS - Checksum 567BE0
+    ld a, [wRegulationChecksum]
+    cp $56
+    jr nz, :+
+    ld a, [wRegulationChecksum+1]
+    cp $7B
+    jr nz, :+
+    ld a, [wRegulationChecksum+2]
+    cp $E0
     jr nz, :+
     ld hl, OakSpeechRuleSnakesAndLadders
     call PrintText
     jp .gameOptions
     :
 
-; CREEPYPASTA - 2B880A
+; CREEPYPASTA - Checksum 2B880A
     ld a, [wRegulationChecksum]
     cp $2B
     jr nz, :+
@@ -52,7 +67,7 @@ OakExplainRules:
     jp .gameOptions
     :
 
-; CLIPPEDWINGS - C3650A
+; CLIPPEDWINGS - Checksum C3650A
     ld a, [wRegulationChecksum]
     cp $C3
     jr nz, :+
@@ -67,7 +82,7 @@ OakExplainRules:
     jp .gameOptions
     :
 
-; THUNDERFISH - 79450A
+; THUNDERFISH - Checksum 79450A
     ld a, [wRegulationChecksum]
     cp $79
     jr nz, :+
@@ -82,7 +97,7 @@ OakExplainRules:
     jp .gameOptions
     :
 
-; PAY2WIN - EB270A
+; PAY2WIN - Checksum EB270A
     ld a, [wRegulationChecksum]
     cp $EB
     jr nz, :+
@@ -94,10 +109,71 @@ OakExplainRules:
     jr nz, :+
     ld hl, OakSpeechRulePay2Win
     call PrintText
+    jp .gameOptions
+    :
+
+; LONELY SAMURAI - Checksum 70C680
+    ld a, [wRegulationChecksum]
+    cp $70
+    jr nz, :+
+    ld a, [wRegulationChecksum+1]
+    cp $C6
+    jr nz, :+
+    ld a, [wRegulationChecksum+2]
+    cp $80
+    jr nz, :+
+    ld hl, OakSpeechRuleLonelySamurai
+    call PrintText
+    jp .gameOptions
+    :
+
+; EXPLODING BALL - Checksum EA6BAB
+    ld a, [wRegulationChecksum]
+    cp $EA
+    jr nz, :+
+    ld a, [wRegulationChecksum+1]
+    cp $6B
+    jr nz, :+
+    ld a, [wRegulationChecksum+2]
+    cp $AB
+    jr nz, :+
+    ld hl, OakSpeechRuleExplodingBall
+    call PrintText
+    jp .gameOptions
+    :
+
+; ROCKS AND STONES - Checksum AC754B
+    ld a, [wRegulationChecksum]
+    cp $AC
+    jr nz, :+
+    ld a, [wRegulationChecksum+1]
+    cp $75
+    jr nz, :+
+    ld a, [wRegulationChecksum+2]
+    cp $4B
+    jr nz, :+
+    ld hl, OakSpeechRuleRocksAndStones
+    call PrintText
     jr .gameOptions
     :
 
-; RIPANDTEAR - 99250A
+; STOLEN POWER - Checksum B3A233
+    ld a, [wRegulationChecksum]
+    cp $B3
+    jr nz, :+
+    ld a, [wRegulationChecksum+1]
+    cp $A2
+    jr nz, :+
+    ld a, [wRegulationChecksum+2]
+    cp $33
+    jr nz, :+
+    ld hl, OakSpeechRuleStolenPower
+    call PrintText
+    jr .gameOptions
+    :
+
+
+; RIPANDTEAR - Checksum 99250A
     ld a, [wRegulationChecksum]
     cp $99
     jr nz, :+
@@ -112,15 +188,15 @@ OakExplainRules:
     jr .gameOptions
     :
 
-; BALLSOFSTEEL - 962EFA
+; BALLSOFSTEEL - Checksum 802180
     ld a, [wRegulationChecksum]
-    cp $96
+    cp $80
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $2E
+    cp $21
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $FA
+    cp $80
     jr nz, :+
     ld hl, OakSpeechRuleBallsOfSteel
     call PrintText
@@ -508,8 +584,11 @@ OakSpeechRuleStart:
 OakSpeechRuleUnknownCustomLogic:
     text_far _OakSpeechRuleUnknownCustomLogic
     text_end
-OakSpeechRuleRandomizer:
-    text_far _OakSpeechRuleRandomizer
+OakSpeechRuleRandomPokemon:
+    text_far _OakSpeechRuleRandomPokemon
+    text_end
+OakSpeechRuleRandomMoves:
+    text_far _OakSpeechRuleRandomMoves
     text_end
 OakSpeechRuleSnakesAndLadders:
     text_far _OakSpeechRuleSnakesAndLadders
@@ -525,6 +604,18 @@ OakSpeechRuleThunderfish:
     text_end
 OakSpeechRulePay2Win:
     text_far _OakSpeechRulePay2Win
+    text_end
+OakSpeechRuleLonelySamurai:
+    text_far _OakSpeechRuleLonelySamurai
+    text_end
+OakSpeechRuleExplodingBall:
+    text_far _OakSpeechRuleExplodingBall
+    text_end
+OakSpeechRuleRocksAndStones:
+    text_far _OakSpeechRuleRocksAndStones
+    text_end
+OakSpeechRuleStolenPower:
+    text_far _OakSpeechRuleStolenPower
     text_end
 OakSpeechRuleRipAndTear:
     text_far _OakSpeechRuleRipAndTear

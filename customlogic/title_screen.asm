@@ -4,7 +4,7 @@ DrawTitleScreen::
     ld de, RegulationTitleText
     call PlaceString
 
-    hlcoord 2, 13
+    hlcoord 5, 13
     ld de, VersionText
     call PlaceString
 
@@ -22,7 +22,7 @@ RegulationTitleText:
     db   "#MON REGULATION@"
 
 VersionText:
-    db   "Version 6 Preview@"
+    db   "Version 6@"
 
 CreditText:
     db   "Made by Rubicate@"

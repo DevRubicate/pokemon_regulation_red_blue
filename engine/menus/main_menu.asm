@@ -435,6 +435,7 @@ SaveScreenInfoText:
 	next "TIME@"
 
 DisplayOptionMenu:
+    call ClearScreen
 	hlcoord 0, 0
 	ld b, 3
 	ld c, 18

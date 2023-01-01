@@ -191,6 +191,10 @@ Route23Text7:
 	jp TextScriptEnd
 
 Route23Script_51346:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipBadgeCheck
+
 	ld [wWhichBadge], a
 	call Route23Script_5125d
 	ld a, [wWhichBadge]
@@ -210,6 +214,7 @@ Route23Script_51346:
 	ret
 .asm_5136e
 	ld hl, VictoryRoadGuardText2
+.asm_5136e_continue
 	call PrintText
 	ld a, [wWhichBadge]
 	ld c, a
@@ -219,6 +224,9 @@ Route23Script_51346:
 	ld a, $2
 	ld [wRoute23CurScript], a
 	ret
+.skipBadgeCheck
+    ld hl, VictoryRoadGuardText_skipBadge
+    jr .asm_5136e_continue
 
 Route23Script_51388:
 	ld hl, VictoryRoadGuardText2
@@ -237,6 +245,11 @@ VictoryRoadGuardText2:
 	sound_get_item_1
 	text_far _VictoryRoadGuardText_513a3
 	text_end
+
+VictoryRoadGuardText_skipBadge:
+    text_far _VictoryRoadGuardTextSkip
+    sound_get_item_1
+    text_end
 
 Route23Text8:
 	text_far _Route23Text8

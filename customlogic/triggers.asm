@@ -169,9 +169,148 @@ RegulationTriggerTrainerBattlePokemonMoves::
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemonMove4, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
-.exit
+    .exit
     ret
 
+RegulationTriggerFoundPokemonMoves::
+    ld a, [wMonDataLocation]
+    cp ENEMY_PARTY_DATA
+    jp z, .exit
+
+    ; MOVE 1
+    RegulationTriggerStart      wRegulationTriggerFoundPokemonMove1, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+
+    ; Load move 1 and put it in variable D
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de                  ; point to move 1
+    ld a, [de]              ; read out move 1
+    ld [wVariableD+1], a
+    ld a, 0
+    ld [wVariableD], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemonMove1
+
+    ; Save this new move in variable D into to move 1
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de                  ; point to move 1
+    ld a, [wVariableD+1]
+    ld [de], a              ; write to move 1
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemonMove1, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+
+
+
+    ; MOVE 2
+    RegulationTriggerStart      wRegulationTriggerFoundPokemonMove2, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+
+    ; Load move 2 and put it in variable D
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de                  ; point to move 2
+    ld a, [de]              ; read out move 2
+    ld [wVariableD+1], a
+    ld a, 0
+    ld [wVariableD], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemonMove2
+
+    ; Save this new move in variable D into to move 2
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de                  ; point to move 2
+    ld a, [wVariableD+1]
+    ld [de], a              ; write to move 2
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemonMove2, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+
+
+
+    ; MOVE 3
+    RegulationTriggerStart      wRegulationTriggerFoundPokemonMove3, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+
+    ; Load move 3 and put it in variable D
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de
+    inc de                  ; point to move 3
+    ld a, [de]              ; read out move 3
+    ld [wVariableD+1], a
+    ld a, 0
+    ld [wVariableD], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemonMove3
+
+    ; Save this new move in variable D into to move 3
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de
+    inc de                  ; point to move 3
+    ld a, [wVariableD+1]
+    ld [de], a              ; write to move 3
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemonMove3, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+
+
+
+    ; MOVE 4
+    RegulationTriggerStart      wRegulationTriggerFoundPokemonMove4, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
+
+    ; Load move 4 and put it in variable D
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de
+    inc de
+    inc de                  ; point to move 4
+    ld a, [de]              ; read out move 4
+    ld [wVariableD+1], a
+    ld a, 0
+    ld [wVariableD], a
+
+    ; Load the move and put it in variable D
+    ld a, [wEnemyMonMoves+3]
+    ld [wVariableD+1], a
+    ld a, 0
+    ld [wVariableD], a
+
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemonMove4
+
+    ; Save this new move in variable D into to move 4
+    ld a, [wTemp1]
+    ld d, a
+    ld a, [wTemp2]
+    ld e, a
+    inc de
+    inc de
+    inc de
+    inc de                  ; point to move 4
+    ld a, [wVariableD+1]
+    ld [de], a              ; write to move 4
+
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemonMove4, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
+
+    .exit
+    ret
 
 
 RegulationTriggerWildBattlePokemonMoves::
@@ -273,13 +412,18 @@ RegulationTriggerWildBattlePokemonMoves::
     ret
 
 
+
+RegulationTriggerFoundPokemonStarter::
+    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL
+    RegulationTriggerExecute    wRegulationTriggerFoundPokemon
+    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL ; TODO: add support for the variable C to change what level this pokemon starts at
+    ret
+
 RegulationTriggerFoundPokemon::
     RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerFoundPokemon
-    ; TODO: allow you to change what found pokemon
     RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     ret
-
 
 RegulationTriggerSentPokemon::
 
@@ -364,15 +508,16 @@ RegulationTriggerTrainerLoadData::
     ld a, [wVariableB+1]
     ld l, a
 
-
     ld de, wRegulationCustomLogic
     add hl, de
-
 
     ret
 
 
 RegulationTriggerTrainerBattleTurn::
+    ld a, [wIsInBattle]
+    dec a
+    ret z ; if not a trainer, we're done here
 
     RegulationTriggerStart      wRegulationTriggerTrainerBattleTurn, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
@@ -385,4 +530,10 @@ RegulationTriggerTrainerBattleTurn::
     RegulationTriggerEnd        wRegulationTriggerTrainerBattleTurn, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
 
+    ret
+
+RegulationTriggerLearnMoveByLevel::
+    RegulationTriggerStart      wRegulationTriggerLearnMove, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, wMoveNum
+    RegulationTriggerExecute    wRegulationTriggerLearnMove
+    RegulationTriggerEnd        wRegulationTriggerLearnMove, NIL, NIL, NIL, NIL, NIL, NIL, NIL, wMoveNum
     ret

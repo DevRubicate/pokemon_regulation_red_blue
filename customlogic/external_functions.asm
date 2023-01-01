@@ -4,32 +4,61 @@ bankpointer: MACRO
 ENDM
 
 ExternalFunctions::
-    bankpointer RegulationAIUseFullRestore      ; 0
-    bankpointer RegulationAIUsePotion           ; 1
-    bankpointer RegulationAIUseSuperPotion      ; 2
-    bankpointer RegulationAIUseHyperPotion      ; 3
-    bankpointer RegulationAIUseFullHeal         ; 4
-    bankpointer RegulationAIUseXAccuracy        ; 5
-    bankpointer RegulationAIUseGuardSpec        ; 6
-    bankpointer RegulationAIUseXAttack          ; 7
-    bankpointer RegulationAIUseXDefend          ; 8
-    bankpointer RegulationAIUseXSpeed           ; 9
-    bankpointer RegulationAIUseXSpecial         ; 10
-    bankpointer RegulationAIUseDireHit          ; 11
-    bankpointer RegulationHideObject            ; 12
-    bankpointer RegulationShowObject            ; 13
-    bankpointer RegulationPokemonNoToIndex      ; 14
-    bankpointer RegulationPokemonIndexToNo      ; 15
-    bankpointer RegulationRandomizeTruly        ; 16
-    bankpointer DebugABC                        ; 17
-    bankpointer DebugDST                        ; 18
-
-
-
-
-
-
-
+    bankpointer RegulationAIUseFullRestore                              ; 0
+    bankpointer RegulationAIUsePotion                                   ; 1
+    bankpointer RegulationAIUseSuperPotion                              ; 2
+    bankpointer RegulationAIUseHyperPotion                              ; 3
+    bankpointer RegulationAIUseFullHeal                                 ; 4
+    bankpointer RegulationAIUseXAccuracy                                ; 5
+    bankpointer RegulationAIUseGuardSpec                                ; 6
+    bankpointer RegulationAIUseXAttack                                  ; 7
+    bankpointer RegulationAIUseXDefend                                  ; 8
+    bankpointer RegulationAIUseXSpeed                                   ; 9
+    bankpointer RegulationAIUseXSpecial                                 ; 10
+    bankpointer RegulationAIUseDireHit                                  ; 11
+    bankpointer RegulationHideObject                                    ; 12
+    bankpointer RegulationShowObject                                    ; 13
+    bankpointer RegulationPokemonNoToIndex                              ; 14
+    bankpointer RegulationPokemonIndexToNo                              ; 15
+    bankpointer RegulationRandomizeTruly                                ; 16
+    bankpointer SetRegulationOptionStarter                              ; 17
+    bankpointer SetRegulationOptionStarterMove1                         ; 18
+    bankpointer SetRegulationOptionStarterMove2                         ; 19
+    bankpointer SetRegulationOptionStarterMove3                         ; 20
+    bankpointer SetRegulationOptionStarterMove4                         ; 21
+    bankpointer SetRegulationOptionTrainerLevelIncrease                 ; 22
+    bankpointer SetRegulationOptionMonotypeRestriction                  ; 23
+    bankpointer SetRegulationOptionCatchFirstEncounterOnly              ; 24
+    bankpointer SetRegulationOptionBanCatchWildPokemon                  ; 25
+    bankpointer SetRegulationOptionBanCatchLegendaryPokemon             ; 26
+    bankpointer SetRegulationOptionBanCatchSafariPokemon                ; 27
+    bankpointer SetRegulationOptionBanGiftPokemon                       ; 28
+    bankpointer SetRegulationOptionBanTradePokemon                      ; 29
+    bankpointer SetRegulationOptionCanCatchTrainerPokemon               ; 30
+    bankpointer SetRegulationOptionBanShop                              ; 31
+    bankpointer SetRegulationOptionBanRestorativeItemsInBattle          ; 32
+    bankpointer SetRegulationOptionBanRestorativeItemsOutsideBattle     ; 33
+    bankpointer SetRegulationOptionBanBattleItems                       ; 34
+    bankpointer SetRegulationOptionCanGetTradeStone                     ; 35
+    bankpointer SetRegulationOptionBanNonStarterPokemonInBattle         ; 36
+    bankpointer SetRegulationOptionBanWildEcnounters                    ; 37
+    bankpointer SetRegulationOptionBanExpTrainerBattle                  ; 38
+    bankpointer SetRegulationOptionBanExpWildBattle                     ; 39
+    bankpointer SetRegulationOptionBanRun                               ; 40
+    bankpointer SetRegulationOptionBanSuperEffectiveDamage              ; 41
+    bankpointer SetRegulationOptionBanNonSuperEffectiveDamage           ; 42
+    bankpointer SetRegulationOptionBanEvolution                         ; 43
+    bankpointer SetRegulationOptionBanTeachingTMHM                      ; 44
+    bankpointer SetRegulationOptionBanLevelUpMoves                      ; 45
+    bankpointer SetRegulationOptionBanDaycare                           ; 46
+    bankpointer SetRegulationOptionPokemonPermadeath                    ; 47
+    bankpointer SetRegulationOptionTrainersRespawn                      ; 48
+    bankpointer SetRegulationOptionBanPokecenter                        ; 49
+    bankpointer SetRegulationOptionTitleScreenOnBlackout                ; 50
+    bankpointer SetRegulationOptionSavefileErasedOnBlackout             ; 51
+    bankpointer SetRegulationOptionUseHMDirectly                        ; 52
+    bankpointer SetRegulationOptionTravelAndHMNotGated                  ; 53
+    bankpointer SetRegulationOptionPokecenterWarpOnLoad                 ; 54
 
 RegulationAIPlayRestoringSFX:
     ld a, SFX_HEAL_AILMENT
@@ -116,7 +145,7 @@ RegulationAIRecoverHP:
     ; fallthrough
 
 RegulationAIPrintItemUseAndUpdateHPBar:
-    call AIPrintItemUse_
+    call RegulationAIPrintItemUse_
     hlcoord 2, 2
     xor a
     ld [wHPBarType], a
@@ -315,50 +344,259 @@ RegulationAIBattleUseItemText:
     text_end
 
 
+; byte 0 - Starter Pokemon
+; byte 1h - Difficulty
+; byte 1l - Monotype challenge
+; byte 2
+;           0: Pokemon can't evolve
+;           1: No exp from trainer battles
+;           2: No exp from wild pokemon
+;           3: No random wild encounters
+;           4: Can't catch wild pokemon
+;           5: Can't catch legendary pokemon
+;           6: Can't get gift pokemon
+;           7: Can't trade pokemon
+; byte 3
+;           0: No restorative items in combat
+;           1: No restorative items outside battle
+;           2: No battle items
+;           3: No marts or vending machine
+;           4: HMs are used directly
+;           5: TMs and HMs can't be taught
+;           6: No moves from leveling up
+;           7: No daycare
+; byte 4
+;           0: Catch trainer pokemon
+;           1: Knocked out if not using starter
+;           2: Pokemon deleted when fainted
+;           3: Savefile deleted on blackout
+;           4: Trade Stone
+;           5: Can't run from wild battles
+;           6: No extra damage from super effective moves
+;           7: Trainers reset on pokemon center or blackout
+;
+; byte 5 - Starter pokemon move 1
+; byte 6 - Starter pokemon move 2
+; byte 7 - Starter pokemon move 3
+; byte 8 - Starter pokemon move 4
+; byte 9
+;           0: Travel and HMs not gated by Gym Leaders
+;           1: Cannot use pokecenters or party heals
+;           2: No catching safari zone pokemon
+;           3: Sent to title screen on blacking out
+;           4: Can only capture pokemon on first encounter in each area
+;           5: Only your super effective moves have an effect
+;           6: Return to the last Pokecenter when you save
+;           7:
 
-DebugABC::
-    ld a, [wRegulationCustomLogicVariableC]
-    ld b, a
-    ld a, [wRegulationCustomLogicVariableC+1]
-    ld c, a
-
-    ld a, [wRegulationCustomLogicVariableB]
-    ld d, a
-    ld a, [wRegulationCustomLogicVariableB+1]
-    ld e, a
-
-    ld a, [wRegulationCustomLogicVariableA]
-    ld h, a
+SetRegulationOptionStarter:
     ld a, [wRegulationCustomLogicVariableA+1]
-    ld l, a
+    push af
+    safecall RegulationPokemonNoToIndex
+    ld a, [wRegulationCustomLogicVariableA+1]
+    ld [wRegulationCode], a
+    pop af
+    ld [wRegulationCustomLogicVariableA+1], a
+    ret
 
-    debug
+SetRegulationOptionStarterMove1:
 
     ret
 
-DebugDST::
-    ld a, [wRegulationCustomLogicVariableD]
+SetRegulationOptionStarterMove2:
+
+    ret
+
+SetRegulationOptionStarterMove3:
+
+    ret
+
+SetRegulationOptionStarterMove4:
+
+    ret
+
+SetRegulationOptionTrainerLevelIncrease:
+    ; Load out the existing option byte but mask out the upper difficulty bits
+    ld a, [wRegulationCode+1]
+    and %00001111
     ld b, a
-    ld a, [wRegulationCustomLogicVariableD+1]
-    ld c, a
 
-    ld a, [wRegulationCustomLogicVariableS]
-    ld d, a
-    ld a, [wRegulationCustomLogicVariableS+1]
-    ld e, a
+    ; Load out the new difficulty bits, mask out the rest, and rotate them to the upper bits
+    ld a, [wRegulationCustomLogicVariableA+1]
+    and %00001111
+    rlc a
+    rlc a
+    rlc a
+    rlc a
 
-    ld a, [wRegulationCustomLogicVariableT]
-    ld h, a
-    ld a, [wRegulationCustomLogicVariableT+1]
-    ld l, a
+    ; OR the two together
+    or a, b
 
-    debug
+    ; Save the new difficulty
+    ld [wRegulationCode+1], a
 
     ret
 
+SetRegulationOptionMonotypeRestriction:
+    ; Load out the existing option byte but mask out the lower monotype bits
+    ld a, [wRegulationCode+1]
+    and %11110000
+    ld b, a
 
+    ; Load out the new monotype bits, mask out the rest
+    ld a, [wRegulationCustomLogicVariableA+1]
+    and %00001111
 
+    ; OR the two together
+    or a, b
 
+    ; Save the new monotype rule
+    ld [wRegulationCode+1], a
+
+    ret
+
+SetRegulationOptionCatchFirstEncounterOnly:
+
+    ; Load out the existing option byte but mask out all irrelevant bits
+    ld a, [wRegulationCode+9]
+    and %00010000
+    ld b, a
+
+    ; Load out the new rule bit, mask out everything else
+    ld a, [wRegulationCustomLogicVariableA+1]
+    and %00000001
+    rlc a
+    rlc a
+    rlc a
+    rlc a                       ; Rotate the bit into place
+
+    ; OR the two together
+    or a, b
+
+    ; Save the new monotype rule
+    ld [wRegulationCode+9], a
+
+    ret
+
+SetRegulationOptionBanCatchWildPokemon:
+
+    ret
+
+SetRegulationOptionBanCatchLegendaryPokemon:
+
+    ret
+
+SetRegulationOptionBanCatchSafariPokemon:
+
+    ret
+
+SetRegulationOptionBanGiftPokemon:
+
+    ret
+
+SetRegulationOptionBanTradePokemon:
+
+    ret
+
+SetRegulationOptionCanCatchTrainerPokemon:
+
+    ret
+
+SetRegulationOptionBanShop:
+
+    ret
+
+SetRegulationOptionBanRestorativeItemsInBattle:
+
+    ret
+
+SetRegulationOptionBanRestorativeItemsOutsideBattle:
+
+    ret
+
+SetRegulationOptionBanBattleItems:
+
+    ret
+
+SetRegulationOptionCanGetTradeStone:
+
+    ret
+
+SetRegulationOptionBanNonStarterPokemonInBattle:
+
+    ret
+
+SetRegulationOptionBanWildEcnounters:
+
+    ret
+
+SetRegulationOptionBanExpTrainerBattle:
+
+    ret
+
+SetRegulationOptionBanExpWildBattle:
+
+    ret
+
+SetRegulationOptionBanRun:
+
+    ret
+
+SetRegulationOptionBanSuperEffectiveDamage:
+
+    ret
+
+SetRegulationOptionBanNonSuperEffectiveDamage:
+
+    ret
+
+SetRegulationOptionBanEvolution:
+
+    ret
+
+SetRegulationOptionBanTeachingTMHM:
+
+    ret
+
+SetRegulationOptionBanLevelUpMoves:
+
+    ret
+
+SetRegulationOptionBanDaycare:
+
+    ret
+
+SetRegulationOptionPokemonPermadeath:
+
+    ret
+
+SetRegulationOptionTrainersRespawn:
+
+    ret
+
+SetRegulationOptionBanPokecenter:
+
+    ret
+
+SetRegulationOptionTitleScreenOnBlackout:
+
+    ret
+
+SetRegulationOptionSavefileErasedOnBlackout:
+
+    ret
+
+SetRegulationOptionUseHMDirectly:
+
+    ret
+
+SetRegulationOptionTravelAndHMNotGated:
+
+    ret
+
+SetRegulationOptionPokecenterWarpOnLoad:
+
+    ret
 
 
 _DisplayBoxText::

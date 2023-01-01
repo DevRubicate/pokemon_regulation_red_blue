@@ -28,6 +28,11 @@ _VictoryRoadGuardText2::
 	text "!@"
 	text_end
 
+_VictoryRoadGuardTextSkip::
+    text "PROF.OAK told me"
+    line "to let you though!@"
+    text_end
+
 _VictoryRoadGuardText_513a3::
 	text_start
 

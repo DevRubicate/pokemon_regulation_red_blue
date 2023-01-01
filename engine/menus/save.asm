@@ -24,6 +24,19 @@ LoadSAV:
 	res 6, [hl]
 	ld a, $1 ; bad checksum
 .goodsum
+    push af
+
+    ld a, [wRegulationVersionSavefile]
+    cp REGVERSION
+    jr z, .goodversion
+
+    ld hl, LoadWrongVersionText
+    call PrintText
+    pop af
+    jpfar DisplayTitleScreen
+
+.goodversion
+    pop af
 	ld [wSaveFileStatus], a
 	ret
 
@@ -147,12 +160,6 @@ CheatingSaveFile:
     scf
     ret
 
-LoadSAVIgnoreBadCheckSum:
-; unused function that loads save data and ignores bad checksums
-	call LoadSAV0
-	call LoadSAV1
-	jp LoadSAV2
-
 SaveSAV:
 	farcall PrintSaveScreenText
 	ld hl, WouldYouLikeToSaveText
@@ -169,6 +176,9 @@ SaveSAV:
 	and a
 	ret nz
 .save
+    ld a, REGVERSION
+    ld [wRegulationVersionSavefile], a
+
     call CheckCheatLabel
     jr z, .save2
     ld hl, CheatLabelBrandedText
@@ -228,6 +238,10 @@ OlderFileWillBeErasedText:
 
 CheatLabelBrandedText:
     text_far _CheatLabelBrandedText
+    text_end
+
+LoadWrongVersionText:
+    text_far _LoadWrongVersionText
     text_end
 
 SaveSAVtoSRAM0:

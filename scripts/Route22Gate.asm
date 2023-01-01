@@ -58,6 +58,9 @@ Route22Gate_TextPointers:
 
 Route22GateText1:
 	text_asm
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipBadgeCheck
 	ld a, [wObtainedBadges]
 	bit BIT_BOULDERBADGE, a
 	jr nz, .asm_1e6f6
@@ -68,11 +71,15 @@ Route22GateText1:
 	jr .asm_1e6fe
 .asm_1e6f6
 	ld hl, Route22GateText_1e71a
+.continue_1e6f6
 	call PrintText
 	ld a, $2
 .asm_1e6fe
 	ld [wRoute22GateCurScript], a
 	jp TextScriptEnd
+.skipBadgeCheck
+    ld hl, Route22GateText_skipBadge
+    jr .continue_1e6f6
 
 Route22GateText_1e704:
 	text_far _Route22GateText_1e704
@@ -91,3 +98,8 @@ Route22GateText_1e71a:
 	text_far _Route22GateText_1e71a
 	sound_get_item_1
 	text_end
+
+Route22GateText_skipBadge:
+    text_far _Route22GateText_skipCheck
+    sound_get_item_1
+    text_end

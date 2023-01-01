@@ -147,19 +147,3 @@ _OaksAideNoRoomText::
 	text_ram wOaksAideRewardItemName
 	text "."
 	done
-
-_RegulationTitleText::
-    text "#MON REGULATION@"
-    text_end
-
-_VersionText::
-    text "Version 6@"
-    text_end
-
-_CreditText::
-    text "Made by Rubicate@"
-    text_end
-
-_URLText::
-    text "pokereg.net@"
-    text_end

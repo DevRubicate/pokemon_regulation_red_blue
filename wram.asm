@@ -164,7 +164,7 @@ wSafeBankBackup::
     ds 2
 SECTION "Sprite State Data", WRAM0
 
-wSpriteDataStart::
+wSpriteDataStart:: ; SAVEFILE DATA START
 
 wSpriteStateData1::
 ; data for all sprites on the current map
@@ -225,7 +225,7 @@ endr
 assert HIGH(wSpriteStateData1) + 1 == HIGH(wSpriteStateData2)
 assert LOW(wSpriteStateData1) == 0
 
-wSpriteDataEnd::
+wSpriteDataEnd:: ; SAVEFILE DATA END
 
 
 SECTION "OAM Buffer", WRAM0
@@ -1281,7 +1281,7 @@ wHPBarTempHP::
 wHPBarHPDifference::
 	ds 1
 
-	ds 7
+	ds 7 ; Gets overwritten sometimes?
 
 wAIItem::
 ; the item that the AI used
@@ -2262,7 +2262,7 @@ wPlayerName::
 	ds NAME_LENGTH
 
 
-wPartyDataStart::
+wPartyDataStart:: ; SAVEFILE DATA START
 
 wPartyCount:: ds 1
 wPartySpecies:: ds PARTY_LENGTH + 1
@@ -2286,10 +2286,10 @@ wPartyMon{d:n}Nick:: ds NAME_LENGTH
 endr
 wPartyMonNicksEnd::
 
-wPartyDataEnd::
+wPartyDataEnd:: ; SAVEFILE DATA END
 
 
-wMainDataStart::
+wMainDataStart:: ; SAVEFILE DATA START
 
 wPokedexOwned::
 	flag_array NUM_POKEMON
@@ -2965,7 +2965,10 @@ wRegulationNuzlockeFlags::
     ds 6
 
 wRegulationTriggerTrainerLoadData::
-    ds 2
+    ds 1
+
+wRegulationTriggerLearnMove::
+    ds 1
 
 wNumSigns::
 ; number of signs in the current map (up to 16)
@@ -3370,7 +3373,7 @@ wOpponentAfterWrongAnswer::
 ; the trainer the player must face after getting a wrong answer in the Cinnabar
 ; gym quiz
 
-wUnusedDA38::
+wRegulationVersionSavefile::
 	ds 1
 
 wCurMapScript::
@@ -3378,7 +3381,19 @@ wCurMapScript::
 ; mostly copied from map-specific map script pointer and written back later
 	ds 1
 
-	ds 7
+wRegulationTriggerFoundPokemonMove1::
+    ds 1
+
+wRegulationTriggerFoundPokemonMove2::
+    ds 1
+
+wRegulationTriggerFoundPokemonMove3::
+    ds 1
+
+wRegulationTriggerFoundPokemonMove4::
+    ds 1
+
+	ds 3 ; unused, and these should be saved
 
 wPlayTimeHours::
 	ds 1
@@ -3408,10 +3423,10 @@ wDayCareMonOT::   ds NAME_LENGTH
 
 wDayCareMon:: box_struct wDayCareMon
 
-wMainDataEnd::
+wMainDataEnd:: ; SAVEFILE DATA END
 
 
-wBoxDataStart::
+wBoxDataStart:: ; SAVEFILE DATA START
 
 wBoxCount:: ds 1
 wBoxSpecies:: ds MONS_PER_BOX + 1
@@ -3436,7 +3451,7 @@ wBoxMon{d:n}Nick:: ds NAME_LENGTH
 endr
 wBoxMonNicksEnd::
 
-wBoxDataEnd::
+wBoxDataEnd:: ; SAVEFILE DATA END
 
 SECTION "Stack", WRAM0
 

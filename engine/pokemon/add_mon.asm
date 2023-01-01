@@ -223,6 +223,7 @@ _AddPartyMon::
 	predef WriteMonMoves
     farcall RegulationTriggerTrainerBattlePokemonMoves
 
+
     ld a, [wAddedMonStarter]
     or a
     jr z, .notStarter2
@@ -232,9 +233,8 @@ _AddPartyMon::
     ld a, [wTemp2]
     ld e, a
     call OverwriteMovesCustom
-
 .notStarter2
-
+    farcall RegulationTriggerFoundPokemonMoves
 	pop de
 	ld a, [wPlayerID]  ; set trainer ID to player ID
 	inc de
@@ -292,7 +292,6 @@ _AddPartyMon::
 	ret
 
 OverwriteMovesCustom:
-
     inc de                          ; pointer to the first move
     ld a, [wRegulationCode+5]    ; load the first custom move
     or a

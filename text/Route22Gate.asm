@@ -20,3 +20,8 @@ _Route22GateText_1e71a::
 	line "BOULDERBADGE!"
 	cont "Go right ahead!@"
 	text_end
+
+_Route22GateText_skipCheck::
+    text "PROF.OAK told me"
+    line "to let you though!@"
+    text_end

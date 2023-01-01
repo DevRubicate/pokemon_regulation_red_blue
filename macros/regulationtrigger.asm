@@ -48,33 +48,33 @@ RegulationTriggerStart: MACRO
     ENDC
 
     ; Zero the variable parts that are unused
-    ;IF !(DEF(\2) && DEF(\3) && DEF(\4) && DEF(\5) && DEF(\6) && DEF(\7) && DEF(\8) && DEF(\9))
-    ;    ld a, 0
-    ;ENDC
-    ;IF !DEF(\2)
-    ;    ld [wVariableA], a
-    ;ENDC
-    ;IF !DEF(\3)
-    ;    ld [wVariableA+1], a
-    ;ENDC
-    ;IF !DEF(\4)
-    ;    ld [wVariableB], a
-    ;ENDC
-    ;IF !DEF(\5)
-    ;    ld [wVariableB+1], a
-    ;ENDC
-    ;IF !DEF(\6)
-    ;    ld [wVariableC], a
-    ;ENDC
-    ;IF !DEF(\7)
-    ;    ld [wVariableC+1], a
-    ;ENDC
-    ;IF !DEF(\8)
-    ;    ld [wVariableD], a
-    ;ENDC
-    ;IF !DEF(\9)
-    ;    ld [wVariableD+1], a
-    ;ENDC
+    IF !(DEF(\2) && DEF(\3) && DEF(\4) && DEF(\5) && DEF(\6) && DEF(\7) && DEF(\8) && DEF(\9))
+        ld a, 0
+    ENDC
+    IF !DEF(\2)
+        ld [wVariableA], a
+    ENDC
+    IF !DEF(\3)
+        ld [wVariableA+1], a
+    ENDC
+    IF !DEF(\4)
+        ld [wVariableB], a
+    ENDC
+    IF !DEF(\5)
+        ld [wVariableB+1], a
+    ENDC
+    IF !DEF(\6)
+        ld [wVariableC], a
+    ENDC
+    IF !DEF(\7)
+        ld [wVariableC+1], a
+    ENDC
+    IF !DEF(\8)
+        ld [wVariableD], a
+    ENDC
+    IF !DEF(\9)
+        ld [wVariableD+1], a
+    ENDC
 ENDM
 
 RegulationTriggerExecute: MACRO

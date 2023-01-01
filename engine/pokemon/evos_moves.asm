@@ -358,6 +358,10 @@ LearnMoveFromLevelUp:
 	ld a, [hli] ; move ID
 	jr nz, .learnSetLoop
 	ld d, a ; ID of move to learn
+    ld [wMoveNum], a
+    safecall RegulationTriggerLearnMoveByLevel
+    ld a, [wMoveNum]
+    ld d, a
 	ld a, [wMonDataLocation]
 	and a
 	jr nz, .next

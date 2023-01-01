@@ -1807,11 +1807,15 @@ _OakSpeechRuleUnknownCustomLogic::
     cont "is applied."
     prompt
 
-
-_OakSpeechRuleRandomizer::
+_OakSpeechRuleRandomPokemon::
     text "#MON throughout"
     line "the world is"
     cont "randomized."
+    prompt
+
+_OakSpeechRuleRandomMoves::
+    text "#MON moves"
+    line "are randomized."
     prompt
 
 _OakSpeechRuleSnakesAndLadders::
@@ -1859,6 +1863,42 @@ _OakSpeechRulePay2Win::
     line "of capitalism."
     prompt
 
+_OakSpeechRuleLonelySamurai::
+    text "Travel the world"
+    line "with your Abra,"
+    cont "and find a way to"
+    cont "defeat Brock."
+    para "But be careful"
+    line "about your road"
+    line "back home."
+    prompt
+
+_OakSpeechRuleExplodingBall::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "while not being"
+    line "charged with"
+    cont "war crimes."
+    prompt
+
+_OakSpeechRuleRocksAndStones::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "Beware though for"
+    line "all trainers will"
+    cont "try to stop you"
+    cont "with fissures!"
+    prompt
+
+_OakSpeechRuleStolenPower::
+    text "Find a way to"
+    line "defeat Brock,"
+    para "Beware though for"
+    line "all trainers will"
+    cont "use mimic to"
+    cont "steal your moves!"
+    prompt
+
 _OakSpeechRuleRipAndTear::
     text "Rip and tear"
     line "until it is done."
@@ -1867,6 +1907,12 @@ _OakSpeechRuleRipAndTear::
 _OakSpeechRuleBallsOfSteel::
     text "Mess with the best"
     line "die like the rest"
+    para "#MON trainers"
+    line "will use one item"
+    line "each turn."
+    para "GYM trainers"
+    line "have improved"
+    line "teams."
     prompt
 
 _OakSpeechRuleCustomStarter::
@@ -2061,7 +2107,7 @@ _OakSpeechRuleTrainersRespawn::
     text "#MON trainers"
     line "will battle again"
     cont "after using a"
-    cont "Pokecenter or"
+    cont "#MON CENTER or"
     cont "blacking out."
     prompt
 

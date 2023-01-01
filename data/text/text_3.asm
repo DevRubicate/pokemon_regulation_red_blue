@@ -27,6 +27,14 @@ _CheatLabelBrandedText::
     cont "Okay?"
     done
 
+_LoadWrongVersionText::
+    text "Savefile is"
+    line "outdated."
+    para "Please do not move"
+    line "savefiles between"
+    cont "versions."
+    prompt
+
 _WhenYouChangeBoxText::
 	text "When you change a"
 	line "#MON BOX, data"

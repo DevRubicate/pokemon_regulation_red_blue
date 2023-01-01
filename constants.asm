@@ -1,3 +1,4 @@
+REGVERSION EQU 6
 
 INCLUDE "charmap.asm"
 INCLUDE "regulation_charmap.asm"

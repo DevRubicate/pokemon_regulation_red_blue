@@ -300,32 +300,7 @@ ProcessCodeLineByte:
     inc de
 
     ld c, a
-
-    ; Checksum calculations
-
-    ; Load the first byte of the checksum
-    ; Add the input byte
-    ; Store it back into the first byte of the checksum
-    ld a, [wRegulationChecksum+0]
-    adc c
-    ld [wRegulationChecksum+0], a
-
-    ; Load the second byte of the checksum
-    ; Subtract the first byte of the checksum
-    ; Xor the input byte
-    ; Store it back into the second byte of the checksum
-    ld b, a
-    ld a, [wRegulationChecksum+1]
-    sub b
-    xor c
-    ld [wRegulationChecksum+1], a
-
-    ; Load the third byte of the checksum
-    ; Increment by one
-    ; Store it back into the third byte of the checksum
-    ld a, [wRegulationChecksum+2]
-    inc a
-    ld [wRegulationChecksum+2], a
+    safecall RegulationProgressChecksum
 
     ld a, 1
     or a
@@ -334,27 +309,29 @@ ProcessCodeLineByte:
 
 
 
-
-
-
 NewGameRegulationMenuTextPageLength:
-    db 6
-    db 7
-    db 7
-    db 0
-    db 7
-    db 0
+    db 2
     db 4
+    db 7
+    db 7
+    db 1
+    db 7
+    db 0
+    db 7
+    db 1
+    db 1
 
 NewGameRegulationMenu_BackTable:
     db $FF
     db 0
     db 1
-    db 0
-    db 0
-    db 4
-    db 0
-    db 0
+    db 2
+    db 1
+    db 1
+    db 5
+    db 1
+    db 7
+    db 1
 
 NewGameRegulationMenuPage_Text_Index:
     dw NewGameRegulationMenuPage0_Text
@@ -365,6 +342,8 @@ NewGameRegulationMenuPage_Text_Index:
     dw NewGameRegulationMenuPage5_Text
     dw NewGameRegulationMenuPage6_Text
     dw NewGameRegulationMenuPage7_Text
+    dw NewGameRegulationMenuPage8_Text
+    dw NewGameRegulationMenuPage9_Text
 
 NewGameRegulationMenuPage_Action_Index:
     dw NewGameRegulationMenuPage0_Action
@@ -375,15 +354,14 @@ NewGameRegulationMenuPage_Action_Index:
     dw NewGameRegulationMenuPage5_Action
     dw NewGameRegulationMenuPage6_Action
     dw NewGameRegulationMenuPage7_Action
+    dw NewGameRegulationMenuPage8_Action
+    dw NewGameRegulationMenuPage9_Action
 
 NewGameRegulationMenuPage0_Text:
     db "VANILLA GAME"
-    next "CUSTOM CODE"
-    next "MONOTYPE"
-    next "RANDOMIZED"
-    next "CHALLENGE"
-    next "PUZZLE"
-    next "NIGHTMARE@"
+    next "MANUAL CODE"
+    next "BUILT-IN CODE"
+
 
 NewGameRegulationMenuPage0_Action:
     db 0
@@ -395,20 +373,32 @@ NewGameRegulationMenuPage0_Action:
     db 3
     dw 1
 
+
+NewGameRegulationMenuPage1_Text:
+    db "MONOTYPE RULE"
+    next "RANDOMIZATION"
+    next "SPECIAL RULES"
+    next "PUZZLE SETUP"
+    next "NIGHTMARE MODE@"
+
+NewGameRegulationMenuPage1_Action:
     db 3
-    dw 3
+    dw 2
 
     db 3
     dw 4
 
     db 3
-    dw 6
+    dw 5
 
     db 3
     dw 7
 
+    db 3
+    dw 9
 
-NewGameRegulationMenuPage1_Text:
+
+NewGameRegulationMenuPage2_Text:
     db "NORMAL"
     next "FIGHTING"
     next "FLYING"
@@ -418,7 +408,7 @@ NewGameRegulationMenuPage1_Text:
     next "BUG"
     next "NEXT PAGE@"
 
-NewGameRegulationMenuPage1_Action:
+NewGameRegulationMenuPage2_Action:
     db 2
     dw NewGameRegulationMenuMonoNormal
     db 2
@@ -434,10 +424,10 @@ NewGameRegulationMenuPage1_Action:
     db 2
     dw NewGameRegulationMenuMonoBug
     db 3
-    dw 2
+    dw 4
 
 
-NewGameRegulationMenuPage2_Text:
+NewGameRegulationMenuPage3_Text:
     db "GHOST"
     next "FIRE"
     next "WATER"
@@ -447,7 +437,7 @@ NewGameRegulationMenuPage2_Text:
     next "ICE"
     next "DRAGON@"
 
-NewGameRegulationMenuPage2_Action:
+NewGameRegulationMenuPage3_Action:
     db 2
     dw NewGameRegulationMenuMonoGhost
     db 2
@@ -465,19 +455,19 @@ NewGameRegulationMenuPage2_Action:
     db 2
     dw NewGameRegulationMenuMonoDragon
 
-NewGameRegulationMenuPage3_Text:
-    db "RANDOM #MON@"
-
-
-
-NewGameRegulationMenuPage3_Action:
-    db 2
-    dw NewGameRegulationMenuRandomPokemon
-    db 2
-    dw NewGameRegulationMenuRandomPokemon
-
 
 NewGameRegulationMenuPage4_Text:
+    db "RANDOM #MON"
+    next "RANDOM MOVES@"
+
+NewGameRegulationMenuPage4_Action:
+    db 2
+    dw NewGameRegulationMenuRandomPokemon
+    db 2
+    dw NewGameRegulationMenuRandomMoves
+
+
+NewGameRegulationMenuPage5_Text:
     db "DISCOUNT DITTO"
     next "TEAM ROCKET"
     next "NO EXP"
@@ -487,7 +477,7 @@ NewGameRegulationMenuPage4_Text:
     next "THE OUTCAST"
     next "NEXT PAGE@"
 
-NewGameRegulationMenuPage4_Action:
+NewGameRegulationMenuPage5_Action:
     db 2
     dw NewGameRegulationMenuDiscountDitto
     db 2
@@ -503,26 +493,28 @@ NewGameRegulationMenuPage4_Action:
     db 2
     dw NewGameRegulationMenuTheOutcast
     db 3
-    dw 4
+    dw 5
 
-NewGameRegulationMenuPage5_Text:
+
+NewGameRegulationMenuPage6_Text:
     db "TECHNIQUE FATIGUE@"
 
-NewGameRegulationMenuPage5_Action:
+NewGameRegulationMenuPage6_Action:
     db 2
     dw NewGameRegulationMenuTechniqueFatigue
 
 
-NewGameRegulationMenuPage6_Text:
-    db "CREEPYPASTA"
-    next "CLIPPED WINGS"
+NewGameRegulationMenuPage7_Text:
+    db "CLIPPED WINGS"
     next "THUNDERFISH"
     next "PAY2WIN"
-    next "SNAKES N'LADDERS@"
+    next "CREEPYPASTA"
+    next "SNAKES N'LADDERS"
+    next "LONELY SAMURAI"
+    next "EXPLODING BALL"
+    next "NEXT PAGE@"
 
-NewGameRegulationMenuPage6_Action:
-    db 2
-    dw NewGameRegulationMenuCreepypasta
+NewGameRegulationMenuPage7_Action:
     db 2
     dw NewGameRegulationMenuClippedWings
     db 2
@@ -530,15 +522,31 @@ NewGameRegulationMenuPage6_Action:
     db 2
     dw NewGameRegulationMenuPay2Win
     db 2
+    dw NewGameRegulationMenuCreepypasta
+    db 2
     dw NewGameRegulationMenuSnakesNLadders
+    db 2
+    dw NewGameRegulationMenuLonelySamurai
+    db 2
+    dw NewGameRegulationMenuExplodingBall
+    db 3
+    dw 8
 
+NewGameRegulationMenuPage8_Text:
+    db "ROCKS AND STONES"
+    next "STOLEN POWER@"
 
-NewGameRegulationMenuPage7_Text:
+NewGameRegulationMenuPage8_Action:
+    db 2
+    dw NewGameRegulationMenuRocksAndStones
+    db 2
+    dw NewGameRegulationMenuStolenPower
+
+NewGameRegulationMenuPage9_Text:
     db "RIP AND TEAR"
     next "BALLS OF STEEL@"
 
-
-NewGameRegulationMenuPage7_Action:
+NewGameRegulationMenuPage9_Action:
     db 2
     dw NewGameRegulationMenuRipAndTear
     db 2
@@ -598,8 +606,12 @@ NewGameRegulationMenuMonoIce:
 NewGameRegulationMenuMonoDragon:
     db "930F0010100000000000"
 
-NewGameRegulationMenuRandomPokemon: ; Checksum 792B46
+NewGameRegulationMenuRandomPokemon: ;  Checksum BF164B
     db "9901AC10149D1F171495958D01AC0ED7D701FF00980F00000000000000009815000000000000000099064B9A1F4E171495958D01AC0E27FF0000000000000000000000000000"
+
+NewGameRegulationMenuRandomMoves: ;  Checksum 5FD566
+    db "9801AC10149D1917FF00981F00000000000000009816000000000000000098170000000000000000981800000000000000009819000000000000000098100000000000000000981100000000000000009812000000000000000098130000000000000000982000000000000000009821000000000000000098220000000000"
+    db "0000009923B800B9184B4C4D9A194E171495A48D0129FF00000000000000000000"
 
 NewGameRegulationMenuDiscountDitto:
     db "84000010026666666600"
@@ -628,9 +640,10 @@ NewGameRegulationMenuWonderguard:
 NewGameRegulationMenuTechniqueFatigue:
     db "00002070000000000000"
 
-NewGameRegulationMenuBallsOfSteel:
-    db "AF1DB108BA079F2827FF21012201230124012501260127011C032B0120012D012E012A022A012A030000374553616F7D8B99A7B5C3D1DFDFDFFF0CA90E2214271E312862325A00FF121B1598148A1E6F289B328000FF1506125418551E352868323600FF1DBE181E1DBB280A322E3C9A00FF253727882537308F32823C0E00"
-    db "FF2626252A26772B9532813C1500FF2A2128A32AA42F1432673C5300FF2D122A762C102D0732013C6100FF3678358B3608384838133C4A00FF3522372C372B38223A7E467500FF380E388237933A2D3C0E469100FF3A16385938593CAB3E4250B400FF3D973B953D01509A501C50B4000084A00080907600000041"
+NewGameRegulationMenuBallsOfSteel: ; Checksum 802180
+    db "981E14950B8D017DFF00AF1DB10FBA0E9F2F27FF22012301240125012601270128011D032C0121012E012F012B022B012B0300003E4C5A68768492A0AEBCCAD8E6E6E6FF0CA90E2214271E312862325A00FF121B1598148A1E6F289B328000FF1506125418551E352868323600FF1DBE181E1DBB280A322E3C9A00FF253727"
+    db "882537308F32823C0E00FF2626252A26772B9532813C1500FF2A2128A32AA42F1432673C5300FF2D122A762C102D0732013C6100FF3678358B3608384838133C4A00FF3522372C372B38223A7E467500FF380E388237933A2D3C0E469100FF3A16385938593CAB3E4250B400FF3D973B953D01509A501C50B4000084A00080"
+    db "900F39130041"
 
 NewGameRegulationMenuCreepypasta:
     db "5C000840040C78FF0000"
@@ -644,8 +657,20 @@ NewGameRegulationMenuThunderfish:
 NewGameRegulationMenuPay2Win:
     db "89000440060606060600"
 
-NewGameRegulationMenuSnakesNLadders: ; Checksum 5D7778
-    db "98017F09AC0CFF0000009814AC05FF0000000000991B7F01D9CFFABF012CD9CFF6D9CFF4D9CFE6FF98100000000000000000981100000000000000009812000000000000000098137F9929FF000000009A1DDD2101BA267F2727FFFF64226422642264226422642200000000000017000608000F00000001"
+NewGameRegulationMenuSnakesNLadders: ; Checksum 567BE0
+    db "98017F09AC0CFF0000009814AC05FF0000000000991B7F01D9CFFABF012CD9CFF6D9CFF4D9CFE6FF98100000000000000000981100000000000000009812000000000000000098137F9929FF000000009A1DDD2201BA267F2727FFFF64226422642264226422642200000000000017000688000F00000001"
+
+NewGameRegulationMenuLonelySamurai: ; Checksum 70C680
+    db "3F000609000F00000009"
+
+NewGameRegulationMenuExplodingBall: ; Checksum EA6BAB
+    db "991DDB2201BA087F0927FFFF01A9012200000000650C0600009999999901"
+
+NewGameRegulationMenuRocksAndStones: ; Checksum AC754B
+    db "9814AC05FF0000000000981BBF012CD9CFFAFF0098100000000000000000981100000000000000009812000000000000000098137F5A29FF000000009A1DDD2201BA167F1727FFFF01A901A901A901A901A901A900000000000070060800000F39000001"
+
+NewGameRegulationMenuStolenPower: ; Checksum B3A233
+    db "98107F6629FF00000000981100000000000000009812000000000000000098137F0029FF00000000991BBF012CD9CFFAD9CFF67F50D9CFF4D9CFE6FF9A1DDD2201BA227F2327FFFF21A921A921A921A921A90000000000000000820A0600003F529E0F01"
 
 POPC
 

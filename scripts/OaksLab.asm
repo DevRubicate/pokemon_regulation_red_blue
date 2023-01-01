@@ -837,10 +837,7 @@ OaksLabScript_1d133:
     ld a, [wPlayerStarter]  ; load the starter
 .continue
     ld [wRegulationPlayerTrueStarter], a    ; save your true starter for oak's hall of fame speech
-
-    RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL
-    RegulationTriggerExecute    wRegulationTriggerFoundPokemon
-    RegulationTriggerEnd        wRegulationTriggerFoundPokemon, NIL, NIL, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL ; TODO: add support for the variable C to change what level this pokemon starts at
+    safecall RegulationTriggerFoundPokemonStarter
     ld a, [wRegulationPlayerTrueStarter]
 	ld [wcf91], a
 	ld [wd11e], a
@@ -1017,7 +1014,7 @@ OaksLabText5:
 .asm_1d279
 	ld b, POKE_BALL
 	call IsItemInBag
-	jr nz, .asm_1d2e7
+	jr nz, .asm_1d2a9
 	CheckEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
 	jr nz, .asm_1d2d0
 	CheckEvent EVENT_GOT_POKEDEX
