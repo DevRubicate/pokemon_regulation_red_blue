@@ -191,11 +191,11 @@ Route23Text7:
 	jp TextScriptEnd
 
 Route23Script_51346:
+	ld [wWhichBadge], a
     ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
     bit 0, a
     jr nz, .skipBadgeCheck
-
-	ld [wWhichBadge], a
+    ld a, [wWhichBadge]
 	call Route23Script_5125d
 	ld a, [wWhichBadge]
 	inc a

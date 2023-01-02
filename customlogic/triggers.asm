@@ -484,6 +484,8 @@ RegulationTriggerCalcPokemonStats::
 
 RegulationTriggerTrainerLoadData::
 
+    RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
+
     ld de, (wRegulationCustomLogic ^ $FFFF) + 1
     add hl, de
 
@@ -492,16 +494,12 @@ RegulationTriggerTrainerLoadData::
     ld a, l
     ld [wVariableB+1], a
 
-    RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
-
     ; Convert trainer class index from 201-247 to 1-47
     ld a, [wCurOpponent]
     sub OPP_ID_OFFSET
     ld [wVariableA], a
 
     RegulationTriggerExecute    wRegulationTriggerTrainerLoadData
-
-    RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ld a, [wVariableB]
     ld h, a
@@ -510,6 +508,8 @@ RegulationTriggerTrainerLoadData::
 
     ld de, wRegulationCustomLogic
     add hl, de
+
+    RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
     ret
 

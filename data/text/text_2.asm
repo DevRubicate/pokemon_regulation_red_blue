@@ -1909,10 +1909,10 @@ _OakSpeechRuleBallsOfSteel::
     line "die like the rest"
     para "#MON trainers"
     line "will use one item"
-    line "each turn."
-    para "GYM trainers"
+    cont "each turn."
+    para "GYM leaders"
     line "have improved"
-    line "teams."
+    cont "teams."
     prompt
 
 _OakSpeechRuleCustomStarter::

@@ -3202,6 +3202,7 @@ Instruction_SEEK16_A_S_8VALUE:
     ld e, a
 
     ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    ld a, 0
     or d
     jr nz, .continue
     or e
@@ -3266,6 +3267,7 @@ Instruction_SEEK16_S_A_8VALUE:
     ld e, a
 
     ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    ld a, 0
     or d
     jr nz, .continue
     or e
@@ -3330,6 +3332,7 @@ Instruction_SEEK16_S_T_8VALUE:
     ld e, a
 
     ; We treat $0000 as the terminator, so if neither d or e are zero then continue with the loop
+    ld a, 0
     or d
     jr nz, .continue
     or e
