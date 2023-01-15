@@ -161,7 +161,10 @@ wVariableD:: ; General purpose variable
 wSafeBankBackup::
     ds 3
 
-    ds 2
+wRegulationVersion::
+    ds 1
+
+    ds 1
 SECTION "Sprite State Data", WRAM0
 
 wSpriteDataStart:: ; SAVEFILE DATA START
@@ -3367,13 +3370,14 @@ wTrainerHeaderPtr::
 wRegulationTotalExp::
     ds 3
 
-	ds 3
+wRegulationVersionSavefile::
+    ds 1
+
+	ds 2
 
 wOpponentAfterWrongAnswer::
 ; the trainer the player must face after getting a wrong answer in the Cinnabar
 ; gym quiz
-
-wRegulationVersionSavefile::
 	ds 1
 
 wCurMapScript::

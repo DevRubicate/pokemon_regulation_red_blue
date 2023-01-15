@@ -1870,7 +1870,7 @@ _OakSpeechRuleLonelySamurai::
     cont "defeat Brock."
     para "But be careful"
     line "about your road"
-    line "back home."
+    cont "back home."
     prompt
 
 _OakSpeechRuleExplodingBall::

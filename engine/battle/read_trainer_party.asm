@@ -135,6 +135,7 @@ ReadTrainer:
 	cp $FF ; is the trainer special?
 	jp z, .SpecialTrainer ; if so, check for special moves
 	ld [wCurEnemyLVL], a
+    call RegulationBoostLevel
 .LoopTrainerData
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
@@ -156,7 +157,7 @@ ReadTrainer:
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    call RegulationBoostLevel
+
     ld a, [wcf91]
 	push hl
 	call AddPartyMon
@@ -171,6 +172,7 @@ ReadTrainer:
 	and a ; have we reached the end of the trainer data?
 	jp z, .AddLoneMove
 	ld [wCurEnemyLVL], a
+    call RegulationBoostLevel
 	ld a, [hli]
 	ld [wcf91], a              ; Pokemon species
 	ld a, ENEMY_PARTY_DATA
@@ -187,7 +189,7 @@ ReadTrainer:
 
     RegulationTriggerEnd        wRegulationTriggerTrainerBattlePokemon, NIL, NIL, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
 
-    call RegulationBoostLevel
+
 	push hl
 	call AddPartyMon
 	pop hl

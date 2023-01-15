@@ -3158,10 +3158,13 @@ CheckMapForMon:
 
 
 UsedCutCustom:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipCheck
     ld a, [wObtainedBadges]
     bit BIT_CASCADEBADGE, a
     jp z, BadgeRequiredCustom
-
+.skipCheck
     xor a
     ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
     ld a, [wCurMapTileset]
@@ -3376,25 +3379,37 @@ UsedCutCustom:
     ret
 
 UsedFlyCustom:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipCheck
     ld a, [wObtainedBadges]
     bit BIT_THUNDERBADGE, a
     jp z, BadgeRequiredCustom
+.skipCheck
     call CheckIfInOutsideMap
     jr nz, CannotFlyInside
     call ChooseFlyDestination
     ret
 
 UsedSurfCustom:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipCheck
     ld a, [wObtainedBadges]
     bit BIT_SOULBADGE, a
     jp z, BadgeRequiredCustom
+.skipCheck
     call ItemUseSurfboard
     ret
 
 UsedStrengthCustom:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipCheck
     ld a, [wObtainedBadges]
     bit BIT_RAINBOWBADGE, a
     jp z, BadgeRequiredCustom
+.skipCheck
     ld hl, wd728
     set 0, [hl]
     ld hl, UsedStrengthCustomText
@@ -3402,10 +3417,15 @@ UsedStrengthCustom:
     ld hl, CanMoveBouldersCustomText
     jp PrintText
     ret
+
 UsedFlashCustom:
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr nz, .skipCheck
     ld a, [wObtainedBadges]
     bit BIT_BOULDERBADGE, a
     jp z, BadgeRequiredCustom
+.skipCheck
     xor a
     ld [wMapPalOffset], a
     ld hl, .flashLightsAreaText

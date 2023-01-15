@@ -224,6 +224,7 @@ TrainerWalkUpToPlayer_Bank0::
 
 ; sets opponent type and mon set/lvl based on the engaging trainer data
 InitBattleEnemyParameters::
+    debug
 	ld a, [wEngagedTrainerClass]
 	ld [wCurOpponent], a
 	ld [wEnemyMonOrTrainerClass], a

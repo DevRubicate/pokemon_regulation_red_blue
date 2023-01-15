@@ -37,7 +37,7 @@ OakExplainRules:
     jp .gameOptions
     :
 
-; SNAKES AND LADDERS - Checksum 567BE0
+; SNAKES AND LADDERS - Checksum 567BE6
     ld a, [wRegulationChecksum]
     cp $56
     jr nz, :+
@@ -45,67 +45,67 @@ OakExplainRules:
     cp $7B
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $E0
+    cp $E6
     jr nz, :+
     ld hl, OakSpeechRuleSnakesAndLadders
     call PrintText
     jp .gameOptions
     :
 
-; CREEPYPASTA - Checksum 2B880A
+; CREEPYPASTA - Checksum 3571CB
     ld a, [wRegulationChecksum]
-    cp $2B
+    cp $35
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $88
+    cp $71
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $0A
+    cp $CB
     jr nz, :+
     ld hl, OakSpeechRuleCreepypasta
     call PrintText
     jp .gameOptions
     :
 
-; CLIPPEDWINGS - Checksum C3650A
+; CLIPPEDWINGS - Checksum CD48B5
     ld a, [wRegulationChecksum]
-    cp $C3
+    cp $CD
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $65
+    cp $48
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $0A
+    cp $B5
     jr nz, :+
     ld hl, OakSpeechRuleClippedWings
     call PrintText
     jp .gameOptions
     :
 
-; THUNDERFISH - Checksum 79450A
+; THUNDERFISH - Checksum 83227E
     ld a, [wRegulationChecksum]
-    cp $79
+    cp $83
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $45
+    cp $22
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $0A
+    cp $7E
     jr nz, :+
     ld hl, OakSpeechRuleThunderfish
     call PrintText
     jp .gameOptions
     :
 
-; PAY2WIN - Checksum EB270A
+; PAY2WIN - Checksum F5DA4B
     ld a, [wRegulationChecksum]
-    cp $EB
+    cp $F5
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $27
+    cp $DA
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $0A
+    cp $4B
     jr nz, :+
     ld hl, OakSpeechRulePay2Win
     call PrintText
@@ -188,12 +188,12 @@ OakExplainRules:
     jr .gameOptions
     :
 
-; BALLSOFSTEEL - Checksum 802180
+; BALLSOFSTEEL - Checksum 80F980
     ld a, [wRegulationChecksum]
     cp $80
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $21
+    cp $F9
     jr nz, :+
     ld a, [wRegulationChecksum+2]
     cp $80

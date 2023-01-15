@@ -30,9 +30,9 @@ _CheatLabelBrandedText::
 _LoadWrongVersionText::
     text "Savefile is"
     line "outdated."
-    para "Please do not move"
-    line "savefiles between"
-    cont "versions."
+    para "Be aware that"
+    line "things might"
+    cont "break."
     prompt
 
 _WhenYouChangeBoxText::

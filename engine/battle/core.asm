@@ -5548,7 +5548,7 @@ AdjustDamageForMoveType:
 .loop
 	ld a, [hli] ; a = "attacking type" of the current type pair
 	cp $ff
-	jr z, .done
+	jp z, .done
 	cp b ; does move type match "attacking type"?
 	jr nz, .nextTypePair
 	ld a, [hl] ; a = "defending type" of the current type pair
@@ -5569,9 +5569,21 @@ AdjustDamageForMoveType:
 
     ; Record if this move is super effective at least once
     cp SUPER_EFFECTIVE
-    jr nz, .continue
-    ld a, 1
+    jr nz, .nextCheck
+    ld a, [wVariableB]
+    inc a
     ld [wVariableB], a
+    jr .continue
+
+.nextCheck
+
+    cp NOT_VERY_EFFECTIVE
+    jr nz, .continue
+    ld a, [wVariableB]
+    dec a
+    ld [wVariableB], a
+
+
 .continue
 
     ; The following regulation rule checks if the player is inflicting a super effective move, and if they
@@ -5650,8 +5662,10 @@ AdjustDamageForMoveType:
     ret nz                      ; If it's the enemy turn, skip this logic
 
     ld a, [wVariableB]
-    and a
-    ret nz                      ; If you did a super effective move, skip this logic
+    cp 1
+    ret z                      ; If you did a super effective move, skip this logic
+    cp 2
+    ret z                      ; If you did double super effective, also skip
 
     ; We made it all the way here, which means the damage should be removed.
 
@@ -7136,20 +7150,30 @@ InitBattleCommon:
 	sub OPP_ID_OFFSET
 	jp c, InitWildBattle
 	ld [wTrainerClass], a
+
+    ld a, [wRegulationCode+4]    ; load out the catching trainer pokemon rule
+    bit 0, a
+    jp z, .continue
+
+
     ld a, [wRegulationCode+9]               ; load out the first pokemon encounter in the area rule
     bit 4, a
     jp z, .continue                         ; If the rule isn't active skip ahead
     ld a, 0
     ld [wRegulationFirstAreaEncounter], a   ; default to the pokemon not being catchable
+
     safecall LoadMapGrouping                ; Load the map group we are currently in
     ld hl, wRegulationNuzlockeFlags
     safecall CheckBitFlag                   ; Check if we already caught a pokemon in this area
     jp nz, .continue                        ; If we did, skip ahead
+
     ld a, 1
     ld [wRegulationFirstAreaEncounter], a   ; Record that we may catch this pokemon
+
     safecall LoadMapGrouping                ; Load the map group again
     ld hl, wRegulationNuzlockeFlags
     safecall SetBitFlag                     ; Record that this map group has had it's first encounter
+
 .continue
     farcall RegulationInitTrainer
 	call GetTrainerInformation
@@ -7170,6 +7194,7 @@ InitBattleCommon:
 	jp _InitBattleCommon
 
 InitWildBattle:
+    safecall checkForFirstWildEncounter
 	ld a, $1
 	ld [wIsInBattle], a
 	call LoadEnemyMonData

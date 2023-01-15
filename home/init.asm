@@ -96,7 +96,8 @@ rLCDC_DEFAULT EQU %11100011
 	ei
 
 	predef LoadSGB
-
+    ld a, REGVERSION
+    ld [wRegulationVersion], a
 	ld a, BANK(SFX_Shooting_Star)
 	ld [wAudioROMBank], a
 	ld [wAudioSavedROMBank], a

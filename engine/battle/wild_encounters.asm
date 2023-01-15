@@ -106,6 +106,27 @@ TryDoWildEncounter:
 	and a
 	ret
 .willEncounter
+	xor a
+	ret
+
+.checkForGrassGlitch
+    ld a, [wGrassGlitchActive]
+    or a
+    jp z, .gotWildEncounterType
+    ld a, [wRegulationGlitch]
+    set 4, a                    ; missingno glitch
+    ld [wRegulationGlitch], a
+    jp .gotWildEncounterType
+
+
+checkForFirstWildEncounter:
+    ; If the nuzlocke rule is active, we need to check if this is the first encounter in the area.
+    ; However, since this is a wild encounter, we only wanna do so if you are allowed to catch wild
+    ; pokemon.
+
+    ld a, [wRegulationCode+2]           ; load the no catch wild rule
+    bit 4, a
+    jp nz, .continue
 
     ld a, 0
     ld [wRegulationFirstAreaEncounter], a
@@ -122,20 +143,7 @@ TryDoWildEncounter:
     ld hl, wRegulationNuzlockeFlags
     safecall SetBitFlag
 .continue
-
-	xor a
-	ret
-
-.checkForGrassGlitch
-    ld a, [wGrassGlitchActive]
-    or a
-    jp z, .gotWildEncounterType
-    ld a, [wRegulationGlitch]
-    set 4, a                    ; missingno glitch
-    ld [wRegulationGlitch], a
-    jp .gotWildEncounterType
-
-
+    ret
 
 
 INCLUDE "data/wild/probabilities.asm"

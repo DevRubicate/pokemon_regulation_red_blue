@@ -20,8 +20,8 @@ PokemonTower5Script0:
 	ld hl, CoordsData_60992
 	call ArePlayerCoordsInArray
 	jr c, .asm_60960
-	ld hl, wd72e
-	res 4, [hl]
+	;ld hl, wd72e
+	;res 4, [hl]
 	ResetEvent EVENT_IN_PURIFIED_ZONE
 	jp CheckFightingMapTrainers
 .asm_60960
@@ -31,8 +31,8 @@ PokemonTower5Script0:
 	ldh [hJoyHeld], a
 	ld a, $f0
 	ld [wJoyIgnore], a
-	ld hl, wd72e
-	set 4, [hl]
+	;ld hl, wd72e
+	;set 4, [hl]
 
     ld a, [wRegulationCode+4]    ; load out the trainer reset rule
     bit 7, a

@@ -312,7 +312,6 @@ RegulationTriggerFoundPokemonMoves::
     .exit
     ret
 
-
 RegulationTriggerWildBattlePokemonMoves::
 
     ; MOVE 1
@@ -411,8 +410,6 @@ RegulationTriggerWildBattlePokemonMoves::
 
     ret
 
-
-
 RegulationTriggerFoundPokemonStarter::
     RegulationTriggerStart      wRegulationTriggerFoundPokemon, NIL, wCurMap, NIL, wRegulationPlayerTrueStarter, NIL, NIL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerFoundPokemon
@@ -442,7 +439,7 @@ RegulationTriggerSentPokemon::
     RegulationTriggerEnd        wRegulationTriggerTrainerBattleSentPokemon, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
     ret
 
-.continue
+    .continue
 
     RegulationTriggerStart      wRegulationTriggerWildBattleSentPokemon, NIL, wCurMap, NIL, wcf91, NIL, wCurEnemyLVL, NIL, NIL
     RegulationTriggerExecute    wRegulationTriggerWildBattleSentPokemon
@@ -469,7 +466,7 @@ RegulationTriggerCalcPokemonStats::
 
     ret
 
-.continue
+    .continue
 
     ld a, [wIsInBattle]
     cp 1                ; Is this a wild battle?
@@ -479,10 +476,15 @@ RegulationTriggerCalcPokemonStats::
     RegulationTriggerExecute    wRegulationTriggerWildBattleCalcPokemonStats
     RegulationTriggerEnd        wRegulationTriggerWildBattleCalcPokemonStats, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
-.exit
+    .exit
     ret
 
 RegulationTriggerTrainerLoadData::
+
+    ld a, h
+    ld [wVariableB], a
+    ld a, l
+    ld [wVariableB+1], a
 
     RegulationTriggerStart      wRegulationTriggerTrainerLoadData, NIL, wTrainerNo, NIL, NIL, NIL, NIL, NIL, NIL
 
@@ -509,10 +511,19 @@ RegulationTriggerTrainerLoadData::
     ld de, wRegulationCustomLogic
     add hl, de
 
+    ld a, h
+    ld [wVariableB], a
+    ld a, l
+    ld [wVariableB+1], a
+
     RegulationTriggerEnd        wRegulationTriggerTrainerLoadData, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL
 
-    ret
+    ld a, [wVariableB]
+    ld h, a
+    ld a, [wVariableB+1]
+    ld l, a
 
+    ret
 
 RegulationTriggerTrainerBattleTurn::
     ld a, [wIsInBattle]

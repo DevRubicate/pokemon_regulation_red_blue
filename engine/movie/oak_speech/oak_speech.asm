@@ -52,7 +52,7 @@ OakSpeech:
 
 	ld a, [wVariableE]
     or a
-    jr z, .continue
+    jr z, .vanilla
     ld a, [wVariableE]
     dec a
     jr nz, .loadCode
@@ -60,6 +60,14 @@ OakSpeech:
     jr .continue
 .loadCode
     safecall LoadRegulationCode
+    jr .continue
+.vanilla
+    ld a, $0A
+    ld [wRegulationChecksum], a
+    ld a, $C9
+    ld [wRegulationChecksum+1], a
+    ld a, $00
+    ld [wRegulationChecksum+2], a
 .continue
 
     farcall RegulationRandomizeTruly
@@ -110,15 +118,15 @@ OakSpeech:
 	call ChooseRivalName
 
     ld a, [wRegulationChecksum]
-    cp $00
-    jp nz, .oakSpeechRules
-    ld a, [wRegulationChecksum+1]
-    cp $00
-    jp nz, .oakSpeechRules
-    ld a, [wRegulationChecksum+2]
     cp $0A
     jp nz, .oakSpeechRules
-    jp .noCustomRules            ; skip rules dialog if checksum is $00000A
+    ld a, [wRegulationChecksum+1]
+    cp $C9
+    jp nz, .oakSpeechRules
+    ld a, [wRegulationChecksum+2]
+    cp $00
+    jp nz, .oakSpeechRules
+    jp .noCustomRules            ; skip rules dialog if checksum is $0AC900
 
 .oakSpeechRules
     call GBFadeOutToWhite

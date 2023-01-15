@@ -179,7 +179,7 @@ MapGroupingTable:
     db 0    ; UNDERGROUND_PATH_ROUTE_8
     db 40   ; ROCK_TUNNEL_POKECENTER
     db 40   ; ROCK_TUNNEL_1F
-    db 41   ; POWER_PLANT
+    db 42   ; POWER_PLANT
     db 11   ; ROUTE_11_GATE_1F
     db 39   ; DIGLETTS_CAVE_ROUTE_11
     db 11   ; ROUTE_11_GATE_2F
@@ -322,9 +322,9 @@ MapGroupingTable:
     db 33   ; SAFARI_ZONE_WEST_REST_HOUSE
     db 33   ; SAFARI_ZONE_EAST_REST_HOUSE
     db 33   ; SAFARI_ZONE_NORTH_REST_HOUSE
-    db 41   ; CERULEAN_CAVE_2F
-    db 41   ; CERULEAN_CAVE_B1F
-    db 41   ; CERULEAN_CAVE_1F
+    db 43   ; CERULEAN_CAVE_2F
+    db 43   ; CERULEAN_CAVE_B1F
+    db 43   ; CERULEAN_CAVE_1F
     db 30   ; NAME_RATERS_HOUSE
     db 29   ; CERULEAN_BADGE_HOUSE
     db 0    ; UNUSED_MAP_E7

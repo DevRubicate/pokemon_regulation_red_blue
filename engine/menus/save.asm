@@ -32,8 +32,6 @@ LoadSAV:
 
     ld hl, LoadWrongVersionText
     call PrintText
-    pop af
-    jpfar DisplayTitleScreen
 
 .goodversion
     pop af
