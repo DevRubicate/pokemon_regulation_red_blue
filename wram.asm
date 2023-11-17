@@ -2514,6 +2514,8 @@ wSpriteSetID::
 wObjectDataPointerTemp::
 	ds 2
 
+;    ds 2
+
 wMapBackgroundTile::
 ; the tile shown outside the boundaries of the map
 	ds 1

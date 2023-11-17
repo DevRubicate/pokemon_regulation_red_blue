@@ -7,30 +7,30 @@ OakExplainRules:
 ; CUSTOM LOGIC
 ;;;;;;;;;;;;;;;;;;
 
-; RANDOMIZED POKEMON - Checksum BF164B
+; RANDOMIZED POKEMON - Checksum CF96F8
     ld a, [wRegulationChecksum]
-    cp $BF
+    cp $CF
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $16
+    cp $96
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $4B
+    cp $F8
     jr nz, :+
     ld hl, OakSpeechRuleRandomPokemon
     call PrintText
     jp .gameOptions
     :
 
-; RANDOMIZED MOVES - Checksum 5FD566
+; RANDOMIZED MOVES - Checksum 6F55D5
     ld a, [wRegulationChecksum]
-    cp $5F
+    cp $6F
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $D5
+    cp $55
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $66
+    cp $D5
     jr nz, :+
     ld hl, OakSpeechRuleRandomMoves
     call PrintText
@@ -112,30 +112,30 @@ OakExplainRules:
     jp .gameOptions
     :
 
-; LONELY SAMURAI - Checksum 70C680
+; LONELY SAMURAI - Checksum 805635
     ld a, [wRegulationChecksum]
-    cp $70
+    cp $80
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $C6
+    cp $56
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $80
+    cp $35
     jr nz, :+
     ld hl, OakSpeechRuleLonelySamurai
     call PrintText
     jp .gameOptions
     :
 
-; EXPLODING BALL - Checksum EA6BAB
+; EXPLODING BALL - Checksum F60FE0
     ld a, [wRegulationChecksum]
-    cp $EA
+    cp $F6
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $6B
+    cp $0F
     jr nz, :+
     ld a, [wRegulationChecksum+2]
-    cp $AB
+    cp $E0
     jr nz, :+
     ld hl, OakSpeechRuleExplodingBall
     call PrintText
@@ -188,12 +188,12 @@ OakExplainRules:
     jr .gameOptions
     :
 
-; BALLSOFSTEEL - Checksum 80F980
+; BALLSOFSTEEL - Checksum 802180
     ld a, [wRegulationChecksum]
     cp $80
     jr nz, :+
     ld a, [wRegulationChecksum+1]
-    cp $F9
+    cp $21
     jr nz, :+
     ld a, [wRegulationChecksum+2]
     cp $80

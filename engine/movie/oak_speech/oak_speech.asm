@@ -36,6 +36,7 @@ OakSpeech:
 	call LoadTextBoxTilePatterns
 	call SetDefaultNames
 	predef InitPlayerData2
+
 	ld hl, wNumBoxItems
 	ld a, POTION
 	ld [wcf91], a
@@ -47,8 +48,6 @@ OakSpeech:
 	call SpecialWarpIn
 	xor a
 	ldh [hTileAnimations], a
-
-
 
 	ld a, [wVariableE]
     or a
@@ -69,6 +68,16 @@ OakSpeech:
     ld a, $00
     ld [wRegulationChecksum+2], a
 .continue
+
+    ld a, [wRegulationCode+9]    ; load out the travel and HMs are not gated by Gym Leaders rule
+    bit 0, a
+    jr z, .noTravelRule
+    ld hl, wMissableObjectFlags
+    ld c, 9                         ; OBJECT_CERULEAN_GUARD_2
+    ld b, FLAG_SET
+    safecall FlagAction             ; Remove the guard blocking the way until you beat Misty
+.noTravelRule
+
 
     farcall RegulationRandomizeTruly
     RegulationTriggerStart      wRegulationTriggerNewGame, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL

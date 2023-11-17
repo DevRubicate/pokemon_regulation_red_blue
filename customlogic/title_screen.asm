@@ -22,7 +22,7 @@ RegulationTitleText:
     db   "#MON REGULATION@"
 
 VersionText:
-    db   "Version{REGVERSION}@"
+    db   "Version 9@"
 
 CreditText:
     db   "Made by Rubicate@"
